@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Контакти — ЗДО №45 «Калинка»</title>
+<meta name="description" content="Контакти садочка «Калинка» №45 у Вінниці: телефон, email, адреса, форма звʼязку.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="kontakty">
+<main>
+<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Контакти</nav><span class="script eyebrow">Завітайте до нас</span><h1>Контакти</h1><p class="lead">Зателефонуйте, напишіть або приходьте в гості — ми завжди раді!</p></div></section><section><div class="wrap"><div class="two-cols">
+<div class="reveal side-card">
+<h3>Наші контакти</h3>
+<p style="color:var(--ink-soft);font-weight:600">📍 м. Вінниця, вул. Прикладна, 45</p>
+<p style="color:var(--ink-soft);font-weight:600">📞 <a href="tel:0432555555" style="color:var(--kalyna)">(0432) 55-55-55</a></p>
+<p style="color:var(--ink-soft);font-weight:600">✉️ <a href="mailto:kalinka@vin.edu.ua" style="color:var(--kalyna)">kalinka@vin.edu.ua</a></p>
+<p style="color:var(--ink-soft);font-weight:600">🕒 Пн–Пт, 7:30–18:30</p>
+<div class="ph-note" style="margin-top:14px">🗺️ Тут можна вставити карту Google Maps.</div>
+</div>
+<form class="form reveal" id="cform">
+<h3 style="color:var(--leaf-deep);margin-bottom:6px">Написати нам</h3>
+<label for="nm">Ваше ім'я</label><input id="nm" required placeholder="Наприклад, Олена">
+<label for="ph">Телефон або email</label><input id="ph" required placeholder="Як з вами звʼязатися">
+<label for="ms">Повідомлення</label><textarea id="ms" required placeholder="Ваше запитання…"></textarea>
+<div style="margin-top:16px"><button class="btn btn-primary" type="submit">Надіслати</button></div>
+<div class="ok" id="cok">✅ Дякуємо! Ми звʼяжемося з вами найближчим часом.</div>
+</form>
+</div></div></section>
+</main>
+<script src="site.js"></script>
+<script>
+(function(){
+  var f=document.getElementById('cform'), ok=document.getElementById('cok');
+  f.addEventListener('submit',function(e){e.preventDefault(); ok.style.display='block'; f.reset();});
+})();
+</script>
+</body>
+</html>

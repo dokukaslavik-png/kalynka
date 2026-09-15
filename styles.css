@@ -1,0 +1,312 @@
+/* ============================================================
+   ЗДО №45 «Калинка» — спільні стилі для всіх сторінок
+   ============================================================ */
+:root{
+  --kalyna:#e0364b; --kalyna-deep:#c1263b;
+  --leaf:#3c8c57; --leaf-deep:#2b6b41; --leaf-soft:#e9f3ea;
+  --blush:#f6c2cd; --blush-soft:#fde8ec;
+  --sun:#f5c23e; --sky:#5fb3d4; --lilac:#b394d6;
+  --cream:#fbf6ec; --paper:#ffffff;
+  --ink:#36423b; --ink-soft:#5f6d64; --line:#ece4d6;
+  --shadow:0 18px 40px -22px rgba(60,80,55,.45);
+  --shadow-soft:0 10px 26px -18px rgba(60,80,55,.4);
+  --r:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:'Comfortaa',cursive;font-weight:700;line-height:1.15;margin:0}
+.wrap{width:min(1200px,92%);margin-inline:auto}
+.script{font-family:'Caveat',cursive;font-weight:700}
+main{display:block}
+
+/* декоративна калина */
+.kalyna-deco{position:absolute;width:150px;pointer-events:none;z-index:1;opacity:.95}
+
+/* ---------- ВЕРХНЯ СТРІЧКА ---------- */
+.topbar{background:var(--leaf-deep);color:#eafaef;font-weight:600;font-size:.86rem}
+.topbar .wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:40px;padding-block:5px}
+.topbar a{padding:5px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.topbar a:hover{background:rgba(255,255,255,.14)}
+.topbar .sep{flex:1}
+.topbar .tb-contact{opacity:.85}
+
+/* ---------- ШАПКА ---------- */
+.header{background:var(--paper);position:relative;z-index:20}
+.header .wrap{display:flex;align-items:center;gap:22px;padding-block:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .mark{width:64px;height:64px;flex:none}
+.brand-txt small{display:block;font-size:.72rem;color:var(--ink-soft);font-weight:700;line-height:1.35;max-width:280px}
+.brand-txt .name{font-family:'Comfortaa',cursive;font-weight:700;font-size:1.9rem;color:var(--kalyna);letter-spacing:.5px}
+.slogan{margin-left:auto;text-align:center}
+.slogan .script{font-size:1.7rem;color:var(--leaf);line-height:1.05;display:block}
+.slogan .script b{color:var(--kalyna);font-weight:700}
+.header-side{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.contacts{display:flex;flex-direction:column;gap:2px;font-weight:700;font-size:.9rem}
+.contacts .row{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.social{display:flex;gap:8px}
+.social a{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--leaf-soft);color:var(--leaf-deep);transition:transform .2s,background .2s;font-weight:800}
+.social a:hover{transform:translateY(-2px);background:var(--leaf);color:#fff}
+
+/* ---------- НАВІГАЦІЯ ---------- */
+.nav{background:linear-gradient(180deg,var(--leaf),var(--leaf-deep));position:sticky;top:0;z-index:30;box-shadow:0 6px 20px -12px rgba(43,107,65,.8)}
+.nav .wrap{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.nav a{color:#eafaef;font-weight:700;padding:15px 13px;font-size:.93rem;position:relative;white-space:nowrap}
+.nav a.active,.nav a:hover{color:#fff}
+.nav a::after{content:"";position:absolute;left:13px;right:13px;bottom:9px;height:3px;border-radius:3px;background:var(--sun);transform:scaleX(0);transform-origin:left;transition:transform .22s}
+.nav a.active::after,.nav a:hover::after{transform:scaleX(1)}
+.nav .home{display:grid;place-items:center;padding-inline:14px}
+.burger{display:none;margin-left:auto;background:none;border:0;color:#fff;padding:12px;cursor:pointer;font-weight:800;font-size:1rem}
+
+/* ---------- КНОПКИ ---------- */
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-family:'Nunito';padding:13px 24px;border-radius:999px;cursor:pointer;border:0;transition:transform .18s,box-shadow .18s;font-size:1rem}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--kalyna);color:#fff;box-shadow:0 12px 22px -12px var(--kalyna)}
+.btn-primary:hover{background:var(--kalyna-deep);box-shadow:0 16px 26px -12px var(--kalyna)}
+.btn-ghost{background:#fff;color:var(--leaf-deep);box-shadow:var(--shadow-soft)}
+.btn-sun{background:var(--sun);color:#5a4600}
+.btn-small{padding:9px 18px;font-size:.9rem}
+
+/* ---------- ГЕРОЙ (головна) ---------- */
+.hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 80% 0%,var(--blush-soft),transparent 55%),linear-gradient(180deg,#fdfaf3,var(--cream))}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;padding-block:52px 60px}
+.hero-copy h1{font-size:1.4rem;color:var(--leaf-deep);margin-bottom:6px}
+.hero-title{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.8rem,6vw,4.6rem);color:var(--leaf-deep);line-height:.98;letter-spacing:.5px}
+.hero-title .hl{color:var(--kalyna)}
+.hero-copy p{font-size:1.12rem;color:var(--ink-soft);font-weight:600;max-width:44ch;margin:18px 0 26px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero-photo{position:relative}
+.hero-photo .frame{border-radius:28px;overflow:hidden;box-shadow:var(--shadow);border:6px solid #fff;aspect-ratio:4/3}
+.hero-photo .frame img{width:100%;height:100%;object-fit:cover}
+.hero-photo .tag{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);background:#fff;color:var(--leaf-deep);font-family:'Caveat';font-size:1.5rem;font-weight:700;padding:6px 22px;border-radius:999px;box-shadow:var(--shadow-soft);white-space:nowrap}
+.hero-photo .tag b{color:var(--kalyna)}
+.hero .kalyna-deco{top:-10px;left:-30px;transform:rotate(-8deg)}
+
+/* ---------- ГЕРОЙ ВНУТРІШНІХ СТОРІНОК ---------- */
+.page-hero{position:relative;overflow:hidden;background:radial-gradient(120% 120% at 85% -10%,var(--blush-soft),transparent 55%),linear-gradient(180deg,#fdfaf3,var(--leaf-soft));padding-block:34px 40px;text-align:center}
+.page-hero .kalyna-deco{top:-16px;right:-20px;transform:rotate(165deg);width:130px;opacity:.85}
+.page-hero h1{font-size:clamp(1.9rem,4.5vw,3rem);color:var(--leaf-deep)}
+.page-hero .eyebrow{font-size:1.7rem;color:var(--kalyna);display:block;line-height:1;margin-bottom:2px}
+.page-hero .lead{color:var(--ink-soft);font-weight:600;max-width:62ch;margin:12px auto 0}
+.breadcrumbs{font-weight:700;font-size:.85rem;color:var(--ink-soft);margin-bottom:14px}
+.breadcrumbs a{color:var(--leaf-deep)}
+.breadcrumbs a:hover{color:var(--kalyna)}
+.breadcrumbs span{margin:0 6px;opacity:.6}
+
+/* ---------- СЕКЦІЇ / ЗАГОЛОВКИ ---------- */
+section{padding-block:56px}
+.sec-head{text-align:center;margin-bottom:34px}
+.sec-head .eyebrow{font-family:'Caveat';font-size:1.7rem;color:var(--kalyna);display:block;line-height:1}
+.sec-head h2{font-size:clamp(1.6rem,3.2vw,2.3rem);color:var(--leaf-deep);margin-top:2px}
+.sec-head p{color:var(--ink-soft);font-weight:600;max-width:60ch;margin:10px auto 0}
+
+/* ---------- ПРОЗА / КОНТЕНТ ---------- */
+.prose{max-width:760px;margin-inline:auto}
+.prose p{color:var(--ink-soft);font-weight:600;margin:0 0 16px;font-size:1.05rem}
+.prose h2{color:var(--leaf-deep);font-size:1.5rem;margin:26px 0 12px}
+.prose h3{color:var(--kalyna);font-size:1.2rem;margin:22px 0 8px}
+.prose ul{padding-left:0;list-style:none;margin:0 0 16px}
+.prose ul li{position:relative;padding:6px 0 6px 30px;color:var(--ink-soft);font-weight:600}
+.prose ul li::before{content:"🌿";position:absolute;left:0;top:5px}
+
+/* картка-плейсхолдер під фото/наповнення */
+.ph-note{background:var(--blush-soft);border:2px dashed var(--blush);border-radius:16px;padding:14px 18px;color:var(--kalyna-deep);font-weight:700;font-size:.9rem}
+
+/* ---------- КАРТКИ-РОЗДІЛИ (головна) ---------- */
+.tiles{margin-top:-30px;position:relative;z-index:5;padding-bottom:20px}
+.tiles .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.tile{background:#fff;border-radius:var(--r);padding:22px 16px;text-align:center;box-shadow:var(--shadow-soft);transition:transform .2s,box-shadow .2s;border:1px solid var(--line)}
+.tile:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.tile .ic{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;color:#fff}
+.tile h3{font-size:1rem;margin-bottom:5px}
+.tile p{font-size:.8rem;color:var(--ink-soft);font-weight:600;margin:0}
+.c-pink{background:var(--kalyna)} .c-sun{background:var(--sun)} .c-leaf{background:var(--leaf)}
+.c-sky{background:var(--sky)} .c-lilac{background:var(--lilac)} .c-red{background:#ef5d6e}
+
+/* ---------- ПРО НАС + СТАТИСТИКА ---------- */
+.band-soft{background:linear-gradient(180deg,transparent,var(--leaf-soft) 40%,var(--leaf-soft) 60%,transparent)}
+.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.frame-photo{border-radius:26px;overflow:hidden;box-shadow:var(--shadow);border:6px solid #fff;aspect-ratio:5/4}
+.frame-photo img{width:100%;height:100%;object-fit:cover}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-weight:700;font-size:.9rem;color:var(--leaf-deep);display:inline-flex;gap:7px;align-items:center}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:46px}
+.stat{background:#fff;border-radius:var(--r);padding:24px 18px;text-align:center;box-shadow:var(--shadow-soft);border:1px solid var(--line)}
+.stat .num{font-family:'Comfortaa';font-weight:700;font-size:2.4rem;color:var(--kalyna);line-height:1}
+.stat .lbl{font-weight:700;color:var(--ink-soft);font-size:.92rem;margin-top:6px}
+
+/* ---------- ГРУПИ ---------- */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.gcard{border-radius:var(--r);padding:26px 22px;color:#fff;position:relative;overflow:hidden;min-height:170px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:var(--shadow-soft);transition:transform .2s}
+.gcard:hover{transform:translateY(-5px)}
+.gcard .emoji{font-size:2.4rem;position:absolute;top:16px;right:18px;opacity:.9}
+.gcard h3{font-size:1.35rem;margin-bottom:4px}
+.gcard p{margin:0;font-weight:600;opacity:.95}
+.g1{background:linear-gradient(140deg,#ff8fa3,var(--kalyna))}
+.g2{background:linear-gradient(140deg,#ffd76b,var(--sun))}
+.g3{background:linear-gradient(140deg,#6fc9e6,var(--sky))}
+.g4{background:linear-gradient(140deg,#63c07f,var(--leaf))}
+.g5{background:linear-gradient(140deg,#c7a4e6,var(--lilac))}
+.g6{background:linear-gradient(140deg,#8fd0a0,var(--leaf-deep))}
+
+/* ---------- ПРОЄКТИ ---------- */
+.pcard{background:#fff;border-radius:var(--r);padding:26px;box-shadow:var(--shadow-soft);border:1px solid var(--line);border-top:5px solid var(--kalyna);transition:transform .2s}
+.pcard:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.pcard .pe{font-size:2rem}
+.pcard h3{font-size:1.2rem;color:var(--leaf-deep);margin:10px 0 6px}
+.pcard p{margin:0;color:var(--ink-soft);font-weight:600;font-size:.95rem}
+.pt-leaf{border-top-color:var(--leaf)!important}
+.pt-sky{border-top-color:var(--sky)!important}
+.pt-lilac{border-top-color:var(--lilac)!important}
+.pt-sun{border-top-color:var(--sun)!important}
+
+/* ---------- НОВИНИ + БАТЬКАМ ---------- */
+.newsgrid{display:grid;grid-template-columns:1.6fr 1fr;gap:30px;align-items:start}
+.news-list{display:flex;flex-direction:column;gap:14px}
+.nitem{display:flex;gap:16px;background:#fff;border-radius:18px;padding:14px;box-shadow:var(--shadow-soft);border:1px solid var(--line);transition:transform .2s}
+.nitem:hover{transform:translateX(4px)}
+.nitem .thumb{width:96px;height:78px;border-radius:12px;flex:none;display:grid;place-items:center;font-size:2rem;background:var(--leaf-soft)}
+.nitem .date{font-weight:800;color:var(--kalyna);font-size:.8rem}
+.nitem h3{font-size:1.02rem;color:var(--ink);margin:3px 0}
+.nitem .more{font-weight:700;color:var(--leaf);font-size:.85rem}
+.side-card{background:#fff;border-radius:var(--r);padding:24px;box-shadow:var(--shadow-soft);border:1px solid var(--line)}
+.side-card h3{color:var(--leaf-deep);font-size:1.25rem;margin-bottom:14px}
+.plink{display:flex;align-items:center;gap:12px;padding:11px 8px;border-bottom:1px dashed var(--line);font-weight:700;color:var(--ink);transition:color .2s,padding .2s}
+.plink:last-child{border-bottom:0}
+.plink:hover{color:var(--kalyna);padding-left:14px}
+.plink .pi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--blush-soft);font-size:1.1rem;flex:none}
+.plink .arr{margin-left:auto;color:var(--leaf)}
+
+/* ---------- ДОСЯГНЕННЯ ---------- */
+.achieve{background:linear-gradient(140deg,var(--leaf),var(--leaf-deep));color:#fff;border-radius:32px;padding:44px 30px;text-align:center;box-shadow:var(--shadow)}
+.achieve .eyebrow{color:#ffe6a8}
+.achieve h2{color:#fff}
+.acount{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:30px}
+.acount .n{font-family:'Comfortaa';font-weight:700;font-size:2.8rem;color:var(--sun);line-height:1}
+.acount .t{font-weight:700;opacity:.95;margin-top:6px}
+
+/* ---------- ОЧИМА ДІТЕЙ ---------- */
+.voice{background:#fff;border-radius:var(--r);padding:30px 26px;box-shadow:var(--shadow-soft);border:1px solid var(--line);position:relative}
+.voice::before{content:"“";position:absolute;top:6px;left:20px;font-family:'Comfortaa';font-size:4rem;color:var(--blush);line-height:1}
+.voice p{font-family:'Caveat';font-size:1.7rem;color:var(--leaf-deep);font-weight:700;margin:14px 0 0;line-height:1.15}
+.voice .kid{margin-top:14px;font-weight:700;color:var(--ink-soft);font-size:.88rem;display:flex;align-items:center;gap:8px}
+.voice .kid .av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--sun);font-size:1rem}
+
+/* ---------- ДОКУМЕНТИ ---------- */
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dlink{background:#fff;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;font-weight:700;color:var(--ink);box-shadow:var(--shadow-soft);border:1px solid var(--line);transition:transform .2s,color .2s}
+.dlink:hover{transform:translateY(-3px);color:var(--leaf-deep)}
+.dlink .di{width:42px;height:42px;border-radius:12px;background:var(--blush-soft);display:grid;place-items:center;color:var(--kalyna);flex:none;font-size:1.2rem}
+
+/* ---------- СУБ-РОЗДІЛИ (кнопки-плитки, як «Освітній процес») ---------- */
+.subtiles{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.subtile{background:var(--sun);color:#5a4600;font-weight:800;padding:18px 26px;border-radius:16px;box-shadow:var(--shadow-soft);transition:transform .2s;min-width:200px;text-align:center}
+.subtile:nth-child(3n+2){background:var(--sky);color:#083b4d}
+.subtile:nth-child(3n){background:var(--lilac);color:#3d2456}
+.subtile:hover{transform:translateY(-4px)}
+
+/* ---------- ГАЛЕРЕЯ + LIGHTBOX ---------- */
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.gal-item{aspect-ratio:1;border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow-soft);position:relative;background:var(--leaf-soft);display:grid;place-items:center;font-size:2.4rem}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.gal-item:hover img{transform:scale(1.06)}
+.lightbox{position:fixed;inset:0;background:rgba(30,40,32,.9);display:none;place-items:center;z-index:100;padding:20px}
+.lightbox.open{display:grid}
+.lightbox img{max-width:92vw;max-height:88vh;border-radius:14px;border:5px solid #fff}
+.lightbox .close{position:absolute;top:18px;right:24px;color:#fff;font-size:2.4rem;cursor:pointer;font-weight:800;line-height:1}
+
+/* ---------- КОНТАКТИ / ФОРМА ---------- */
+.cta-contact{text-align:center;padding-block:50px}
+.cta-contact .script{font-size:2.4rem;color:var(--leaf);display:block}
+.cta-contact .script b{color:var(--kalyna)}
+.cinfo{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:20px 0 26px;font-weight:700}
+.cinfo a{display:inline-flex;align-items:center;gap:9px;color:var(--ink)}
+.cinfo a:hover{color:var(--kalyna)}
+.form{max-width:560px;margin-inline:auto;text-align:left;background:#fff;border-radius:var(--r);padding:26px;box-shadow:var(--shadow-soft);border:1px solid var(--line)}
+.form label{display:block;font-weight:700;margin:12px 0 5px;color:var(--leaf-deep)}
+.form input,.form textarea{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:12px;font-family:inherit;font-size:1rem;font-weight:600;background:var(--cream)}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--leaf)}
+.form textarea{min-height:110px;resize:vertical}
+.form .ok{display:none;background:var(--leaf-soft);color:var(--leaf-deep);font-weight:700;padding:12px;border-radius:12px;margin-top:14px}
+
+/* ---------- ІГРИ (Дітям) ---------- */
+.game{background:#fff;border-radius:26px;padding:28px 24px;box-shadow:var(--shadow-soft);border:1px solid var(--line);margin-bottom:28px}
+.game > h2{color:var(--leaf-deep);font-size:1.5rem;display:flex;align-items:center;gap:10px}
+.game .desc{color:var(--ink-soft);font-weight:600;margin:6px 0 18px}
+.game .status{font-weight:800;color:var(--kalyna);min-height:1.4em;margin-top:14px;text-align:center;font-size:1.05rem}
+.game .controls{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+/* меморі */
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin-inline:auto}
+.mem-card{aspect-ratio:1;border-radius:16px;background:linear-gradient(140deg,var(--leaf),var(--leaf-deep));display:grid;place-items:center;font-size:2rem;cursor:pointer;color:transparent;user-select:none;transition:transform .15s,background .2s}
+.mem-card::after{content:"?";color:#fff;font-family:'Comfortaa';font-weight:700}
+.mem-card.flip{background:#fff;color:initial;transform:rotateY(0)}
+.mem-card.flip::after{content:none}
+.mem-card.done{background:var(--leaf-soft);cursor:default;color:initial}
+.mem-card.done::after{content:none}
+/* хрестики-нулики */
+.xo-grid{display:grid;grid-template-columns:repeat(3,84px);gap:8px;justify-content:center}
+.xo-cell{width:84px;height:84px;border-radius:16px;background:var(--cream);border:2px solid var(--line);font-size:2.3rem;display:grid;place-items:center;cursor:pointer;transition:background .15s}
+.xo-cell:hover{background:var(--leaf-soft)}
+/* розмалюй */
+.color-wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:center;justify-content:center}
+.color-svg{width:min(320px,80vw)}
+.color-svg [data-fill]{cursor:pointer;transition:fill .15s}
+.swatches{display:flex;gap:10px;flex-wrap:wrap;max-width:180px}
+.swatch{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:var(--shadow-soft)}
+.swatch.sel{outline:3px solid var(--ink);outline-offset:2px}
+/* пазл */
+.puz-board{width:288px;height:288px;margin-inline:auto;display:grid;grid-template-columns:repeat(3,94px);grid-template-rows:repeat(3,94px);gap:3px}
+.puz-tile{background-image:url(images/sadochok.jpg);background-size:288px 288px;background-repeat:no-repeat;border-radius:8px;cursor:pointer}
+.puz-tile.empty{background:transparent;cursor:default}
+.puz-ref{width:96px;height:96px;border-radius:10px;object-fit:cover;border:3px solid #fff;box-shadow:var(--shadow-soft)}
+
+/* ---------- ФУТЕР ---------- */
+.footer{background:var(--leaf-deep);color:#dff2e4;padding-block:40px 26px}
+.footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+.footer .name{font-family:'Comfortaa';font-weight:700;font-size:1.6rem;color:#fff}
+.footer small{opacity:.8;font-size:.85rem}
+.footer h4{color:#fff;font-size:1rem;margin:0 0 12px}
+.footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.footer a:hover{color:#fff}
+.footer .bottom{border-top:1px solid rgba(255,255,255,.15);margin-top:28px;padding-top:18px;text-align:center;font-size:.82rem;opacity:.8}
+.fsoc{display:flex;gap:10px;margin-top:12px}
+.fsoc a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;transition:background .2s;font-weight:800}
+.fsoc a:hover{background:var(--kalyna)}
+
+/* ---------- УТИЛІТИ / АНІМАЦІЯ ---------- */
+.center{text-align:center}
+.mt{margin-top:26px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- АДАПТИВ ---------- */
+@media(max-width:1000px){
+  .hero .wrap,.two-cols,.newsgrid{grid-template-columns:1fr;gap:26px}
+  .tiles .grid{grid-template-columns:repeat(3,1fr)}
+  .grid-3,.gal-grid{grid-template-columns:repeat(2,1fr)}
+  .stats,.acount,.dgrid{grid-template-columns:repeat(2,1fr)}
+  .footer .cols{grid-template-columns:1fr 1fr}
+  .slogan{display:none}
+}
+@media(max-width:760px){
+  .nav .wrap{flex-wrap:nowrap}
+  .nav-links{display:none;width:100%;flex-direction:column;padding-bottom:8px}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 10px}
+  .burger{display:block}
+  .header-side{display:none}
+  .header .wrap{justify-content:center}
+  .tiles{margin-top:24px}
+  .tiles .grid{grid-template-columns:repeat(2,1fr)}
+  .grid-3,.gal-grid,.stats,.acount,.dgrid{grid-template-columns:1fr}
+  .cinfo{flex-direction:column;gap:12px}
+  .footer .cols{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:6px}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дітям — ігрова кімната «Калинки» | ЗДО №45</title>
+<meta name="description" content="Ігрова кімната садочка «Калинка»: гра на пам'ять, хрестики-нулики, розмальовка та пазл. Весело і безпечно для малечі.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="dityam">
+
+<main>
+<section class="page-hero">
+  <svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg>
+  <div class="wrap">
+    <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Дітям</nav>
+    <span class="script eyebrow">Ігрова кімната</span>
+    <h1>Граймося разом! 🎈</h1>
+    <p class="lead">Чотири веселі гри для малечі — розвивають пам'ять, увагу та кмітливість. Можна грати з планшета, телефона чи комп'ютера.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:760px">
+
+    <!-- ГРА 1: ПАМ'ЯТЬ -->
+    <div class="game reveal">
+      <h2>🧠 Знайди пару</h2>
+      <p class="desc">Перевертай картки по дві й шукай однакові. Знайди всі пари якнайменшою кількістю ходів!</p>
+      <div class="mem-grid" id="memGrid"></div>
+      <div class="status" id="memStatus">Ходів: 0</div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="memReset">Грати знову</button></div>
+    </div>
+
+    <!-- ГРА 2: ХРЕСТИКИ-НУЛИКИ -->
+    <div class="game reveal">
+      <h2>❌ Хрестики-нулики</h2>
+      <p class="desc">Ти граєш квіточкою 🌼, а комп'ютер — калинкою 🍓. Збери три свої в ряд!</p>
+      <div class="xo-grid" id="xoGrid"></div>
+      <div class="status" id="xoStatus">Твій хід 🌼</div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="xoReset">Нова гра</button></div>
+    </div>
+
+    <!-- ГРА 3: РОЗМАЛЮЙ -->
+    <div class="game reveal">
+      <h2>🎨 Розмалюй калинку</h2>
+      <p class="desc">Обери колір і тисни на частинки малюнка. Створи свою картинку!</p>
+      <div class="color-wrap">
+        <svg class="color-svg" id="colorSvg" viewBox="0 0 200 200">
+          <rect data-fill x="0" y="0" width="200" height="200" fill="#eaf3ea" rx="16"/>
+          <rect x="96" y="110" width="8" height="70" fill="#7a5230"/>
+          <path data-fill d="M100 60c-16 20-13 40 3 52 13-15 12-38-3-52z" fill="#a9d3b0"/>
+          <path data-fill d="M60 92c4 22 18 33 36 33-3-20-18-31-36-33z" fill="#a9d3b0"/>
+          <path data-fill d="M140 92c-18 2-33 13-36 33 18 0 32-11 36-33z" fill="#a9d3b0"/>
+          <circle data-fill cx="86" cy="128" r="12" fill="#f4b6c2"/>
+          <circle data-fill cx="112" cy="132" r="12" fill="#f4b6c2"/>
+          <circle data-fill cx="98" cy="150" r="12" fill="#f4b6c2"/>
+          <circle data-fill cx="74" cy="148" r="9" fill="#f4b6c2"/>
+          <circle data-fill cx="124" cy="152" r="9" fill="#f4b6c2"/>
+          <circle data-fill cx="150" cy="44" r="16" fill="#fdf0c0"/>
+        </svg>
+        <div class="swatches" id="swatches"></div>
+      </div>
+      <div class="controls"><button class="btn btn-ghost btn-small" id="colorReset">Очистити</button></div>
+    </div>
+
+    <!-- ГРА 4: ПАЗЛ -->
+    <div class="game reveal">
+      <h2>🧩 Склади пазл</h2>
+      <p class="desc">Пересувай шматочки, щоб зібрати фото нашого садочка. Тисни на плитку поряд із порожнім місцем.</p>
+      <div style="display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap">
+        <div class="puz-board" id="puzBoard"></div>
+        <div class="center"><img class="puz-ref" src="images/sadochok.jpg" alt="Зразок"><div style="font-size:.8rem;color:var(--ink-soft);font-weight:700;margin-top:6px">зразок</div></div>
+      </div>
+      <div class="status" id="puzStatus"></div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="puzShuffle">Перемішати</button></div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<script src="site.js"></script>
+<script>
+/* ---------- ГРА 1: ПАМ'ЯТЬ ---------- */
+(function(){
+  var icons=['🌼','🐝','🍓','🦋','🌈','⭐'];
+  var grid=document.getElementById('memGrid'), status=document.getElementById('memStatus');
+  var first=null, lock=false, moves=0, matched=0;
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function build(){
+    grid.innerHTML=''; first=null; lock=false; moves=0; matched=0; status.textContent='Ходів: 0';
+    var deck=shuffle(icons.concat(icons));
+    deck.forEach(function(ic){
+      var c=document.createElement('div'); c.className='mem-card'; c.dataset.ic=ic; c.textContent=ic;
+      c.addEventListener('click',function(){flip(c);});
+      grid.appendChild(c);
+    });
+  }
+  function flip(c){
+    if(lock||c.classList.contains('flip')||c.classList.contains('done'))return;
+    c.classList.add('flip');
+    if(!first){first=c;return;}
+    moves++; status.textContent='Ходів: '+moves;
+    if(first.dataset.ic===c.dataset.ic){
+      first.classList.add('done'); c.classList.add('done'); first=null; matched++;
+      if(matched===icons.length) status.textContent='🎉 Молодець! Усі пари за '+moves+' ходів!';
+    }else{
+      lock=true; var a=first, b=c; first=null;
+      setTimeout(function(){a.classList.remove('flip'); b.classList.remove('flip'); lock=false;},800);
+    }
+  }
+  document.getElementById('memReset').addEventListener('click',build);
+  build();
+})();
+
+/* ---------- ГРА 2: ХРЕСТИКИ-НУЛИКИ ---------- */
+(function(){
+  var P='🌼', C='🍓';
+  var grid=document.getElementById('xoGrid'), status=document.getElementById('xoStatus');
+  var cells=[], board=[], over=false;
+  var wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  function build(){
+    grid.innerHTML=''; board=Array(9).fill(''); cells=[]; over=false; status.textContent='Твій хід 🌼';
+    for(var i=0;i<9;i++){(function(i){
+      var c=document.createElement('div'); c.className='xo-cell';
+      c.addEventListener('click',function(){play(i);});
+      grid.appendChild(c); cells.push(c);
+    })(i);}
+  }
+  function winner(b){for(var i=0;i<wins.length;i++){var w=wins[i];if(b[w[0]]&&b[w[0]]===b[w[1]]&&b[w[1]]===b[w[2]])return b[w[0]];}return b.indexOf('')<0?'draw':null;}
+  function play(i){
+    if(over||board[i])return;
+    board[i]=P; cells[i].textContent=P;
+    var r=winner(board);
+    if(r){finish(r);return;}
+    status.textContent='Комп\'ютер думає…';
+    setTimeout(cpu,420);
+  }
+  function cpu(){
+    var i=bestMove();
+    if(i>-1){board[i]=C; cells[i].textContent=C;}
+    var r=winner(board);
+    if(r){finish(r);return;}
+    status.textContent='Твій хід 🌼';
+  }
+  function bestMove(){
+    // виграти або заблокувати, інакше центр/кут/будь-що
+    for(var s=0;s<2;s++){var mark=s===0?C:P;
+      for(var i=0;i<9;i++){if(!board[i]){var t=board.slice();t[i]=mark;if(winner(t)===mark)return i;}}}
+    if(!board[4])return 4;
+    var order=[0,2,6,8,1,3,5,7];
+    for(var k=0;k<order.length;k++)if(!board[order[k]])return order[k];
+    return -1;
+  }
+  function finish(r){
+    over=true;
+    status.textContent = r==='draw' ? '🤝 Нічия! Спробуй ще.' : (r===P ? '🎉 Ти переміг! Ура!' : '🍓 Цього разу виграла калинка. Ще раз?');
+  }
+  document.getElementById('xoReset').addEventListener('click',build);
+  build();
+})();
+
+/* ---------- ГРА 3: РОЗМАЛЮЙ ---------- */
+(function(){
+  var colors=['#e0364b','#f5c23e','#3c8c57','#5fb3d4','#b394d6','#ff7a8a','#8a5a2b','#ffffff'];
+  var sw=document.getElementById('swatches'), svg=document.getElementById('colorSvg');
+  var sel=colors[0], defaults=[];
+  colors.forEach(function(col,idx){
+    var s=document.createElement('div'); s.className='swatch'+(idx===0?' sel':''); s.style.background=col;
+    s.addEventListener('click',function(){sel=col;[].forEach.call(sw.children,function(x){x.classList.remove('sel');});s.classList.add('sel');});
+    sw.appendChild(s);
+  });
+  [].forEach.call(svg.querySelectorAll('[data-fill]'),function(el){
+    defaults.push([el,el.getAttribute('fill')]);
+    el.addEventListener('click',function(){el.setAttribute('fill',sel);});
+  });
+  document.getElementById('colorReset').addEventListener('click',function(){
+    defaults.forEach(function(d){d[0].setAttribute('fill',d[1]);});
+  });
+})();
+
+/* ---------- ГРА 4: ПАЗЛ (3x3, фото садочка) ---------- */
+(function(){
+  var board=document.getElementById('puzBoard'), status=document.getElementById('puzStatus');
+  var N=3, size=94, gap=3, order=[];
+  function pos(idx){ // background-position для правильного шматочка idx (0..8)
+    var r=Math.floor(idx/N), c=idx%N;
+    return -(c*(size))+'px '+-(r*(size))+'px';
+  }
+  function render(){
+    board.innerHTML='';
+    order.forEach(function(val,slot){
+      var t=document.createElement('div');
+      if(val===8){ t.className='puz-tile empty'; }
+      else{
+        t.className='puz-tile';
+        t.style.backgroundPosition=pos(val);
+        t.style.backgroundSize=(N*size)+'px '+(N*size)+'px';
+        t.addEventListener('click',function(){move(slot);});
+      }
+      board.appendChild(t);
+    });
+  }
+  function emptyIdx(){return order.indexOf(8);}
+  function canMove(slot){
+    var e=emptyIdx();
+    var sr=Math.floor(slot/N), sc=slot%N, er=Math.floor(e/N), ec=e%N;
+    return (Math.abs(sr-er)+Math.abs(sc-ec))===1;
+  }
+  function move(slot){
+    if(!canMove(slot))return;
+    var e=emptyIdx(); order[e]=order[slot]; order[slot]=8; render(); check();
+  }
+  function check(){
+    var ok=order.every(function(v,i){return v===i;});
+    status.textContent = ok ? '🎉 Ти зібрав пазл! Чудова робота!' : '';
+  }
+  function shuffle(){
+    order=[0,1,2,3,4,5,6,7,8]; status.textContent='';
+    // 60 випадкових легальних ходів — завжди розв'язується
+    for(var k=0;k<60;k++){
+      var e=emptyIdx(), moves=[];
+      for(var s=0;s<9;s++){if(canMove(s))moves.push(s);}
+      var pick=moves[Math.floor(Math.random()*moves.length)];
+      order[e]=order[pick]; order[pick]=8;
+    }
+    render();
+  }
+  document.getElementById('puzShuffle').addEventListener('click',shuffle);
+  shuffle();
+})();
+</script>
+</body>
+</html>
