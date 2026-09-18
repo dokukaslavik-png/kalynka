@@ -262,6 +262,33 @@ section{padding-block:56px}
 .puz-tile{background-image:url(images/sadochok.jpg);background-size:288px 288px;background-repeat:no-repeat;border-radius:8px;cursor:pointer}
 .puz-tile.empty{background:transparent;cursor:default}
 .puz-ref{width:96px;height:96px;border-radius:10px;object-fit:cover;border:3px solid #fff;box-shadow:var(--shadow-soft)}
+/* вгадай тваринку / порахуй — велике емодзі + кнопки-відповіді */
+.big-emoji{font-size:4.5rem;text-align:center;margin:6px 0 4px;line-height:1;min-height:70px}
+.count-row{font-size:2.2rem;text-align:center;line-height:1.4;letter-spacing:4px;word-break:break-word;margin:6px 0}
+.answers{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.answers .btn{min-width:120px;justify-content:center}
+.ans-num{width:64px;height:64px;border-radius:16px;border:2px solid var(--line);background:var(--cream);font-family:'Comfortaa';font-weight:700;font-size:1.6rem;color:var(--leaf-deep);cursor:pointer;transition:transform .15s,background .15s}
+.ans-num:hover{transform:translateY(-3px);background:var(--leaf-soft)}
+.ans-good{background:var(--leaf)!important;color:#fff!important;border-color:var(--leaf)!important}
+.ans-bad{background:var(--blush)!important;border-color:var(--kalyna)!important}
+/* лабіринт */
+.maze{display:grid;gap:2px;justify-content:center;margin-inline:auto;width:max-content;background:var(--leaf-deep);padding:4px;border-radius:12px}
+.mz{width:34px;height:34px;border-radius:6px;display:grid;place-items:center;font-size:1.1rem}
+.mz.path{background:#fff}
+.mz.wall{background:var(--leaf-deep)}
+.mz.goal{background:var(--blush-soft)}
+.mz.player{background:var(--sun)}
+.dpad{display:grid;grid-template-columns:repeat(3,56px);grid-template-rows:repeat(3,56px);gap:6px;justify-content:center;margin-top:16px}
+.dpad button{border:0;border-radius:14px;background:var(--leaf);color:#fff;font-size:1.4rem;font-weight:800;cursor:pointer;transition:transform .12s,background .2s}
+.dpad button:hover{background:var(--leaf-deep)}
+.dpad button:active{transform:scale(.92)}
+.dpad .sp{background:transparent;cursor:default}
+.dpad .sp:hover{background:transparent}
+/* спіймай метелика */
+.catch-area{position:relative;height:280px;background:linear-gradient(180deg,#eaf6fb,var(--leaf-soft));border-radius:18px;overflow:hidden;border:2px solid var(--line)}
+.catch-bug{position:absolute;font-size:2.2rem;cursor:pointer;user-select:none;transition:transform .1s}
+.catch-bug:active{transform:scale(.8)}
+.catch-hud{display:flex;justify-content:space-between;font-weight:800;color:var(--leaf-deep);margin-bottom:10px;font-size:1.05rem}
 
 /* ---------- ФУТЕР ---------- */
 .footer{background:var(--leaf-deep);color:#dff2e4;padding-block:40px 26px}
