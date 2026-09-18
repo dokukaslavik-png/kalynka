@@ -19,7 +19,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Дітям</nav>
     <span class="script eyebrow">Ігрова кімната</span>
     <h1>Граймося разом! 🎈</h1>
-    <p class="lead">Чотири веселі гри для малечі — розвивають пам'ять, увагу та кмітливість. Можна грати з планшета, телефона чи комп'ютера.</p>
+    <p class="lead">Вісім веселих ігор для малечі — розвивають пам'ять, увагу та кмітливість. Можна грати з планшета, телефона чи комп'ютера.</p>
   </div>
 </section>
 
@@ -77,6 +77,47 @@
       </div>
       <div class="status" id="puzStatus"></div>
       <div class="controls"><button class="btn btn-primary btn-small" id="puzShuffle">Перемішати</button></div>
+    </div>
+
+    <!-- ГРА 5: ВГАДАЙ ТВАРИНКУ -->
+    <div class="game reveal">
+      <h2>🐾 Вгадай тваринку</h2>
+      <p class="desc">Хто це? Подивись на малюнок і обери правильну назву.</p>
+      <div class="big-emoji" id="animEmoji">🐶</div>
+      <div class="answers" id="animAns"></div>
+      <div class="status" id="animStatus">Рахунок: 0</div>
+    </div>
+
+    <!-- ГРА 6: ПОРАХУЙ -->
+    <div class="game reveal">
+      <h2>🔢 Порахуй, скільки?</h2>
+      <p class="desc">Полічи предмети й натисни правильне число.</p>
+      <div class="count-row" id="countRow">🍎🍎🍎</div>
+      <div class="answers" id="countAns"></div>
+      <div class="status" id="countStatus">Рахунок: 0</div>
+    </div>
+
+    <!-- ГРА 7: ЛАБІРИНТ -->
+    <div class="game reveal">
+      <h2>🌀 Лабіринт</h2>
+      <p class="desc">Допоможи зайчику 🐰 дійти до морквинки 🥕. Керуй стрілочками.</p>
+      <div class="maze" id="maze"></div>
+      <div class="dpad">
+        <span class="sp"></span><button data-dir="up" aria-label="вгору">▲</button><span class="sp"></span>
+        <button data-dir="left" aria-label="вліво">◀</button><span class="sp"></span><button data-dir="right" aria-label="вправо">▶</button>
+        <span class="sp"></span><button data-dir="down" aria-label="вниз">▼</button><span class="sp"></span>
+      </div>
+      <div class="status" id="mazeStatus"></div>
+      <div class="controls"><button class="btn btn-ghost btn-small" id="mazeReset">Спочатку</button></div>
+    </div>
+
+    <!-- ГРА 8: СПІЙМАЙ МЕТЕЛИКА -->
+    <div class="game reveal">
+      <h2>🦋 Спіймай метелика</h2>
+      <p class="desc">Лови метеликів, поки цокає час! Тисни на них якнайшвидше.</p>
+      <div class="catch-hud"><span>⭐ Спіймано: <b id="catchScore">0</b></span><span>⏱️ <b id="catchTime">20</b> с</span></div>
+      <div class="catch-area" id="catchArea"></div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="catchStart">Почати гру</button></div>
     </div>
 
   </div>
@@ -232,6 +273,130 @@
   }
   document.getElementById('puzShuffle').addEventListener('click',shuffle);
   shuffle();
+})();
+
+/* ---------- ГРА 5: ВГАДАЙ ТВАРИНКУ ---------- */
+(function(){
+  var animals=[['🐶','Собака'],['🐱','Кіт'],['🐭','Мишка'],['🐰','Зайчик'],['🦊','Лисиця'],
+    ['🐻','Ведмідь'],['🐼','Панда'],['🦁','Лев'],['🐸','Жаба'],['🐷','Свинка'],
+    ['🐔','Курка'],['🐧','Пінгвін'],['🦉','Сова'],['🐝','Бджілка'],['🐴','Конячка'],['🐮','Корівка']];
+  var em=document.getElementById('animEmoji'), ans=document.getElementById('animAns'), st=document.getElementById('animStatus');
+  var score=0;
+  function pick(){return animals[Math.floor(Math.random()*animals.length)];}
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function round(){
+    var correct=pick(); em.textContent=correct[0];
+    var opts=[correct]; while(opts.length<3){var c=pick(); if(opts.indexOf(c)<0)opts.push(c);}
+    shuffle(opts); ans.innerHTML='';
+    opts.forEach(function(o){
+      var b=document.createElement('button'); b.className='btn btn-ghost'; b.textContent=o[1];
+      b.addEventListener('click',function(){
+        if(o[1]===correct[1]){b.classList.add('ans-good'); score++; st.textContent='🎉 Правильно! Рахунок: '+score; setTimeout(round,700);}
+        else{b.classList.add('ans-bad'); st.textContent='Спробуй ще! Це '+correct[1].toLowerCase()+'.';}
+      });
+      ans.appendChild(b);
+    });
+  }
+  round();
+})();
+
+/* ---------- ГРА 6: ПОРАХУЙ ---------- */
+(function(){
+  var items=['🍎','🍓','🍌','🌼','🐝','⭐','🐞','🎈'];
+  var row=document.getElementById('countRow'), ans=document.getElementById('countAns'), st=document.getElementById('countStatus');
+  var score=0;
+  function round(){
+    var n=Math.floor(Math.random()*8)+2; // 2..9
+    var it=items[Math.floor(Math.random()*items.length)];
+    row.textContent=new Array(n+1).join(it);
+    var opts=[n]; while(opts.length<3){var c=Math.floor(Math.random()*9)+2; if(opts.indexOf(c)<0)opts.push(c);}
+    for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=opts[i];opts[i]=opts[j];opts[j]=t;}
+    ans.innerHTML='';
+    opts.forEach(function(o){
+      var b=document.createElement('button'); b.className='ans-num'; b.textContent=o;
+      b.addEventListener('click',function(){
+        if(o===n){b.classList.add('ans-good'); score++; st.textContent='🎉 Так! Рахунок: '+score; setTimeout(round,700);}
+        else{b.classList.add('ans-bad'); st.textContent='Порахуй ще раз 🙂';}
+      });
+      ans.appendChild(b);
+    });
+  }
+  round();
+})();
+
+/* ---------- ГРА 7: ЛАБІРИНТ ---------- */
+(function(){
+  // 0=стіна, 1=шлях; старт лівий-верх, ціль правий-низ
+  var MAP=[
+    [1,1,0,1,1,1,0],
+    [0,1,0,1,0,1,0],
+    [1,1,1,1,0,1,1],
+    [1,0,0,1,0,0,1],
+    [1,1,1,1,1,1,1],
+    [0,0,1,0,0,1,0],
+    [1,1,1,1,1,1,1]
+  ];
+  var ROWS=MAP.length, COLS=MAP[0].length;
+  var start={r:0,c:0}, goal={r:6,c:6};
+  var maze=document.getElementById('maze'), st=document.getElementById('mazeStatus');
+  var pos={r:0,c:0}, done=false;
+  maze.style.gridTemplateColumns='repeat('+COLS+',34px)';
+  function render(){
+    maze.innerHTML='';
+    for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){
+      var d=document.createElement('div'); d.className='mz ';
+      if(MAP[r][c]===0){d.className+='wall';}
+      else if(r===pos.r&&c===pos.c){d.className+='player'; d.textContent='🐰';}
+      else if(r===goal.r&&c===goal.c){d.className+='goal'; d.textContent='🥕';}
+      else{d.className+='path';}
+      maze.appendChild(d);
+    }
+  }
+  function move(dr,dc){
+    if(done)return;
+    var nr=pos.r+dr, nc=pos.c+dc;
+    if(nr<0||nc<0||nr>=ROWS||nc>=COLS)return;
+    if(MAP[nr][nc]===0)return;
+    pos.r=nr; pos.c=nc; render();
+    if(pos.r===goal.r&&pos.c===goal.c){done=true; st.textContent='🎉 Ура! Зайчик знайшов морквинку!';}
+  }
+  var dirs={up:[-1,0],down:[1,0],left:[0,-1],right:[0,1]};
+  document.querySelectorAll('.dpad button[data-dir]').forEach(function(b){
+    b.addEventListener('click',function(){var d=dirs[b.dataset.dir]; move(d[0],d[1]);});
+  });
+  document.addEventListener('keydown',function(e){
+    var m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}[e.key];
+    if(m){e.preventDefault(); var d=dirs[m]; move(d[0],d[1]);}
+  });
+  document.getElementById('mazeReset').addEventListener('click',function(){pos={r:start.r,c:start.c}; done=false; st.textContent=''; render();});
+  render();
+})();
+
+/* ---------- ГРА 8: СПІЙМАЙ МЕТЕЛИКА ---------- */
+(function(){
+  var area=document.getElementById('catchArea'), sEl=document.getElementById('catchScore'), tEl=document.getElementById('catchTime');
+  var btn=document.getElementById('catchStart');
+  var bugs=['🦋','🐝','🐞','🌸'], score=0, time=20, spawnT=null, tickT=null, playing=false;
+  function spawn(){
+    var b=document.createElement('div'); b.className='catch-bug'; b.textContent=bugs[Math.floor(Math.random()*bugs.length)];
+    var x=Math.random()*(area.clientWidth-40), y=Math.random()*(area.clientHeight-40);
+    b.style.left=x+'px'; b.style.top=y+'px';
+    b.addEventListener('click',function(){ if(!playing)return; score++; sEl.textContent=score; b.remove(); });
+    area.appendChild(b);
+    setTimeout(function(){ if(b.parentNode)b.remove(); },1100);
+  }
+  function stop(){
+    playing=false; clearInterval(spawnT); clearInterval(tickT);
+    area.innerHTML='<div style="position:absolute;inset:0;display:grid;place-items:center;font-weight:800;color:var(--leaf-deep);font-size:1.3rem;text-align:center">🎉 Молодець!<br>Ти спіймав '+score+' метеликів!</div>';
+    btn.textContent='Зіграти ще';
+  }
+  function start(){
+    if(playing)return;
+    playing=true; score=0; time=20; sEl.textContent='0'; tEl.textContent='20'; area.innerHTML=''; btn.textContent='Гра йде…';
+    spawnT=setInterval(spawn,650);
+    tickT=setInterval(function(){ time--; tEl.textContent=time; if(time<=0)stop(); },1000);
+  }
+  btn.addEventListener('click',start);
 })();
 </script>
 </body>
