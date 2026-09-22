@@ -12,12 +12,25 @@
 </head>
 <body data-page="podii">
 <main>
-<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Афіша подій</nav><span class="script eyebrow">Календар Калинки</span><h1>Афіша подій</h1><p class="lead">Найближчі свята, заходи й тематичні дні нашого садочка.</p></div></section><section><div class="wrap" style="max-width:760px"><div class="news-list">
+<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Афіша подій</nav><span class="script eyebrow">Календар Калинки</span><h1>Афіша подій</h1><p class="lead">Найближчі свята, заходи й тематичні дні нашого садочка.</p></div></section><section><div class="wrap" style="max-width:760px"><div class="news-list" id="eventsList">
 <div class="nitem reveal"><div class="thumb">🎨</div><div><div class="date">15 вересня</div><h3>Тематичний день творчості</h3><span class="more">майстер-класи та малювання</span></div></div>
-<div class="nitem reveal"><div class="thumb">🎵</div><div><div class="date">20 вересня</div><h3>Музична подія «Осінні мелодії»</h3><span class="more">пісні, танці та веселощі</span></div></div>
-<div class="nitem reveal"><div class="thumb">🌳</div><div><div class="date">25 вересня</div><h3>Екологічна акція</h3><span class="more">садимо, прибираємо, дбаємо про природу</span></div></div>
-</div><div class="center mt"><div class="ph-note reveal">✏️ Місце для реального наповнення — тексти, фото й документи додасть садочок.</div></div></div></section>
+</div></div></section>
 </main>
 <script src="site.js"></script>
+<script>
+/* Події з content/events.json (редагується в адмінці) */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var box=document.getElementById('eventsList');
+  fetch('content/events.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!box||!d||!d.items||!d.items.length)return;
+    box.innerHTML=d.items.map(function(e){
+      return '<div class="nitem"><div class="thumb">'+esc(e.icon||'📅')+'</div><div>'+
+        '<div class="date">'+esc(e.date)+'</div><h3>'+esc(e.title)+'</h3>'+
+        (e.desc?'<span class="more">'+esc(e.desc)+'</span>':'')+'</div></div>';
+    }).join('');
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

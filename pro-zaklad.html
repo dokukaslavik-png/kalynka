@@ -31,8 +31,10 @@
       <div class="frame-photo reveal"><img src="images/sadochok.jpg" alt="Територія закладу «Калинка»"></div>
       <div class="reveal prose" style="margin:0">
         <h2>Наш садочок</h2>
+        <div id="aboutIntro">
         <p>ЗДО №45 «Калинка» — це простір, де створено безпечне середовище, турботливу атмосферу та всі умови для гармонійного розвитку дітей. Ми працюємо, щоб кожна дитина зростала здоровою, впевненою та щасливою.</p>
         <p>У закладі функціонує 11 груп: раннього, молодшого, середнього та старшого дошкільного віку, а також інклюзивна група. Кожна група має власну назву, дизайн і теплу атмосферу для навчання та розвитку.</p>
+        </div>
         <div class="chips">
           <span class="chip"><i style="background:var(--kalyna)"></i>11 груп</span>
           <span class="chip"><i style="background:var(--sun)"></i>досвідчені педагоги</span>
@@ -53,11 +55,13 @@
       <p>Історія, яку щодня продовжують творити діти, батьки, педагоги та вся команда закладу.</p>
     </div>
     <div class="prose reveal">
+      <div id="aboutHistory">
       <p>Історія КЗ «Дошкільний навчальний заклад №45 Вінницької міської ради» розпочалася <b>15 лютого 1972 року</b>, коли у мікрорайоні Вишенька відкрився дитячий садок №45 «Зірочка» за адресою вул. 600-річчя, 56. Заклад був збудований для дітей військовослужбовців Вінницького гарнізону.</p>
       <p>Від перших років його історії працівники, батьки та військовослужбовці разом створювали затишний простір для дітей — облаштовували територію, висаджували дерева, створювали фруктовий сад, ягідник, ігрові та спортивні майданчики.</p>
       <p>За роки існування заклад очолювали <b>Зінаїда Миколаївна Бугорська</b>, <b>Валентина Василівна Заліцька</b> та <b>Наталія Іванівна Ягніч</b> — кожна з них зробила свій внесок у розвиток садочка, його традицій та педагогічного колективу. У 2002 році заклад увійшов до системи закладів територіальної громади міста Вінниці.</p>
       <p>Сьогодні нову сторінку історії «Калинки» творить керівник <b>Вікторія Володимирівна Білоус</b>. Під її керівництвом заклад розвивається як сучасний, відкритий та інноваційний простір для дітей. Особлива увага приділяється безпеці, інклюзивності, психологічному комфорту, підтримці педагогів, співпраці з батьками та створенню сучасного освітнього середовища.</p>
       <p>Понад пів століття змінювалися покоління дітей, педагоги та освітні підходи, але незмінним залишається головне — <b>любов до дитини, турбота та прагнення подарувати кожному вихованцю щасливе дитинство</b>.</p>
+      </div>
       <p style="text-align:center;font-family:'Caveat',cursive;font-size:1.7rem;color:var(--leaf-deep);margin-top:22px">Наша історія триває. І кожен новий день — це її нова сторінка. 🌿</p>
     </div>
   </div>
@@ -93,12 +97,9 @@
       <h2>Адміністрація закладу</h2>
       <p>Люди, які щодня дбають про те, щоб «Калинка» була місцем, куди хочеться приходити.</p>
     </div>
-    <div class="grid-3">
+    <div class="grid-3" id="adminGrid">
       <div class="pcard reveal center"><div class="pe">👩‍💼</div><h3>Директор</h3><p>Вікторія Володимирівна Білоус</p></div>
-      <div class="pcard pt-leaf reveal center"><div class="pe">📋</div><h3>Вихователь-методист</h3><p>Прізвище, ім'я та по батькові</p></div>
-      <div class="pcard pt-sky reveal center"><div class="pe">🩺</div><h3>Сестра медична</h3><p>Прізвище, ім'я та по батькові</p></div>
     </div>
-    <div class="center mt"><div class="ph-note reveal">✏️ Тут садочок додасть реальні імена, посади, фото та контакти адміністрації.</div></div>
   </div>
 </section>
 
@@ -160,5 +161,26 @@
 
 </main>
 <script src="site.js"></script>
+<script>
+/* «Про заклад»: вступ, історія, адміністрація — з content/about.json */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var roleColors=['','pt-leaf','pt-sky','pt-lilac','pt-sun'];
+  fetch('content/about.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    var intro=document.getElementById('aboutIntro');
+    if(intro&&d.intro&&d.intro.length) intro.innerHTML=d.intro.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
+    var hist=document.getElementById('aboutHistory');
+    if(hist&&d.history&&d.history.length) hist.innerHTML=d.history.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
+    var adm=document.getElementById('adminGrid');
+    if(adm&&d.admin&&d.admin.length){
+      adm.innerHTML=d.admin.map(function(m,i){
+        var pe=m.photo?'<div class="pe" style="width:74px;height:74px;margin:0 auto 8px;border-radius:50%;overflow:hidden"><img src="'+esc(m.photo)+'" alt="" style="width:100%;height:100%;object-fit:cover"></div>':'<div class="pe">👩‍🏫</div>';
+        return '<div class="pcard '+roleColors[i%5]+' center">'+pe+'<h3>'+esc(m.role)+'</h3><p>'+esc(m.name)+'</p></div>';
+      }).join('');
+    }
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

@@ -12,8 +12,23 @@
 </head>
 <body data-page="dokumenty">
 <main>
-<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Відкритість і прозорість</nav><span class="script eyebrow">Офіційна інформація</span><h1>Відкритість і прозорість</h1><p class="lead">Документи та звіти закладу у відкритому доступі.</p></div></section><section><div class="wrap"><div class="dgrid"><a class="dlink reveal" href="#"><span class="di">📄</span> Установчі документи</a><a class="dlink reveal" href="#"><span class="di">📚</span> Освітня програма</a><a class="dlink reveal" href="#"><span class="di">💰</span> Фінансова інформація</a><a class="dlink reveal" href="#"><span class="di">🍽️</span> Харчування</a><a class="dlink reveal" href="#"><span class="di">📊</span> Звіти керівника</a><a class="dlink reveal" href="#"><span class="di">ℹ️</span> Публічна інформація</a></div><div class="center mt"><div class="ph-note reveal">✏️ Місце для реального наповнення — тексти, фото й документи додасть садочок.</div></div></div></section>
+<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Відкритість і прозорість</nav><span class="script eyebrow">Офіційна інформація</span><h1>Відкритість і прозорість</h1><p class="lead">Документи та звіти закладу у відкритому доступі.</p></div></section><section><div class="wrap"><div class="dgrid" id="docGrid"><a class="dlink reveal" href="#"><span class="di">📄</span> Установчі документи</a></div><div class="center mt"><div class="ph-note reveal" id="docNote">✏️ Документи (PDF) додає садочок через адмінку. Поки файл не завантажено — картка веде «в нікуди».</div></div></div></section>
 </main>
 <script src="site.js"></script>
+<script>
+/* Документи з content/documents.json (редагується в адмінці) */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var box=document.getElementById('docGrid');
+  fetch('content/documents.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!box||!d||!d.items||!d.items.length)return;
+    box.innerHTML=d.items.map(function(x){
+      var href=x.file?esc(x.file):'#';
+      var attr=x.file?' target="_blank" rel="noopener"':'';
+      return '<a class="dlink" href="'+href+'"'+attr+'><span class="di">'+esc(x.icon||'📄')+'</span> '+esc(x.title)+'</a>';
+    }).join('');
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
