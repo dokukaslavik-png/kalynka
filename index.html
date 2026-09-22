@@ -70,10 +70,12 @@
     <div class="two-cols">
       <div class="frame-photo reveal"><img src="images/sadochok.jpg" alt="Заклад «Калинка»"></div>
       <div class="reveal">
-        <span class="script" style="font-size:1.6rem;color:var(--kalyna)">Калинка — це ми</span>
-        <h2 style="color:var(--leaf-deep);font-size:2rem;margin-bottom:14px">Простір, де дитинство розквітає</h2>
+        <span class="script" id="haEyebrow" style="font-size:1.6rem;color:var(--kalyna)">Калинка — це ми</span>
+        <h2 id="haTitle" style="color:var(--leaf-deep);font-size:2rem;margin-bottom:14px">Простір, де дитинство розквітає</h2>
+        <div id="haText">
         <p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">ЗДО №45 «Калинка» — сучасний заклад дошкільної освіти, де створено безпечне середовище, турботливу атмосферу та всі умови для гармонійного розвитку кожної дитини.</p>
         <p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">Ми підтримуємо ініціативність, творчість та індивідуальність малюків — і робимо так, щоб у садочок хотілося приходити щоранку.</p>
+        </div>
         <div class="chips">
           <span class="chip"><i style="background:var(--kalyna)"></i>11 груп</span>
           <span class="chip"><i style="background:var(--sun)"></i>турботливі педагоги</span>
@@ -119,7 +121,7 @@
       <h2>Родзинки «Калинки»</h2>
       <p>Ідеї, якими ми пишаємось — від чистого повітря до турботи про довкілля та ментальне здоров'я.</p>
     </div>
-    <div class="grid-3">
+    <div class="grid-3" id="homeProjects">
       <a class="pcard reveal" href="proekty.html"><div class="pe">🌿</div><h3>O₂ Kids Space</h3><p>Простір чистого повітря для здоров'я та бадьорості малечі.</p></a>
       <a class="pcard pt-leaf reveal" href="proekty.html"><div class="pe">🌎</div><h3>EcoWorldKids</h3><p>Знайомимо дітей зі світом природи та відповідального ставлення до планети.</p></a>
       <a class="pcard pt-sky reveal" href="proekty.html"><div class="pe">🧠</div><h3>Ментальне здоров'я</h3><p>Емоційний комфорт, підтримка психолога та спокійна атмосфера.</p></a>
@@ -180,10 +182,8 @@
       <span class="eyebrow">Світ очима дітей</span>
       <h2>Що кажуть наші малюки</h2>
     </div>
-    <div class="grid-3">
-      <div class="voice reveal"><p>Я хочу, щоб у нашому садочку завжди було літо.</p><div class="kid"><span class="av">🌻</span> Софійка, 5 років</div></div>
-      <div class="voice reveal"><p>Калинка — це коли всі друзі.</p><div class="kid"><span class="av">🧒</span> Максимко, 4 роки</div></div>
-      <div class="voice reveal"><p>Я тут навчився бути сміливим.</p><div class="kid"><span class="av">🦁</span> Богданчик, 6 років</div></div>
+    <div class="grid-3" id="voicesGrid">
+<div class="voice reveal"><p>Я хочу, щоб у нашому садочку завжди було літо.</p><div class="kid"><span class="av">🌻</span> Софійка, 5 років</div></div>
     </div>
   </div>
 </section>
@@ -224,6 +224,31 @@ if(window.netlifyIdentity){
     if(!user){ window.netlifyIdentity.on("login",function(){ document.location.href="/admin/"; }); }
   });
 }
+</script>
+<script>
+/* Головна: «Про нас», проєкти-тизер, цитати дітей — з content/home.json та projects.json */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  fetch('content/home.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    var eb=document.getElementById('haEyebrow'); if(eb&&d.aboutEyebrow) eb.textContent=d.aboutEyebrow;
+    var tt=document.getElementById('haTitle'); if(tt&&d.aboutTitle) tt.textContent=d.aboutTitle;
+    var tx=document.getElementById('haText');
+    if(tx&&d.about&&d.about.length) tx.innerHTML=d.about.map(function(p){return '<p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">'+esc(p)+'</p>';}).join('');
+    var vg=document.getElementById('voicesGrid');
+    if(vg&&d.voices&&d.voices.length) vg.innerHTML=d.voices.map(function(v){
+      return '<div class="voice reveal"><p>'+esc(v.text)+'</p><div class="kid"><span class="av">'+esc(v.avatar||'🙂')+'</span> '+esc(v.kid)+'</div></div>';
+    }).join('');
+  }).catch(function(){});
+  var acc=['','pt-leaf','pt-sky'];
+  var hp=document.getElementById('homeProjects');
+  fetch('content/projects.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!hp||!d||!d.items||!d.items.length)return;
+    hp.innerHTML=d.items.slice(0,3).map(function(x,i){
+      return '<a class="pcard '+acc[i%3]+' reveal" href="proekty.html"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></a>';
+    }).join('');
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>

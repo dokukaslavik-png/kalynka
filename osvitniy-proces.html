@@ -21,7 +21,7 @@
 <a class="subtile" href="batkam.html">Права дитини</a>
 <a class="subtile" href="#">Літнє оздоровлення</a>
 </div></div></section><section class="band-soft" id="gurtky"><div class="wrap"><div class="sec-head reveal"><span class="eyebrow">Гуртки</span><h2>Куди ходять наші малюки</h2><p>Приклади напрямів — наповнення садочок доповнить власними гуртками.</p></div>
-<div class="grid-3">
+<div class="grid-3" id="gurtkyGrid">
 <div class="pcard reveal"><div class="pe">💃</div><h3>Ритм</h3><p>Хореографія, музика та рух.</p></div>
 <div class="pcard pt-leaf reveal"><div class="pe">🇬🇧</div><h3>English Kids</h3><p>Перше знайомство з англійською мовою.</p></div>
 <div class="pcard pt-sky reveal"><div class="pe">🧱</div><h3>Планета LEGO</h3><p>Конструювання й розвиток логіки.</p></div>
@@ -31,5 +31,19 @@
 </div></div></section>
 </main>
 <script src="site.js"></script>
+<script>
+/* Гуртки з content/gurtky.json */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var acc=['','pt-leaf','pt-sky','pt-lilac','pt-sun',''];
+  var box=document.getElementById('gurtkyGrid');
+  fetch('content/gurtky.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!box||!d||!d.items||!d.items.length)return;
+    box.innerHTML=d.items.map(function(x,i){
+      return '<div class="pcard '+acc[i%6]+' reveal"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></div>';
+    }).join('');
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

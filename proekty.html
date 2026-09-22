@@ -12,7 +12,7 @@
 </head>
 <body data-page="proekty">
 <main>
-<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Наші проєкти</nav><span class="script eyebrow">Родзинки Калинки</span><h1>Наші проєкти</h1><p class="lead">Ідеї, якими ми пишаємось — від чистого повітря до турботи про довкілля та ментальне здоров'я.</p></div></section><section><div class="wrap"><div class="grid-3">
+<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Наші проєкти</nav><span class="script eyebrow">Родзинки Калинки</span><h1>Наші проєкти</h1><p class="lead">Ідеї, якими ми пишаємось — від чистого повітря до турботи про довкілля та ментальне здоров'я.</p></div></section><section><div class="wrap"><div class="grid-3" id="projGrid">
 <div class="pcard reveal"><div class="pe">🌿</div><h3>O₂ Kids Space</h3><p>Простір чистого повітря для здоров'я та бадьорості малечі.</p></div>
 <div class="pcard pt-leaf reveal"><div class="pe">🌎</div><h3>EcoWorldKids</h3><p>Знайомство зі світом природи та відповідальним ставленням до планети.</p></div>
 <div class="pcard pt-sky reveal"><div class="pe">💚</div><h3>Екологічне виховання</h3><p>Добрі звички, сортування та любов до природи з малих років.</p></div>
@@ -22,5 +22,19 @@
 </div></div></section>
 </main>
 <script src="site.js"></script>
+<script>
+/* Проєкти з content/projects.json */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var acc=['','pt-leaf','pt-sky','pt-lilac','pt-sun',''];
+  var box=document.getElementById('projGrid');
+  fetch('content/projects.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!box||!d||!d.items||!d.items.length)return;
+    box.innerHTML=d.items.map(function(x,i){
+      return '<div class="pcard '+acc[i%6]+' reveal"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></div>';
+    }).join('');
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
