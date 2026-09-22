@@ -131,10 +131,10 @@ collections:
               - { label: "Фото (необовʼязково)", name: photo, widget: image, required: false }
 
   - name: groups
-    label: "Групи — вихователі"
+    label: "Групи (опис, заняття, вихователі)"
     files:
       - name: teachers
-        label: "Вихователі груп"
+        label: "Групи — вміст"
         file: "content/groups.json"
         editor:
           preview: false
@@ -143,26 +143,41 @@ collections:
             name: ranniy
             widget: object
             fields:
+              - { label: "Опис «Про групу» (абзаци)", name: about, widget: list, label_singular: "Абзац", field: { label: "Абзац", name: item, widget: text } }
+              - { label: "Що розвиваємо (пункти)", name: develop, widget: list, label_singular: "Пункт", field: { label: "Пункт", name: item, widget: string } }
+              - { label: "Заняття", name: activities, widget: list, label_singular: "Заняття", summary: "{{fields.title}}", fields: [ { label: "Емодзі", name: emoji, widget: string, required: false }, { label: "Назва", name: title, widget: string }, { label: "Опис", name: text, widget: text } ] }
               - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
           - label: "Молодші групи"
             name: molodshi
             widget: object
             fields:
+              - { label: "Опис «Про групу» (абзаци)", name: about, widget: list, label_singular: "Абзац", field: { label: "Абзац", name: item, widget: text } }
+              - { label: "Що розвиваємо (пункти)", name: develop, widget: list, label_singular: "Пункт", field: { label: "Пункт", name: item, widget: string } }
+              - { label: "Заняття", name: activities, widget: list, label_singular: "Заняття", summary: "{{fields.title}}", fields: [ { label: "Емодзі", name: emoji, widget: string, required: false }, { label: "Назва", name: title, widget: string }, { label: "Опис", name: text, widget: text } ] }
               - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
           - label: "Середні групи"
             name: seredni
             widget: object
             fields:
+              - { label: "Опис «Про групу» (абзаци)", name: about, widget: list, label_singular: "Абзац", field: { label: "Абзац", name: item, widget: text } }
+              - { label: "Що розвиваємо (пункти)", name: develop, widget: list, label_singular: "Пункт", field: { label: "Пункт", name: item, widget: string } }
+              - { label: "Заняття", name: activities, widget: list, label_singular: "Заняття", summary: "{{fields.title}}", fields: [ { label: "Емодзі", name: emoji, widget: string, required: false }, { label: "Назва", name: title, widget: string }, { label: "Опис", name: text, widget: text } ] }
               - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
           - label: "Старші групи"
             name: starshi
             widget: object
             fields:
+              - { label: "Опис «Про групу» (абзаци)", name: about, widget: list, label_singular: "Абзац", field: { label: "Абзац", name: item, widget: text } }
+              - { label: "Що розвиваємо (пункти)", name: develop, widget: list, label_singular: "Пункт", field: { label: "Пункт", name: item, widget: string } }
+              - { label: "Заняття", name: activities, widget: list, label_singular: "Заняття", summary: "{{fields.title}}", fields: [ { label: "Емодзі", name: emoji, widget: string, required: false }, { label: "Назва", name: title, widget: string }, { label: "Опис", name: text, widget: text } ] }
               - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
           - label: "Інклюзивна група"
             name: inklyuziya
             widget: object
             fields:
+              - { label: "Опис «Про групу» (абзаци)", name: about, widget: list, label_singular: "Абзац", field: { label: "Абзац", name: item, widget: text } }
+              - { label: "Що розвиваємо (пункти)", name: develop, widget: list, label_singular: "Пункт", field: { label: "Пункт", name: item, widget: string } }
+              - { label: "Заняття", name: activities, widget: list, label_singular: "Заняття", summary: "{{fields.title}}", fields: [ { label: "Емодзі", name: emoji, widget: string, required: false }, { label: "Назва", name: title, widget: string }, { label: "Опис", name: text, widget: text } ] }
               - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
 
   - name: home
