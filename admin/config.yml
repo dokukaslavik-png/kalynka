@@ -164,3 +164,86 @@ collections:
             widget: object
             fields:
               - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
+
+  - name: home
+    label: "Головна сторінка"
+    files:
+      - name: home
+        label: "Тексти головної"
+        file: "content/home.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Підзаголовок «Про нас»", name: aboutEyebrow, widget: string }
+          - { label: "Заголовок «Про нас»", name: aboutTitle, widget: string }
+          - label: "Текст «Про нас» (абзаци)"
+            name: about
+            widget: list
+            label_singular: "Абзац"
+            field: { label: "Абзац", name: item, widget: text }
+          - label: "Цитати дітей"
+            name: voices
+            widget: list
+            label_singular: "Цитата"
+            summary: "{{fields.kid}}"
+            fields:
+              - { label: "Цитата", name: text, widget: text }
+              - { label: "Хто сказав", name: kid, widget: string, hint: "Напр.: Софійка, 5 років" }
+              - { label: "Емодзі", name: avatar, widget: string, required: false }
+
+  - name: projects
+    label: "Проєкти"
+    files:
+      - name: list
+        label: "Проєкти (список)"
+        file: "content/projects.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Проєкти"
+            name: items
+            widget: list
+            label_singular: "Проєкт"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Емодзі", name: emoji, widget: string, required: false }
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Опис", name: text, widget: text }
+
+  - name: parents
+    label: "Батькам"
+    files:
+      - name: list
+        label: "Розділи «Батькам»"
+        file: "content/parents.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Картки"
+            name: items
+            widget: list
+            label_singular: "Картка"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Емодзі", name: icon, widget: string, required: false }
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Опис", name: text, widget: text }
+
+  - name: gurtky
+    label: "Гуртки"
+    files:
+      - name: list
+        label: "Гуртки (список)"
+        file: "content/gurtky.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Гуртки"
+            name: items
+            widget: list
+            label_singular: "Гурток"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Емодзі", name: emoji, widget: string, required: false }
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Опис", name: text, widget: text }
