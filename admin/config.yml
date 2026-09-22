@@ -45,6 +45,26 @@ collections:
               - { label: "Текст (необовʼязково)", name: text, widget: text, required: false }
               - { label: "Фото (необовʼязково)", name: image, widget: image, required: false }
 
+  - name: events
+    label: "Афіша подій"
+    files:
+      - name: list
+        label: "Події (список)"
+        file: "content/events.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Події"
+            name: items
+            widget: list
+            label_singular: "Подія"
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - { label: "Дата", name: date, widget: string, hint: "Напр.: 15 вересня" }
+              - { label: "Назва події", name: title, widget: string }
+              - { label: "Опис (необовʼязково)", name: desc, widget: string, required: false }
+              - { label: "Емодзі (необовʼязково)", name: icon, widget: string, required: false, hint: "Напр.: 🎨 🎵 🌳" }
+
   - name: gallery
     label: "Фотогалерея"
     files:
@@ -61,3 +81,86 @@ collections:
             fields:
               - { label: "Фото", name: image, widget: image }
               - { label: "Підпис (необовʼязково)", name: caption, widget: string, required: false }
+
+  - name: documents
+    label: "Документи"
+    files:
+      - name: list
+        label: "Документи (список)"
+        file: "content/documents.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Документи"
+            name: items
+            widget: list
+            label_singular: "Документ"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Емодзі (необовʼязково)", name: icon, widget: string, required: false }
+              - { label: "Файл PDF (необовʼязково)", name: file, widget: file, required: false }
+
+  - name: about
+    label: "Про заклад"
+    files:
+      - name: about
+        label: "Тексти сторінки «Про заклад»"
+        file: "content/about.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Вступ (абзаци)"
+            name: intro
+            widget: list
+            label_singular: "Абзац"
+            field: { label: "Абзац", name: item, widget: text }
+          - label: "Історія (абзаци)"
+            name: history
+            widget: list
+            label_singular: "Абзац"
+            field: { label: "Абзац", name: item, widget: text }
+          - label: "Адміністрація"
+            name: admin
+            widget: list
+            label_singular: "Людина"
+            summary: "{{fields.role}} — {{fields.name}}"
+            fields:
+              - { label: "Посада", name: role, widget: string }
+              - { label: "Прізвище, ім'я та по батькові", name: name, widget: string }
+              - { label: "Фото (необовʼязково)", name: photo, widget: image, required: false }
+
+  - name: groups
+    label: "Групи — вихователі"
+    files:
+      - name: teachers
+        label: "Вихователі груп"
+        file: "content/groups.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Ранній вік"
+            name: ranniy
+            widget: object
+            fields:
+              - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
+          - label: "Молодші групи"
+            name: molodshi
+            widget: object
+            fields:
+              - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
+          - label: "Середні групи"
+            name: seredni
+            widget: object
+            fields:
+              - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
+          - label: "Старші групи"
+            name: starshi
+            widget: object
+            fields:
+              - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
+          - label: "Інклюзивна група"
+            name: inklyuziya
+            widget: object
+            fields:
+              - { label: "Вихователі", name: teachers, widget: list, label_singular: "Педагог", summary: "{{fields.role}} — {{fields.name}}", fields: [ { label: "Роль", name: role, widget: string }, { label: "Прізвище, ім'я та по батькові", name: name, widget: string }, { label: "Фото", name: photo, widget: image, required: false } ] }
