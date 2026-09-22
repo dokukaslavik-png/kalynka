@@ -1,0 +1,63 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: settings
+    label: "Налаштування сайту"
+    files:
+      - name: contacts
+        label: "Контакти та назва закладу"
+        file: "content/settings.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Коротка назва", name: name, widget: string }
+          - { label: "Повна офіційна назва", name: full, widget: string }
+          - { label: "Адреса", name: addr, widget: string }
+          - { label: "Телефон", name: phone, widget: string }
+          - { label: "Email", name: email, widget: string }
+          - { label: "Графік роботи", name: hours, widget: string }
+          - { label: "Facebook (посилання)", name: facebook, widget: string, required: false }
+          - { label: "Telegram (посилання)", name: telegram, widget: string, required: false }
+          - { label: "YouTube (посилання)", name: youtube, widget: string, required: false }
+
+  - name: news
+    label: "Новини"
+    files:
+      - name: list
+        label: "Новини (список)"
+        file: "content/news.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Новини"
+            name: items
+            widget: list
+            label_singular: "Новина"
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - { label: "Дата", name: date, widget: string, hint: "Напр.: 05 вересня 2025" }
+              - { label: "Заголовок", name: title, widget: string }
+              - { label: "Текст (необовʼязково)", name: text, widget: text, required: false }
+              - { label: "Фото (необовʼязково)", name: image, widget: image, required: false }
+
+  - name: gallery
+    label: "Фотогалерея"
+    files:
+      - name: list
+        label: "Фото галереї"
+        file: "content/gallery.json"
+        editor:
+          preview: false
+        fields:
+          - label: "Фотографії"
+            name: items
+            widget: list
+            label_singular: "Фото"
+            fields:
+              - { label: "Фото", name: image, widget: image }
+              - { label: "Підпис (необовʼязково)", name: caption, widget: string, required: false }
