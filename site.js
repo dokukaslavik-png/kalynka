@@ -99,12 +99,10 @@
 
     var header =
     '<div class="topbar"><div class="wrap">'+
-      '<a href="dokumenty.html">🍎 Меню харчування</a>'+
-      '<a href="podii.html">📅 Календар подій</a>'+
-      '<a href="galereya.html">📸 Галерея</a>'+
-      '<a href="batkam.html">🧠 Психолог</a>'+
-      '<a href="kontakty.html">📞 Контакти</a>'+
-      '<span class="sep"></span><span class="tb-contact">'+esc(INFO.addr)+'</span>'+
+      '<a class="tb-phone" href="tel:'+esc(INFO.phone).replace(/[^0-9+]/g,'')+'">📞 '+esc(INFO.phone)+'</a>'+
+      '<span class="tb-hours">🕒 '+esc(INFO.hours)+'</span>'+
+      '<span class="sep"></span>'+
+      '<span class="tb-contact">📍 '+esc(INFO.addr)+'</span>'+
     '</div></div>'+
     '<header class="header"><div class="wrap">'+
       '<a class="brand" href="index.html"><span class="mark">'+kalynaSVG+'</span>'+
