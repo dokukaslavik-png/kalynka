@@ -58,7 +58,28 @@ main{display:block}
 .nav a::after{content:"";position:absolute;left:13px;right:13px;bottom:9px;height:3px;border-radius:3px;background:var(--sun);transform:scaleX(0);transform-origin:left;transition:transform .22s}
 .nav a.active::after,.nav a:hover::after{transform:scaleX(1)}
 .nav .home{display:grid;place-items:center;padding-inline:14px}
-.burger{display:none;margin-left:auto;background:none;border:0;color:#fff;padding:12px;cursor:pointer;font-weight:800;font-size:1rem}
+.nav-links{display:flex;align-items:center;flex-wrap:wrap}
+/* кнопка «Меню» */
+.megabtn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);color:#fff;border:0;font-family:'Nunito';font-weight:800;font-size:.95rem;padding:11px 18px;border-radius:999px;cursor:pointer;margin-right:8px;transition:background .2s}
+.megabtn:hover{background:rgba(255,255,255,.28)}
+.megabtn .mb-ic{font-size:1.05rem;line-height:1}
+.burger{display:none}
+/* мега-панель */
+.mega{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-top:3px solid var(--sun);border-radius:0 0 26px 26px;box-shadow:0 30px 50px -24px rgba(43,107,65,.55);max-height:0;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .22s ease,max-height .3s ease;z-index:40}
+.mega.open{opacity:1;visibility:visible;max-height:82vh;overflow:auto}
+.mega-inner{width:min(1160px,92%);margin-inline:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;padding:28px 0 32px}
+.mega-col h4{font-family:'Comfortaa',cursive;color:var(--leaf-deep);font-size:1.05rem;margin:0 0 10px;padding-bottom:9px;border-bottom:2px solid var(--line)}
+.mega-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;color:var(--ink);font-weight:700;font-size:.95rem;transition:background .15s,color .15s,padding .15s}
+.mega-link .mi{width:26px;text-align:center;font-size:1.15rem;flex:none}
+.mega-link:hover{background:var(--leaf-soft);color:var(--leaf-deep);padding-left:14px}
+/* перебиваємо світлий колір .nav a всередині мега-панелі */
+.nav .mega-link{color:var(--ink)}
+.nav .mega-link:hover{color:var(--leaf-deep)}
+.nav .mega-link::after{display:none}
+.mega-top{display:none}
+.mega-backdrop{position:fixed;inset:0;background:rgba(30,40,32,.4);opacity:0;visibility:hidden;transition:opacity .2s;z-index:35}
+.mega-backdrop.open{opacity:1;visibility:visible}
+body.mega-lock{overflow:hidden}
 
 /* ---------- КНОПКИ ---------- */
 .btn{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-family:'Nunito';padding:13px 24px;border-radius:999px;cursor:pointer;border:0;transition:transform .18s,box-shadow .18s;font-size:1rem}
@@ -347,12 +368,20 @@ img{height:auto}
   /* навігація — бургер-меню */
   .nav .wrap{flex-wrap:nowrap}
   .nav .home{display:none}
-  .nav-links{display:none;width:100%;flex-direction:column;padding-bottom:6px}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:15px 8px;font-size:1.02rem;border-bottom:1px solid rgba(255,255,255,.15)}
-  .nav-links a::after{display:none}
-  .nav-links a.active{background:rgba(255,255,255,.12);border-radius:10px}
-  .burger{display:block;font-size:1.05rem;padding:14px 4px}
+  .nav-links{display:none}
+  .megabtn{margin:0;width:100%;justify-content:center;font-size:1.05rem;padding:13px 16px}
+  /* мега — повноекранний оверлей */
+  .mega{position:fixed;inset:0;border-radius:0;border-top:0;max-height:none;box-shadow:none}
+  .mega.open{max-height:none;height:100%}
+  .mega-inner{width:100%;grid-template-columns:1fr;gap:0;padding:0 0 40px}
+  .mega-col{padding:4px 18px}
+  .mega-col h4{font-size:1.15rem;margin:16px 0 4px}
+  .mega-link{padding:14px 10px;font-size:1.05rem;border-bottom:1px solid var(--line)}
+  .mega-link:hover{padding-left:10px}
+  .mega-top{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--paper);padding:16px 18px;border-bottom:1px solid var(--line);z-index:2}
+  .mega-title{font-family:'Comfortaa',cursive;font-weight:700;font-size:1.3rem;color:var(--kalyna)}
+  .mega-close{background:var(--leaf-soft);color:var(--leaf-deep);border:0;width:42px;height:42px;border-radius:50%;font-size:1.15rem;font-weight:800;cursor:pointer;line-height:1}
+  .mega-backdrop{display:none}
 
   /* герой */
   .hero .wrap{padding-block:30px 36px;gap:22px}
