@@ -31,7 +31,9 @@ main{display:block}
 .topbar a{padding:5px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
 .topbar a:hover{background:rgba(255,255,255,.14)}
 .topbar .sep{flex:1}
-.topbar .tb-contact{opacity:.85}
+.topbar .tb-contact{opacity:.9;display:inline-flex;align-items:center;gap:6px}
+.topbar .tb-phone{font-weight:800}
+.topbar .tb-hours{padding:5px 12px;opacity:.9;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 
 /* ---------- ШАПКА ---------- */
 .header{background:var(--paper);position:relative;z-index:20}
