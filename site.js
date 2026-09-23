@@ -160,18 +160,64 @@
     if(mClose) mClose.addEventListener('click', function(){ setMega(false); });
 
     // поява секцій + лічильники
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          e.target.classList.add('in');
-          var counters = e.target.querySelectorAll ? e.target.querySelectorAll('[data-count]') : [];
-          counters.forEach(runCount);
-          if(e.target.hasAttribute && e.target.hasAttribute('data-count')) runCount(e.target);
-          io.unobserve(e.target);
+    var seen = (typeof WeakSet==='function') ? new WeakSet() : null;
+    function markIn(el){
+      el.classList.add('in');
+      var counters = el.querySelectorAll ? el.querySelectorAll('[data-count]') : [];
+      counters.forEach(runCount);
+      if(el.hasAttribute && el.hasAttribute('data-count')) runCount(el);
+    }
+
+    if(!('IntersectionObserver' in window)){
+      // старий браузер — просто показуємо все
+      document.querySelectorAll('.reveal').forEach(markIn);
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ markIn(e.target); io.unobserve(e.target); }
+        });
+      },{threshold:.12});
+
+      // спостерігаємо за всіма .reveal — і за тими, що додаються пізніше (fetch)
+      function scanReveals(root){
+        var list = (root||document).querySelectorAll('.reveal');
+        for(var i=0;i<list.length;i++){
+          var el=list[i];
+          if(el.classList.contains('in')) continue;
+          if(seen){ if(seen.has(el)) continue; seen.add(el); }
+          io.observe(el);
         }
-      });
-    },{threshold:.15});
-    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+      }
+      scanReveals(document);
+
+      // ловимо контент, який рендериться після завантаження (цитати, проєкти, заняття тощо)
+      if('MutationObserver' in window){
+        var mo = new MutationObserver(function(muts){
+          for(var i=0;i<muts.length;i++){
+            var added=muts[i].addedNodes;
+            for(var j=0;j<added.length;j++){
+              var n=added[j];
+              if(n.nodeType!==1) continue;
+              if(n.classList && n.classList.contains('reveal') && !n.classList.contains('in')){
+                if(!seen || !seen.has(n)){ if(seen) seen.add(n); io.observe(n); }
+              }
+              if(n.querySelectorAll) scanReveals(n);
+            }
+          }
+        });
+        mo.observe(document.body,{childList:true,subtree:true});
+      }
+
+      // запобіжник: якщо секцію не «зловило» — показуємо через 2.5с
+      setTimeout(function(){
+        document.querySelectorAll('.reveal:not(.in)').forEach(function(el){
+          var r=el.getBoundingClientRect();
+          if(r.top < window.innerHeight && r.bottom > 0) markIn(el);
+        });
+      }, 2500);
+
+      window.kalynkaScanReveals = scanReveals;
+    }
 
     function runCount(el){
       if(el.dataset.done) return; el.dataset.done = 1;
