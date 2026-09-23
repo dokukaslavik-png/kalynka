@@ -4,32 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Контакти — ЗДО №45 «Калинка»</title>
-<meta name="description" content="Контакти садочка «Калинка» №45 у Вінниці: телефон, email, адреса, форма звʼязку.">
+<meta name="description" content="Контакти садочка «Калинка» №45 у Вінниці: телефон, email, адреса, карта та форма звʼязку.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+/* --- Контакти: локальні стилі сторінки --- */
+.contact-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ccard{background:#fff;border-radius:20px;padding:24px 18px;text-align:center;box-shadow:var(--shadow-soft);border:1px solid var(--line);border-top:4px solid var(--kalyna);transition:transform .2s,box-shadow .2s;color:inherit;display:block}
+.ccard:nth-child(2){border-top-color:var(--leaf)}
+.ccard:nth-child(3){border-top-color:var(--sky)}
+.ccard:nth-child(4){border-top-color:var(--sun)}
+.ccard:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.ccard .cic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-size:1.7rem;background:var(--blush-soft)}
+.ccard:nth-child(2) .cic{background:var(--leaf-soft)}
+.ccard:nth-child(3) .cic{background:#e6f3f8}
+.ccard:nth-child(4) .cic{background:#fdf3d8}
+.ccard .clabel{font-family:'Comfortaa',cursive;font-weight:700;color:var(--leaf-deep);font-size:.95rem;margin-bottom:5px}
+.ccard .cval{color:var(--ink-soft);font-weight:700;font-size:.96rem;word-break:break-word}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch;margin-top:30px}
+.contact-grid .form{margin:0}
+.map-wrap{display:flex;flex-direction:column;gap:14px}
+.map-card{border-radius:22px;overflow:hidden;box-shadow:var(--shadow-soft);border:1px solid var(--line);flex:1;min-height:360px;background:var(--leaf-soft)}
+.map-card iframe{width:100%;height:100%;min-height:360px;border:0;display:block}
+.contact-cta{text-align:center;margin-top:40px;background:linear-gradient(140deg,var(--leaf),var(--leaf-deep));color:#fff;border-radius:28px;padding:38px 26px;box-shadow:var(--shadow)}
+.contact-cta .script{font-family:'Caveat',cursive;font-weight:700;font-size:2.1rem;color:#ffe6a8;display:block;line-height:1}
+.contact-cta h2{color:#fff;font-size:1.6rem;margin:4px 0 16px}
+.contact-cta .btn{margin:5px}
+@media(max-width:1000px){.contact-cards{grid-template-columns:repeat(2,1fr)}.contact-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.contact-cards{grid-template-columns:1fr 1fr;gap:12px}.ccard{padding:20px 12px}}
+</style>
 </head>
 <body data-page="kontakty">
 <main>
-<section class="page-hero"><svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg><div class="wrap"><nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Контакти</nav><span class="script eyebrow">Завітайте до нас</span><h1>Контакти</h1><p class="lead">Зателефонуйте, напишіть або приходьте в гості — ми завжди раді!</p></div></section><section><div class="wrap"><div class="two-cols">
-<div class="reveal side-card">
-<h3>Наші контакти</h3>
-<p style="color:var(--ink-soft);font-weight:600">📍 21027, м. Вінниця, вул. 600-річчя, 56</p>
-<p style="color:var(--ink-soft);font-weight:600">📞 <a href="tel:0432561075" style="color:var(--kalyna)">(0432) 56-10-75</a></p>
-<p style="color:var(--ink-soft);font-weight:600">✉️ <a href="mailto:dnz45.edu.vn.ua@gmail.com" style="color:var(--kalyna)">dnz45.edu.vn.ua@gmail.com</a></p>
-<p style="color:var(--ink-soft);font-weight:600">🕒 Пн–Пт, 7:30–18:30</p>
-<div class="ph-note" style="margin-top:14px">🗺️ Тут можна вставити карту Google Maps.</div>
-</div>
-<form class="form reveal" id="cform">
-<h3 style="color:var(--leaf-deep);margin-bottom:6px">Написати нам</h3>
-<label for="nm">Ваше ім'я</label><input id="nm" required placeholder="Наприклад, Олена">
-<label for="ph">Телефон або email</label><input id="ph" required placeholder="Як з вами звʼязатися">
-<label for="ms">Повідомлення</label><textarea id="ms" required placeholder="Ваше запитання…"></textarea>
-<div style="margin-top:16px"><button class="btn btn-primary" type="submit">Надіслати</button></div>
-<div class="ok" id="cok">✅ Дякуємо! Ми звʼяжемося з вами найближчим часом.</div>
-</form>
-</div></div></section>
+
+<section class="page-hero">
+  <svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg>
+  <div class="wrap">
+    <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Контакти</nav>
+    <span class="script eyebrow">Завітайте до нас</span>
+    <h1>Контакти</h1>
+    <p class="lead">Зателефонуйте, напишіть або приходьте в гості — ми завжди раді бачити вас і ваших малюків!</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <!-- КАРТКИ КОНТАКТІВ -->
+    <div class="contact-cards">
+      <a class="ccard reveal" href="https://maps.google.com/maps?q=%D0%B2%D1%83%D0%BB.%20600-%D1%80%D1%96%D1%87%D1%87%D1%8F%2C%2056%2C%20%D0%92%D1%96%D0%BD%D0%BD%D0%B8%D1%86%D1%8F" target="_blank" rel="noopener">
+        <div class="cic">📍</div><div class="clabel">Адреса</div>
+        <div class="cval">21027, м. Вінниця,<br>вул. 600-річчя, 56</div>
+      </a>
+      <a class="ccard reveal" href="tel:0432561075">
+        <div class="cic">📞</div><div class="clabel">Телефон</div>
+        <div class="cval">(0432) 56-10-75</div>
+      </a>
+      <a class="ccard reveal" href="mailto:dnz45.edu.vn.ua@gmail.com">
+        <div class="cic">✉️</div><div class="clabel">Пошта</div>
+        <div class="cval">dnz45.edu.vn.ua@gmail.com</div>
+      </a>
+      <div class="ccard reveal">
+        <div class="cic">🕒</div><div class="clabel">Графік роботи</div>
+        <div class="cval">Пн–Пт<br>7:30 – 18:30</div>
+      </div>
+    </div>
+
+    <!-- ФОРМА + КАРТА -->
+    <div class="contact-grid">
+      <form class="form reveal" id="cform">
+        <h3 style="color:var(--leaf-deep);margin-bottom:4px;font-size:1.4rem">Напишіть нам ✍️</h3>
+        <p style="color:var(--ink-soft);font-weight:600;margin:0 0 6px;font-size:.95rem">Залиште повідомлення — ми відповімо найближчим часом.</p>
+        <label for="nm">Ваше ім'я</label><input id="nm" required placeholder="Наприклад, Олена">
+        <label for="ph">Телефон або email</label><input id="ph" required placeholder="Як з вами звʼязатися">
+        <label for="ms">Повідомлення</label><textarea id="ms" required placeholder="Ваше запитання…"></textarea>
+        <div style="margin-top:16px"><button class="btn btn-primary" type="submit">Надіслати повідомлення</button></div>
+        <div class="ok" id="cok">✅ Дякуємо! Ми звʼяжемося з вами найближчим часом.</div>
+      </form>
+
+      <div class="map-wrap reveal">
+        <div class="map-card">
+          <iframe title="Карта — ЗДО №45 «Калинка»" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=%D0%B2%D1%83%D0%BB.%20600-%D1%80%D1%96%D1%87%D1%87%D1%8F%2C%2056%2C%20%D0%92%D1%96%D0%BD%D0%BD%D0%B8%D1%86%D1%8F&z=16&output=embed"></iframe>
+        </div>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=%D0%B2%D1%83%D0%BB.%20600-%D1%80%D1%96%D1%87%D1%87%D1%8F%2C%2056%2C%20%D0%92%D1%96%D0%BD%D0%BD%D0%B8%D1%86%D1%8F" target="_blank" rel="noopener" style="justify-content:center">🧭 Прокласти маршрут</a>
+      </div>
+    </div>
+
+    <!-- ЗАКЛИК -->
+    <div class="contact-cta reveal">
+      <span class="script">Ласкаво просимо!</span>
+      <h2>Хочете записати дитину чи завітати на екскурсію?</h2>
+      <a class="btn btn-primary" href="tel:0432561075">📞 Зателефонувати</a>
+      <a class="btn btn-sun" href="grupy.html">👨‍👩‍👧 Наші групи</a>
+    </div>
+  </div>
+</section>
+
 </main>
 <script src="site.js"></script>
 <script>
