@@ -27,6 +27,36 @@
     ['kontakty.html','kontakty','Контакти']
   ];
 
+  // --- велике меню (мега): згруповані розділи з підрозділами ---
+  var MEGA = [
+    ['Про заклад', [
+      ['index.html','Головна','🏠'],
+      ['pro-zaklad.html','Про заклад','🏛️'],
+      ['galereya.html','Фотогалерея','📸'],
+      ['dokumenty.html','Документи','📄']
+    ]],
+    ['Наші групи', [
+      ['grupy.html','Усі групи','👨‍👩‍👧'],
+      ['grupa-ranniy.html','Ранній вік','🐣'],
+      ['grupa-molodshi.html','Молодші групи','🎨'],
+      ['grupa-seredni.html','Середні групи','🔭'],
+      ['grupa-starshi.html','Старші групи','🚀'],
+      ['grupa-inklyuziya.html','Інклюзивна група','💛']
+    ]],
+    ['Навчання', [
+      ['osvitniy-proces.html','Освітній процес','📚'],
+      ['osvitniy-proces.html#gurtky','Гуртки','🎭'],
+      ['proekty.html','Проєкти','🌿']
+    ]],
+    ['Батькам і дітям', [
+      ['batkam.html','Батькам','🧠'],
+      ['dityam.html','Дітям — ігри','🎮'],
+      ['novyny.html','Новини','📰'],
+      ['podii.html','Афіша подій','📅'],
+      ['kontakty.html','Контакти','📞']
+    ]]
+  ];
+
   var kalynaSVG =
     '<svg viewBox="0 0 120 120" aria-hidden="true">'+
     '<g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/>'+
@@ -56,6 +86,17 @@
       return '<a href="'+n[0]+'"'+active+'>'+n[2]+'</a>';
     }).join('');
 
+    var megaCols = MEGA.map(function(col){
+      var links = col[1].map(function(l){
+        return '<a class="mega-link" href="'+l[0]+'"><span class="mi">'+l[2]+'</span> '+l[1]+'</a>';
+      }).join('');
+      return '<div class="mega-col"><h4>'+col[0]+'</h4>'+links+'</div>';
+    }).join('');
+    var megaHTML =
+      '<div class="mega-top"><span class="mega-title">🌼 Меню</span>'+
+        '<button class="mega-close" id="megaClose" aria-label="Закрити">✕</button></div>'+
+      '<div class="mega-inner">'+megaCols+'</div>';
+
     var header =
     '<div class="topbar"><div class="wrap">'+
       '<a href="dokumenty.html">🍎 Меню харчування</a>'+
@@ -77,9 +118,10 @@
       '</div>'+
     '</div></header>'+
     '<nav class="nav"><div class="wrap">'+
-      '<button class="burger" id="burger" aria-label="Меню" aria-expanded="false">☰ Меню</button>'+
+      '<button class="megabtn" id="megaBtn" aria-label="Головне меню" aria-expanded="false"><span class="mb-ic">☰</span> Меню</button>'+
       '<div class="nav-links" id="navLinks">'+navHTML+'</div>'+
-    '</div></nav>';
+    '</div><div class="mega" id="mega">'+megaHTML+'</div></nav>'+
+    '<div class="mega-backdrop" id="megaBackdrop"></div>';
 
     var footer =
     '<footer class="footer"><div class="wrap"><div class="cols">'+
@@ -102,13 +144,22 @@
     document.body.insertAdjacentHTML('afterbegin', header);
     document.body.insertAdjacentHTML('beforeend', footer);
 
-    // мобільне меню
-    var burger = document.getElementById('burger');
-    var navLinks = document.getElementById('navLinks');
-    burger.addEventListener('click', function(){
-      var open = navLinks.classList.toggle('open');
-      burger.setAttribute('aria-expanded', open);
-    });
+    // мега-меню
+    var megaBtn = document.getElementById('megaBtn');
+    var mega = document.getElementById('mega');
+    var backdrop = document.getElementById('megaBackdrop');
+    function setMega(open){
+      mega.classList.toggle('open', open);
+      backdrop.classList.toggle('open', open);
+      megaBtn.setAttribute('aria-expanded', open);
+      document.body.classList.toggle('mega-lock', open);
+    }
+    megaBtn.addEventListener('click', function(){ setMega(!mega.classList.contains('open')); });
+    backdrop.addEventListener('click', function(){ setMega(false); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') setMega(false); });
+    mega.addEventListener('click', function(e){ if(e.target.closest('a')) setMega(false); });
+    var mClose = document.getElementById('megaClose');
+    if(mClose) mClose.addEventListener('click', function(){ setMega(false); });
 
     // поява секцій + лічильники
     var io = new IntersectionObserver(function(entries){
