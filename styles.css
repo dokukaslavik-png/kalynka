@@ -310,6 +310,11 @@ section{padding-block:56px}
 .reveal.in{opacity:1;transform:none}
 
 /* ---------- АДАПТИВ ---------- */
+html{overflow-x:hidden}
+body{overflow-x:hidden}
+[id]{scroll-margin-top:84px}            /* якорі не ховаються під липким меню */
+img{height:auto}
+
 @media(max-width:1000px){
   .hero .wrap,.two-cols,.newsgrid{grid-template-columns:1fr;gap:26px}
   .tiles .grid{grid-template-columns:repeat(3,1fr)}
@@ -318,19 +323,91 @@ section{padding-block:56px}
   .footer .cols{grid-template-columns:1fr 1fr}
   .slogan{display:none}
 }
+
+/* ---------- ПЛАНШЕТИ / ТЕЛЕФОНИ ---------- */
 @media(max-width:760px){
-  .nav .wrap{flex-wrap:nowrap}
-  .nav-links{display:none;width:100%;flex-direction:column;padding-bottom:8px}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 10px}
-  .burger{display:block}
+  section{padding-block:42px}
+  .wrap{width:calc(100% - 32px)}
+
+  /* верхня стрічка — горизонтальний скрол, ховаємо адресу */
+  .topbar{font-size:.82rem}
+  .topbar .wrap{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px;padding-block:4px}
+  .topbar .wrap::-webkit-scrollbar{display:none}
+  .topbar a{white-space:nowrap;padding:7px 11px}
+  .topbar .sep,.topbar .tb-contact{display:none}
+
+  /* шапка */
+  .header .wrap{justify-content:center;text-align:center;gap:10px;padding-block:12px}
   .header-side{display:none}
-  .header .wrap{justify-content:center}
-  .tiles{margin-top:24px}
-  .tiles .grid{grid-template-columns:repeat(2,1fr)}
-  .grid-3,.gal-grid,.stats,.acount,.dgrid{grid-template-columns:1fr}
-  .cinfo{flex-direction:column;gap:12px}
-  .footer .cols{grid-template-columns:1fr}
+  .brand{gap:11px}
+  .brand .mark{width:50px;height:50px}
+  .brand-txt .name{font-size:1.55rem}
+  .brand-txt small{font-size:.64rem;max-width:210px;line-height:1.3}
+
+  /* навігація — бургер-меню */
+  .nav .wrap{flex-wrap:nowrap}
+  .nav .home{display:none}
+  .nav-links{display:none;width:100%;flex-direction:column;padding-bottom:6px}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:15px 8px;font-size:1.02rem;border-bottom:1px solid rgba(255,255,255,.15)}
+  .nav-links a::after{display:none}
+  .nav-links a.active{background:rgba(255,255,255,.12);border-radius:10px}
+  .burger{display:block;font-size:1.05rem;padding:14px 4px}
+
+  /* герой */
+  .hero .wrap{padding-block:30px 36px;gap:22px}
+  .hero-copy h1{font-size:1.05rem}
+  .hero-copy p{font-size:1rem;margin:14px 0 22px}
+  .hero-btns{gap:10px}
+  .hero-btns .btn{flex:1 1 46%;justify-content:center}
+  .hero-photo .tag{font-size:1.2rem;padding:5px 14px;max-width:90%;text-align:center}
+  .hero .kalyna-deco{width:96px;left:-14px}
+  .page-hero{padding-block:26px 30px}
+  .page-hero .kalyna-deco{width:90px}
+
+  /* сітки */
+  .tiles{margin-top:20px}
+  .tiles .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid-3,.gal-grid,.dgrid{grid-template-columns:1fr}
+  .stats,.acount{grid-template-columns:repeat(2,1fr);gap:12px}
+  .cinfo{flex-direction:column;gap:10px}
+  .footer .cols{grid-template-columns:1fr;gap:22px}
+
+  /* дрібниці */
+  .sec-head{margin-bottom:26px}
+  .achieve{padding:32px 20px;border-radius:24px}
+  .acount .n{font-size:2.3rem}
+  .voice p{font-size:1.4rem}
+  .btn{padding:13px 22px}
+  .subtiles{gap:10px}
+  .subtile{min-width:0;width:100%}
+  .gcard{min-height:150px}
+  .newsgrid{gap:24px}
+  .nitem .thumb{width:80px;height:66px;font-size:1.7rem}
+  .form{padding:20px}
+  .cta-contact .script{font-size:1.9rem}
+
+  /* ІГРИ — підгін під малий екран */
+  .game{padding:22px 16px;border-radius:20px}
+  .game>h2{font-size:1.3rem}
+  .mem-grid{gap:8px;max-width:340px}
+  .mem-card{font-size:1.7rem}
+  .xo-grid{grid-template-columns:repeat(3,74px)}
+  .xo-cell{width:74px;height:74px;font-size:2rem}
+  .dpad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,52px)}
+  .dpad button{font-size:1.2rem}
+  .catch-area{height:240px}
+}
+
+/* ---------- МАЛЕНЬКІ ТЕЛЕФОНИ ---------- */
+@media(max-width:400px){
+  .hero-title{font-size:2.5rem}
+  .brand-txt .name{font-size:1.4rem}
+  .brand-txt small{max-width:190px}
+  .stat .num{font-size:2rem}
+  .xo-grid{grid-template-columns:repeat(3,64px)}
+  .xo-cell{width:64px;height:64px;font-size:1.8rem}
+  .btn{padding:12px 18px;font-size:.95rem}
 }
 @media(prefers-reduced-motion:reduce){
   *{scroll-behavior:auto}
