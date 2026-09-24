@@ -1,11 +1,17 @@
 /* edit.js — редагування вмісту «на місці» для адміністратора (мами).
-   Вхід через Netlify Identity, збереження у GitHub через Git Gateway.
-   Нічого зайвого для звичайних відвідувачів: панель зʼявляється лише після входу. */
+   Вхід через GitHub (працює на будь-якому хостингу, незалежно від Netlify).
+   Збереження — напряму у репозиторій GitHub через його API.
+   Панель зʼявляється лише після входу; звичайні відвідувачі бачать хіба маленьку кнопку «Вхід». */
 (function(){
   'use strict';
 
-  var GG = '/.netlify/git/github';           // Git Gateway
-  var BRANCH = 'main';
+  // ── НАЛАШТУВАННЯ РЕПОЗИТОРІЮ (за потреби зміни) ──
+  var GH_OWNER  = 'dokukaslavik-png';
+  var GH_REPO   = 'kalynka';
+  var GH_BRANCH = 'main';
+  var AUTH_URL  = '/api/auth';          // Vercel-функція входу
+  var API       = 'https://api.github.com';
+  var TOKEN_KEY = 'kalynka_gh_token';
   var MEDIA_DIR = 'images/uploads';
 
   // ── ТЕСТ-РЕЖИМ (лише локально): #edittest показує панель без входу, зберігає в консоль ──
@@ -22,9 +28,10 @@
     return e;
   }
   function clone(o){return JSON.parse(JSON.stringify(o==null?null:o));}
+  function getToken(){ try{ return localStorage.getItem(TOKEN_KEY)||''; }catch(e){ return ''; } }
+  function setToken(t){ try{ if(t) localStorage.setItem(TOKEN_KEY,t); else localStorage.removeItem(TOKEN_KEY); }catch(e){} }
 
   // ───────── схеми вмісту ─────────
-  // типи полів: text, textarea, image, file, strlist, objlist
   var S = {
     news:   {label:'Новини', file:'content/news.json', shape:'list', listKey:'items', itemName:'Новина',
              title:function(x){return (x.date?x.date+' — ':'')+(x.title||'(без назви)');},
@@ -52,7 +59,7 @@
              fields:[
                {n:'aboutEyebrow',l:'Підзаголовок «Про нас»',t:'text'},
                {n:'aboutTitle',l:'Заголовок «Про нас»',t:'text'},
-               {n:'about',l:'Текст «Про нас» (абзаци)',t:'strlist',line:true},
+               {n:'about',l:'Текст «Про нас» (абзаци)',t:'strlist'},
                {n:'voices',l:'Цитати дітей',t:'objlist',itemName:'Цитата',title:function(x){return x.kid||x.text||'';},
                  fields:[ {n:'text',l:'Цитата',t:'textarea'}, {n:'kid',l:'Хто сказав',t:'text'}, {n:'avatar',l:'Емодзі',t:'text',opt:true} ]}
              ]},
@@ -102,7 +109,6 @@
              ]}
   };
 
-  // сторінка (data-page) → яку схему редагувати
   var PAGE_MAP = {
     home:'home', novyny:'news', podii:'events', galereya:'gallery', dokumenty:'documents',
     proekty:'projects', batkam:'parents', osvita:'gurtky', pro:'about',
@@ -154,41 +160,33 @@
     document.body.appendChild(t);
     setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(function(){t.remove();}, 400); }, ms||3500);
   }
+  function clearToasts(){ document.querySelectorAll('.e-toast').forEach(function(x){x.remove();}); }
 
-  // ───────── Git Gateway ─────────
-  function jwt(){
-    if(TEST) return Promise.resolve('test');
-    var u = window.netlifyIdentity && window.netlifyIdentity.currentUser();
-    if(!u) return Promise.reject(new Error('Не виконано вхід'));
-    return u.jwt();
+  // ───────── GitHub API ─────────
+  function ghHeaders(){ return {'Authorization':'token '+getToken(), 'Accept':'application/vnd.github+json'}; }
+  function handle(r){
+    if(r.status===401){ setToken(''); buildBar(false); throw new Error('AUTH'); }
+    if(r.status===404) return null;
+    if(!r.ok) return r.text().then(function(t){ throw new Error(r.status+' '+t); });
+    return r.json();
   }
-  function ggGet(path){
-    return jwt().then(function(tok){
-      return fetch(GG+'/contents/'+path+'?ref='+BRANCH, {headers:{Authorization:'Bearer '+tok}})
-        .then(function(r){ if(r.status===404) return null; if(!r.ok) throw new Error('GET '+r.status); return r.json(); });
-    });
+  function ghGet(path){
+    return fetch(API+'/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+encodeURI(path)+'?ref='+GH_BRANCH, {headers:ghHeaders(), cache:'no-store'}).then(handle);
   }
-  function ggPut(path, contentB64, message, sha){
-    return jwt().then(function(tok){
-      var body={branch:BRANCH, message:message, content:contentB64};
-      if(sha) body.sha=sha;
-      return fetch(GG+'/contents/'+path, {method:'PUT', headers:{Authorization:'Bearer '+tok,'Content-Type':'application/json'}, body:JSON.stringify(body)})
-        .then(function(r){ if(!r.ok) return r.text().then(function(t){throw new Error('PUT '+r.status+' '+t);}); return r.json(); });
-    });
+  function ghPut(path, contentB64, message, sha){
+    var body={message:message, content:contentB64, branch:GH_BRANCH};
+    if(sha) body.sha=sha;
+    var h=ghHeaders(); h['Content-Type']='application/json';
+    return fetch(API+'/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+encodeURI(path), {method:'PUT', headers:h, body:JSON.stringify(body)}).then(handle);
   }
 
-  // завантажити поточний JSON (+sha) для редагування
   function loadData(){
-    if(TEST){
-      return fetch(schema.file,{cache:'no-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){return {data:j, sha:null};});
-    }
-    return ggGet(schema.file).then(function(res){
+    if(TEST){ return fetch(schema.file,{cache:'no-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){return {data:j, sha:null};}); }
+    return ghGet(schema.file).then(function(res){
       if(!res) return {data:{}, sha:null};
       return {data: JSON.parse(b64dec(res.content)), sha: res.sha};
     });
   }
-
-  // завантажити файл-картинку → повернути шлях /images/uploads/...
   function uploadFile(fileObj){
     return new Promise(function(resolve,reject){
       var reader=new FileReader();
@@ -197,43 +195,29 @@
         var safe=fileObj.name.replace(/[^a-zA-Z0-9._-]/g,'_');
         var path=MEDIA_DIR+'/'+Date.now()+'_'+safe;
         if(TEST){ console.log('[TEST upload]', path); resolve('/'+path); return; }
-        ggPut(path, b64, 'upload: '+safe).then(function(){ resolve('/'+path); }).catch(reject);
+        ghPut(path, b64, 'upload: '+safe).then(function(){ resolve('/'+path); }).catch(reject);
       };
       reader.onerror=reject;
       reader.readAsDataURL(fileObj);
     });
   }
 
-  // ───────── рендер полів ─────────
-  // повертає {el, get:()=>value}
+  // ───────── рендер полів (без змін) ─────────
   function fieldControl(f, value){
-    if(f.t==='text'){
-      var inp=el('input',{type:'text',value:value==null?'':String(value)});
-      return {el:inp, get:function(){return inp.value;}};
-    }
-    if(f.t==='textarea'){
-      var ta=el('textarea',{}); ta.value=value==null?'':String(value);
-      return {el:ta, get:function(){return ta.value;}};
-    }
+    if(f.t==='text'){ var inp=el('input',{type:'text',value:value==null?'':String(value)}); return {el:inp, get:function(){return inp.value;}}; }
+    if(f.t==='textarea'){ var ta=el('textarea',{}); ta.value=value==null?'':String(value); return {el:ta, get:function(){return ta.value;}}; }
     if(f.t==='image'||f.t==='file'){
       var cur={v:value==null?'':String(value)};
-      var wrap=el('div',{class:'e-img'});
-      var prev=el('div');
-      function refresh(){
-        prev.innerHTML='';
-        if(cur.v){
-          if(f.t==='image') prev.appendChild(el('img',{src:cur.v,alt:''}));
-          else prev.appendChild(el('div',{class:'fn',text:cur.v}));
-        } else prev.appendChild(el('div',{class:'fn',text:'— не додано —'}));
-      }
+      var wrap=el('div',{class:'e-img'}); var prev=el('div');
+      function refresh(){ prev.innerHTML=''; if(cur.v){ if(f.t==='image') prev.appendChild(el('img',{src:cur.v,alt:''})); else prev.appendChild(el('div',{class:'fn',text:cur.v})); } else prev.appendChild(el('div',{class:'fn',text:'— не додано —'})); }
       refresh();
       var inp=el('input',{type:'file'});
       if(f.t==='image') inp.setAttribute('accept','image/*'); else inp.setAttribute('accept','.pdf,application/pdf');
       inp.addEventListener('change',function(){
         if(!inp.files||!inp.files[0])return;
         toast('Завантажую файл…',false,60000);
-        uploadFile(inp.files[0]).then(function(p){ cur.v=p; refresh(); document.querySelectorAll('.e-toast').forEach(function(x){x.remove();}); toast('Файл додано 👍',false,1800); })
-          .catch(function(e){ document.querySelectorAll('.e-toast').forEach(function(x){x.remove();}); toast('Не вдалося завантажити файл',true); });
+        uploadFile(inp.files[0]).then(function(p){ cur.v=p; refresh(); clearToasts(); toast('Файл додано 👍',false,1800); })
+          .catch(function(e){ clearToasts(); toast('Не вдалося завантажити файл',true); });
       });
       wrap.appendChild(prev); wrap.appendChild(inp);
       return {el:wrap, get:function(){return cur.v;}};
@@ -241,22 +225,10 @@
     if(f.t==='strlist'){
       var arr=Array.isArray(value)?value.slice():[];
       var box=el('div',{class:'e-rows'});
-      function render(){
-        box.innerHTML='';
-        arr.forEach(function(s,i){
-          var ta=el('textarea',{}); ta.value=s; ta.style.minHeight='46px';
-          ta.addEventListener('input',function(){arr[i]=ta.value;});
-          var del=el('button',{class:'del',type:'button',text:'✕'});
-          del.addEventListener('click',function(){arr.splice(i,1);render();});
-          var row=el('div',{class:'e-row'},[ta,del]);
-          box.appendChild(row);
-        });
-      }
+      function render(){ box.innerHTML=''; arr.forEach(function(s,i){ var ta=el('textarea',{}); ta.value=s; ta.style.minHeight='46px'; ta.addEventListener('input',function(){arr[i]=ta.value;}); var del=el('button',{class:'del',type:'button',text:'✕'}); del.addEventListener('click',function(){arr.splice(i,1);render();}); box.appendChild(el('div',{class:'e-row'},[ta,del])); }); }
       render();
-      var add=el('button',{class:'e-add',type:'button',text:'➕ Додати'});
-      add.addEventListener('click',function(){arr.push('');render();});
-      var w=el('div',{},[box,add]);
-      return {el:w, get:function(){return arr.filter(function(s){return String(s).trim()!=='';});}};
+      var add=el('button',{class:'e-add',type:'button',text:'➕ Додати'}); add.addEventListener('click',function(){arr.push('');render();});
+      return {el:el('div',{},[box,add]), get:function(){return arr.filter(function(s){return String(s).trim()!=='';});}};
     }
     if(f.t==='objlist'){
       var list=Array.isArray(value)?clone(value):[];
@@ -273,101 +245,82 @@
         });
       }
       render();
-      var add=el('button',{class:'e-add',type:'button',text:'➕ Додати '+(f.itemName||'пункт')});
-      add.addEventListener('click',function(){ itemForm(f, {}, function(res){ list.push(res); render(); }); });
-      var w=el('div',{},[box,add]);
-      return {el:w, get:function(){return list;}};
+      var add=el('button',{class:'e-add',type:'button',text:'➕ Додати '+(f.itemName||'пункт')}); add.addEventListener('click',function(){ itemForm(f, {}, function(res){ list.push(res); render(); }); });
+      return {el:el('div',{},[box,add]), get:function(){return list;}};
     }
-    // fallback
-    var d=el('input',{type:'text',value:value==null?'':String(value)});
-    return {el:d, get:function(){return d.value;}};
+    var d=el('input',{type:'text',value:value==null?'':String(value)}); return {el:d, get:function(){return d.value;}};
   }
-
   function fieldBlock(f, value){
     var ctl=fieldControl(f, value);
-    var lab=el('label',{text:f.l+(f.opt?' (необовʼязково)':'')});
-    var kids=[lab];
+    var kids=[el('label',{text:f.l+(f.opt?' (необовʼязково)':'')})];
     if(f.hint) kids.push(el('div',{class:'hint',text:f.hint}));
     kids.push(ctl.el);
-    var block=el('div',{class:'e-field'},kids);
-    return {el:block, name:f.n, get:ctl.get};
+    return {el:el('div',{class:'e-field'},kids), name:f.n, get:ctl.get};
   }
-
-  // модалка «редагувати один елемент» (для objlist та list-item)
   function itemForm(schemaLike, data, onOk){
-    var controls=[];
-    var body=el('div',{class:'e-body'});
-    (schemaLike.fields||[]).forEach(function(f){
-      var b=fieldBlock(f, data?data[f.n]:undefined);
-      controls.push(b); body.appendChild(b.el);
-    });
+    var controls=[]; var body=el('div',{class:'e-body'});
+    (schemaLike.fields||[]).forEach(function(f){ var b=fieldBlock(f, data?data[f.n]:undefined); controls.push(b); body.appendChild(b.el); });
     var save=el('button',{class:'e-save',type:'button',text:'Готово'});
     var cancel=el('button',{class:'e-cancel',type:'button',text:'Скасувати'});
-    var head=el('div',{class:'e-head'},[el('h3',{text:(schemaLike.itemName||'Елемент')}), (function(){var x=el('button',{class:'x',type:'button',text:'✕'});x.addEventListener('click',close);return x;})()]);
-    var foot=el('div',{class:'e-foot'},[cancel,save]);
-    var modal=el('div',{class:'e-modal'},[head,body,foot]);
-    var bg=el('div',{class:'e-modal-bg'},[modal]);
+    var head=el('div',{class:'e-head'},[el('h3',{text:(schemaLike.itemName||'Елемент')}),(function(){var x=el('button',{class:'x',type:'button',text:'✕'});x.addEventListener('click',close);return x;})()]);
+    var bg=el('div',{class:'e-modal-bg'},[el('div',{class:'e-modal'},[head,body,el('div',{class:'e-foot'},[cancel,save])])]);
     function close(){bg.remove();}
     cancel.addEventListener('click',close);
-    save.addEventListener('click',function(){
-      var out={}; controls.forEach(function(c){out[c.name]=c.get();});
-      onOk(out); close();
-    });
+    save.addEventListener('click',function(){ var out={}; controls.forEach(function(c){out[c.name]=c.get();}); onOk(out); close(); });
     document.body.appendChild(bg);
   }
 
-  // головна модалка редагування сторінки
   function openEditor(){
     toast('Завантажую…',false,60000);
     loadData().then(function(res){
-      document.querySelectorAll('.e-toast').forEach(function(x){x.remove();});
-      var working=res.data||{};
-      var sha=res.sha;
-      var body=el('div',{class:'e-body'});
-      var getters=[];
-
+      clearToasts();
+      var working=res.data||{}; var sha=res.sha;
+      var body=el('div',{class:'e-body'}); var getters=[];
       if(schema.shape==='list'){
         body.appendChild(el('div',{class:'e-sub',text:'Додавайте, змінюйте або видаляйте записи. Порядок міняйте стрілками ↑↓.'}));
-        var listField={t:'objlist', itemName:schema.itemName, title:schema.title, fields:schema.fields};
-        var ctl=fieldControl(listField, working[schema.listKey]||[]);
+        var ctl=fieldControl({t:'objlist', itemName:schema.itemName, title:schema.title, fields:schema.fields}, working[schema.listKey]||[]);
         body.appendChild(ctl.el);
         getters.push({apply:function(obj){ obj[schema.listKey]=ctl.get(); }});
       } else {
-        schema.fields.forEach(function(f){
-          var b=fieldBlock(f, working[f.n]);
-          getters.push({apply:function(obj){ obj[f.n]=b.get(); }});
-          body.appendChild(b.el);
-        });
+        schema.fields.forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
       }
-
       var save=el('button',{class:'e-save',type:'button',text:'💾 Зберегти'});
       var cancel=el('button',{class:'e-cancel',type:'button',text:'Скасувати'});
       var head=el('div',{class:'e-head'},[el('h3',{text:'Редагування: '+schema.label}),(function(){var x=el('button',{class:'x',type:'button',text:'✕'});x.addEventListener('click',close);return x;})()]);
-      var foot=el('div',{class:'e-foot'},[cancel,save]);
-      var modal=el('div',{class:'e-modal'},[head,body,foot]);
-      var bg=el('div',{class:'e-modal-bg'},[modal]);
+      var bg=el('div',{class:'e-modal-bg'},[el('div',{class:'e-modal'},[head,body,el('div',{class:'e-foot'},[cancel,save])])]);
       function close(){bg.remove();}
       cancel.addEventListener('click',close);
       save.addEventListener('click',function(){
-        var out=clone(working)||{};
-        getters.forEach(function(g){g.apply(out);});
+        var out=clone(working)||{}; getters.forEach(function(g){g.apply(out);});
         var json=JSON.stringify(out,null,2)+'\n';
         if(TEST){ console.log('[TEST save] '+schema.file+'\n'+json); toast('ТЕСТ: збережено в консоль'); close(); return; }
         save.disabled=true; save.textContent='Зберігаю…';
-        var b64=b64enc(json);
-        ggPut(schema.file, b64, 'edit: '+schema.file+' (сайт)', sha).then(function(){
+        ghPut(schema.file, b64enc(json), 'edit: '+schema.file+' (сайт)', sha).then(function(){
           close(); toast('Збережено! Зміни зʼявляться на сайті за 1–2 хвилини ✅', false, 5000);
         }).catch(function(e){
           save.disabled=false; save.textContent='💾 Зберегти';
-          toast('Помилка збереження. Спробуйте ще раз.', true, 5000);
+          if(String(e.message)==='AUTH') toast('Сесія завершилась. Увійдіть знову.', true, 5000);
+          else toast('Помилка збереження. Спробуйте ще раз.', true, 5000);
         });
       });
       document.body.appendChild(bg);
     }).catch(function(e){
-      document.querySelectorAll('.e-toast').forEach(function(x){x.remove();});
-      toast('Не вдалося завантажити дані для редагування', true);
+      clearToasts();
+      if(String(e.message)==='AUTH') toast('Потрібно ввійти знову', true);
+      else toast('Не вдалося завантажити дані для редагування', true);
     });
   }
+
+  // ───────── вхід через GitHub ─────────
+  function login(){
+    var w=600,h=720, l=(screen.width-w)/2, t=(screen.height-h)/2;
+    window.open(AUTH_URL, 'kalynka_login', 'width='+w+',height='+h+',left='+l+',top='+t);
+  }
+  window.addEventListener('message', function(e){
+    if(!e.data || e.data.source!=='kalynka-auth') return;
+    if(e.data.token){ setToken(e.data.token); buildBar(true); toast('Вхід виконано ✅', false, 2500); }
+    else { toast('Не вдалося увійти'+(e.data.error?': '+e.data.error:''), true, 5000); }
+  });
 
   // ───────── панель адміністратора ─────────
   var bar;
@@ -375,39 +328,20 @@
     if(bar) bar.remove();
     bar=el('div',{class:'eadmin'});
     if(!loggedIn){
-      var login=el('button',{class:'e-key',type:'button',text:'🔑 Вхід',title:'Вхід для адміністратора'});
-      login.addEventListener('click',function(){ if(window.netlifyIdentity) window.netlifyIdentity.open(); });
-      bar.appendChild(login);
+      var lg=el('button',{class:'e-key',type:'button',text:'🔑 Вхід',title:'Вхід для адміністратора'});
+      lg.addEventListener('click',login);
+      bar.appendChild(lg);
     } else {
-      if(schema){
-        var edit=el('button',{class:'e-edit',type:'button',text:'✏️ Редагувати: '+schema.label});
-        edit.addEventListener('click',openEditor);
-        bar.appendChild(edit);
-      } else {
-        bar.appendChild(el('button',{class:'e-key',type:'button',text:'ℹ️ Тут нема що редагувати'}));
-      }
+      if(schema){ var edit=el('button',{class:'e-edit',type:'button',text:'✏️ Редагувати: '+schema.label}); edit.addEventListener('click',openEditor); bar.appendChild(edit); }
+      else bar.appendChild(el('button',{class:'e-key',type:'button',text:'ℹ️ Тут нема що редагувати'}));
       var out=el('button',{class:'e-out',type:'button',text:'Вийти'});
-      out.addEventListener('click',function(){ if(window.netlifyIdentity) window.netlifyIdentity.logout(); });
+      out.addEventListener('click',function(){ setToken(''); buildBar(false); });
       bar.appendChild(out);
     }
     document.body.appendChild(bar);
   }
 
-  // ───────── ініціалізація ─────────
+  // ───────── старт ─────────
   if(TEST){ buildBar(true); return; }
-
-  function loadIdentity(cb){
-    if(window.netlifyIdentity) return cb();
-    var s=document.createElement('script');
-    s.src='https://identity.netlify.com/v1/netlify-identity-widget.js';
-    s.onload=cb; s.onerror=function(){ /* тихо: для відвідувача це не потрібно */ };
-    document.head.appendChild(s);
-  }
-  loadIdentity(function(){
-    if(!window.netlifyIdentity) return;
-    window.netlifyIdentity.on('init', function(user){ buildBar(!!user); });
-    window.netlifyIdentity.on('login', function(){ buildBar(true); if(window.netlifyIdentity) window.netlifyIdentity.close(); });
-    window.netlifyIdentity.on('logout', function(){ buildBar(false); });
-    window.netlifyIdentity.init();
-  });
+  buildBar(!!getToken());
 })();
