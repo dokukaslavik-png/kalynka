@@ -69,7 +69,7 @@ main{display:block}
 /* мега-панель */
 .mega{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-top:3px solid var(--sun);border-radius:0 0 26px 26px;box-shadow:0 30px 50px -24px rgba(43,107,65,.55);max-height:0;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .22s ease,max-height .3s ease;z-index:40}
 .mega.open{opacity:1;visibility:visible;max-height:82vh;overflow:auto}
-.mega-inner{width:min(1160px,92%);margin-inline:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;padding:28px 0 32px}
+.mega-inner{width:min(1160px,92%);margin-inline:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:26px;padding:28px 0 32px}
 .mega-col h4{font-family:'Comfortaa',cursive;color:var(--leaf-deep);font-size:1.05rem;margin:0 0 10px;padding-bottom:9px;border-bottom:2px solid var(--line)}
 .mega-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;color:var(--ink);font-weight:700;font-size:.95rem;transition:background .15s,color .15s,padding .15s}
 .mega-link .mi{width:26px;text-align:center;font-size:1.15rem;flex:none}

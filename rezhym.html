@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Розпорядок дня — ЗДО №45 «Калинка»</title>
+<meta name="description" content="Орієнтовний режим дня у дитячому садочку «Калинка» №45, Вінниця — по годинах.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#3c8c57">
+<link rel="canonical" href="https://kalynka-sadochok.netlify.app/rezhym.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="ЗДО №45 «Калинка»">
+<meta property="og:title" content="Розпорядок дня — ЗДО №45 «Калинка»">
+<meta property="og:description" content="Орієнтовний режим дня у садочку «Калинка» №45, Вінниця — по годинах.">
+<meta property="og:url" content="https://kalynka-sadochok.netlify.app/rezhym.html">
+<meta property="og:image" content="https://kalynka-sadochok.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ЗДО №45 «Калинка», Вінниця">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Розпорядок дня — ЗДО №45 «Калинка»">
+<meta name="twitter:description" content="Орієнтовний режим дня у садочку «Калинка» №45.">
+<meta name="twitter:image" content="https://kalynka-sadochok.netlify.app/og-image.png">
+<style>
+.timeline{max-width:720px;margin:26px auto 0;position:relative;padding-left:8px}
+.tl-item{display:flex;gap:16px;align-items:flex-start;padding:0 0 6px}
+.tl-item .tl-ic{flex:none;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:var(--leaf-soft);box-shadow:var(--shadow-soft)}
+.tl-item:nth-child(2n) .tl-ic{background:var(--blush-soft)}
+.tl-mid{flex:none;display:flex;flex-direction:column;align-items:center;align-self:stretch}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--kalyna);margin-top:20px;border:3px solid #fff;box-shadow:0 0 0 2px var(--kalyna)}
+.tl-line{flex:1;width:3px;background:var(--line);margin:4px 0 -6px}
+.tl-item:last-child .tl-line{display:none}
+.tl-body{flex:1;background:#fff;border-radius:16px;padding:12px 18px;box-shadow:var(--shadow-soft);border:1px solid var(--line);margin-bottom:14px}
+.tl-time{font-family:'Comfortaa',cursive;font-weight:700;color:var(--kalyna-deep);font-size:.92rem}
+.tl-title{color:var(--leaf-deep);font-weight:700;margin-top:2px}
+.rez-note{margin-top:10px}
+@media(max-width:520px){.tl-item .tl-ic{width:46px;height:46px;font-size:1.25rem}.tl-mid{display:none}}
+</style>
+</head>
+<body data-page="rezhym">
+<main>
+<section class="page-hero">
+  <svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg>
+  <div class="wrap">
+    <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> <a href="batkam.html">Батькам</a> <span>/</span> Розпорядок дня</nav>
+    <span class="script eyebrow">День у садочку</span>
+    <h1>Розпорядок дня</h1>
+    <p class="lead" id="rezIntro">Чіткий і затишний ритм дня для наших малюків.</p>
+  </div>
+</section>
+<section><div class="wrap">
+  <div class="timeline" id="rezTimeline"></div>
+  <div class="center rez-note"><div class="ph-note reveal" id="rezNote"></div></div>
+</div></section>
+</main>
+<script src="site.js"></script>
+<script>
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  fetch('content/rezhym.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    if(d.intro){var i=document.getElementById('rezIntro'); if(i)i.textContent=d.intro;}
+    if(d.note){var n=document.getElementById('rezNote'); if(n)n.textContent='ℹ️ '+d.note;}
+    var box=document.getElementById('rezTimeline');
+    if(box&&d.items&&d.items.length){
+      box.innerHTML=d.items.map(function(x){
+        return '<div class="tl-item reveal"><div class="tl-ic">'+esc(x.icon||'⏰')+'</div>'+
+          '<div class="tl-mid"><span class="tl-dot"></span><span class="tl-line"></span></div>'+
+          '<div class="tl-body"><div class="tl-time">'+esc(x.time)+'</div><div class="tl-title">'+esc(x.title)+'</div></div></div>';
+      }).join('');
+    }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
