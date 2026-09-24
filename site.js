@@ -247,4 +247,10 @@
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(d){ build(merge(d)); })
     .catch(function(){ build(merge(null)); });
+
+  // редактор «на місці» для адміністратора (мами)
+  var es = document.createElement('script');
+  es.src = 'edit.js';
+  es.defer = true;
+  document.body.appendChild(es);
 })();

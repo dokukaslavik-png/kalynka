@@ -236,15 +236,6 @@
   }).catch(function(){});
 })();
 </script>
-<!-- Netlify Identity: після входу переносимо в адмінку -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-if(window.netlifyIdentity){
-  window.netlifyIdentity.on("init",function(user){
-    if(!user){ window.netlifyIdentity.on("login",function(){ document.location.href="/admin/"; }); }
-  });
-}
-</script>
 <script>
 /* Головна: «Про нас», проєкти-тизер, цитати дітей — з content/home.json та projects.json */
 (function(){
