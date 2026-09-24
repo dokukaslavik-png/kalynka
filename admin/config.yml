@@ -262,3 +262,98 @@ collections:
               - { label: "Емодзі", name: emoji, widget: string, required: false }
               - { label: "Назва", name: title, widget: string }
               - { label: "Опис", name: text, widget: text }
+
+  - name: menu
+    label: "Меню харчування"
+    files:
+      - name: menu
+        label: "Меню на тиждень"
+        file: "content/menu.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - { label: "Примітка", name: note, widget: text, required: false }
+          - label: "Дні тижня"
+            name: days
+            widget: list
+            label_singular: "День"
+            summary: "{{fields.day}}"
+            fields:
+              - { label: "День тижня", name: day, widget: string }
+              - { label: "Сніданок", name: breakfast, widget: string, required: false }
+              - { label: "Обід", name: lunch, widget: string, required: false }
+              - { label: "Підвечірок", name: snack, widget: string, required: false }
+              - { label: "Вечеря", name: supper, widget: string, required: false }
+
+  - name: rezhym
+    label: "Розпорядок дня"
+    files:
+      - name: rezhym
+        label: "Режим дня"
+        file: "content/rezhym.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - { label: "Примітка", name: note, widget: text, required: false }
+          - label: "Пункти режиму"
+            name: items
+            widget: list
+            label_singular: "Пункт"
+            summary: "{{fields.time}} — {{fields.title}}"
+            fields:
+              - { label: "Час (напр.: 8:30 – 9:00)", name: time, widget: string }
+              - { label: "Емодзі", name: icon, widget: string, required: false }
+              - { label: "Що відбувається", name: title, widget: string }
+
+  - name: bezpeka
+    label: "Безпека та укриття"
+    files:
+      - name: bezpeka
+        label: "Безпека"
+        file: "content/bezpeka.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - { label: "Заголовок блоку тривоги", name: alarmTitle, widget: string }
+          - label: "Дії під час тривоги (по кроках)"
+            name: alarmSteps
+            widget: list
+            label_singular: "Крок"
+            field: { label: "Крок", name: item, widget: text }
+          - label: "Картки безпеки"
+            name: items
+            widget: list
+            label_singular: "Картка"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Емодзі", name: icon, widget: string, required: false }
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Опис", name: text, widget: text }
+
+  - name: vstup
+    label: "Як записати дитину"
+    files:
+      - name: vstup
+        label: "Вступ до садочка"
+        file: "content/vstup.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - label: "Кроки зарахування"
+            name: steps
+            widget: list
+            label_singular: "Крок"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Назва кроку", name: title, widget: string }
+              - { label: "Опис", name: text, widget: text }
+          - label: "Перелік документів"
+            name: documents
+            widget: list
+            label_singular: "Документ"
+            field: { label: "Документ", name: item, widget: string }
+          - { label: "Примітка", name: note, widget: text, required: false }
