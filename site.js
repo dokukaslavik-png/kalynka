@@ -32,6 +32,7 @@
     ['Про заклад', [
       ['index.html','Головна','🏠'],
       ['pro-zaklad.html','Про заклад','🏛️'],
+      ['prozorist.html','Прозорість','🔎'],
       ['galereya.html','Фотогалерея','📸'],
       ['dokumenty.html','Документи','📄']
     ]],
@@ -133,6 +134,7 @@
         '<div class="fsoc">'+socials(INFO)+'</div></div>'+
       '<div><h4>Розділи</h4><ul>'+
         '<li><a href="pro-zaklad.html">Про заклад</a></li>'+
+        '<li><a href="prozorist.html">Прозорість</a></li>'+
         '<li><a href="grupy.html">Групи</a></li>'+
         '<li><a href="proekty.html">Проєкти</a></li>'+
         '<li><a href="dityam.html">Дітям</a></li>'+

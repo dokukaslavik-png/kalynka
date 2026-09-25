@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прозорість та інформаційна відкритість — ЗДО №45 «Калинка»</title>
+<meta name="description" content="Прозорість та інформаційна відкритість ЗДО №45 «Калинка», Вінниця: статут, ліцензії, звіти та інші обовʼязкові документи (ст. 30 ЗУ «Про освіту»).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#3c8c57">
+<link rel="canonical" href="https://kalynka-sadochok.netlify.app/prozorist.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="ЗДО №45 «Калинка»">
+<meta property="og:title" content="Прозорість та інформаційна відкритість — ЗДО №45 «Калинка»">
+<meta property="og:description" content="Статут, ліцензії, звіти та інші обовʼязкові документи ЗДО №45 «Калинка», Вінниця.">
+<meta property="og:url" content="https://kalynka-sadochok.netlify.app/prozorist.html">
+<meta property="og:image" content="https://kalynka-sadochok.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ЗДО №45 «Калинка», Вінниця">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Прозорість та інформаційна відкритість — ЗДО №45 «Калинка»">
+<meta name="twitter:description" content="Обовʼязкові документи та відомості ЗДО №45 «Калинка», Вінниця.">
+<meta name="twitter:image" content="https://kalynka-sadochok.netlify.app/og-image.png">
+<style>
+.pz-list{display:flex;flex-direction:column;gap:12px;margin-top:26px;max-width:900px;margin-left:auto;margin-right:auto}
+.pz{display:flex;align-items:center;gap:16px;background:#fff;border-radius:16px;padding:14px 18px;box-shadow:var(--shadow-soft);border:1px solid var(--line);border-left:5px solid var(--leaf)}
+.pz .n{flex:none;width:38px;height:38px;border-radius:11px;background:var(--leaf-soft);color:var(--leaf-deep);display:grid;place-items:center;font-family:'Comfortaa',cursive;font-weight:700;font-size:.95rem}
+.pz .pz-main{flex:1;min-width:0}
+.pz .pz-title{color:var(--ink);font-weight:700;font-size:1rem;line-height:1.3}
+.pz .pz-note{color:var(--ink-soft);font-weight:600;font-size:.85rem;margin-top:2px}
+.pz .pz-act{flex:none}
+.pz .open{display:inline-flex;align-items:center;gap:6px;background:var(--leaf);color:#fff;border-radius:10px;padding:8px 15px;font-weight:800;font-size:.88rem;text-decoration:none;white-space:nowrap}
+.pz .open:hover{background:var(--leaf-deep)}
+.pz .soon{color:var(--ink-soft);font-weight:700;font-size:.82rem;opacity:.7;white-space:nowrap}
+@media(max-width:560px){.pz{flex-wrap:wrap;gap:10px}.pz .pz-main{flex:1 1 100%;order:2}.pz .n{order:1}.pz .pz-act{order:3;margin-left:auto}}
+</style>
+</head>
+<body data-page="prozorist">
+<main>
+<section class="page-hero">
+  <svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg>
+  <div class="wrap">
+    <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> <a href="pro-zaklad.html">Про заклад</a> <span>/</span> Прозорість</nav>
+    <span class="script eyebrow">Відкрито та чесно</span>
+    <h1>Прозорість та інформаційна відкритість</h1>
+    <p class="lead" id="pzIntro">Обовʼязкова інформація про діяльність закладу відповідно до законодавства.</p>
+  </div>
+</section>
+<section><div class="wrap">
+  <div class="pz-list" id="pzList"></div>
+</div></section>
+</main>
+<script src="site.js"></script>
+<script>
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  fetch('content/prozorist.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    if(d.intro){var i=document.getElementById('pzIntro'); if(i)i.textContent=d.intro;}
+    var box=document.getElementById('pzList');
+    if(box&&d.items&&d.items.length){
+      box.innerHTML=d.items.map(function(x,idx){
+        var href = x.file || x.link || '';
+        var act = href
+          ? '<a class="open" href="'+esc(href)+'" target="_blank" rel="noopener">📄 Відкрити</a>'
+          : '<span class="soon">незабаром</span>';
+        var note = x.note ? '<div class="pz-note">'+esc(x.note)+'</div>' : '';
+        return '<div class="pz reveal"><div class="n">'+(idx+1)+'</div>'+
+          '<div class="pz-main"><div class="pz-title">'+esc(x.title)+'</div>'+note+'</div>'+
+          '<div class="pz-act">'+act+'</div></div>';
+      }).join('');
+    }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>

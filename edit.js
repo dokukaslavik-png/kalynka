@@ -106,13 +106,19 @@
                {n:'addr',l:'Адреса',t:'text'}, {n:'phone',l:'Телефон',t:'text'}, {n:'email',l:'Email',t:'text'},
                {n:'hours',l:'Графік роботи',t:'text'},
                {n:'facebook',l:'Facebook (посилання)',t:'text',opt:true}, {n:'telegram',l:'Telegram',t:'text',opt:true}, {n:'youtube',l:'YouTube',t:'text',opt:true}
+             ]},
+    prozorist:{label:'Прозорість (документи)', file:'content/prozorist.json', shape:'object',
+             fields:[
+               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'items',l:'Пункти', t:'objlist', itemName:'Пункт', title:function(x){return x.title||'';},
+                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'file',l:'Файл PDF',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true}, {n:'note',l:'Примітка',t:'text',opt:true} ]}
              ]}
   };
 
   var PAGE_MAP = {
     home:'home', novyny:'news', podii:'events', galereya:'gallery', dokumenty:'documents',
     proekty:'projects', batkam:'parents', osvita:'gurtky', pro:'about',
-    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings'
+    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist'
   };
 
   var page = document.body.getAttribute('data-page') || '';
