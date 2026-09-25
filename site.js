@@ -20,6 +20,7 @@
     ['grupy.html','grupy','Групи'],
     ['osvitniy-proces.html','osvita','Освітній процес'],
     ['proekty.html','proekty','Проєкти'],
+    ['pedprostir.html','pedprostir','Педагогам'],
     ['batkam.html','batkam','Батькам'],
     ['dityam.html','dityam','Дітям 🎮'],
     ['novyny.html','novyny','Новини'],
@@ -47,7 +48,8 @@
     ['Навчання', [
       ['osvitniy-proces.html','Освітній процес','📚'],
       ['osvitniy-proces.html#gurtky','Гуртки','🎭'],
-      ['proekty.html','Проєкти','🌿']
+      ['proekty.html','Проєкти','🌿'],
+      ['pedprostir.html','Педагогічний простір','🧑‍🏫']
     ]],
     ['Батькам', [
       ['batkam.html','Батькам','🧠'],
@@ -137,6 +139,7 @@
         '<li><a href="prozorist.html">Прозорість</a></li>'+
         '<li><a href="grupy.html">Групи</a></li>'+
         '<li><a href="proekty.html">Проєкти</a></li>'+
+        '<li><a href="pedprostir.html">Педагогічний простір</a></li>'+
         '<li><a href="dityam.html">Дітям</a></li>'+
         '<li><a href="novyny.html">Новини</a></li>'+
         '<li><a href="dokumenty.html">Документи</a></li></ul></div>'+

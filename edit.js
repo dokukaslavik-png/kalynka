@@ -107,6 +107,12 @@
                {n:'hours',l:'Графік роботи',t:'text'},
                {n:'facebook',l:'Facebook (посилання)',t:'text',opt:true}, {n:'telegram',l:'Telegram',t:'text',opt:true}, {n:'youtube',l:'YouTube',t:'text',opt:true}
              ]},
+    pedprostir:{label:'Педагогічний простір', file:'content/pedprostir.json', shape:'object',
+             fields:[
+               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){return x.title||'';},
+                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]}
+             ]},
     prozorist:{label:'Прозорість (документи)', file:'content/prozorist.json', shape:'object',
              fields:[
                {n:'intro',l:'Вступний текст',t:'textarea'},
@@ -118,7 +124,7 @@
   var PAGE_MAP = {
     home:'home', novyny:'news', podii:'events', galereya:'gallery', dokumenty:'documents',
     proekty:'projects', batkam:'parents', osvita:'gurtky', pro:'about',
-    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist'
+    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist', pedprostir:'pedprostir'
   };
 
   var page = document.body.getAttribute('data-page') || '';
