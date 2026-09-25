@@ -378,3 +378,23 @@ collections:
               - { label: "Файл PDF", name: file, widget: file, required: false }
               - { label: "Посилання (замість файлу)", name: link, widget: string, required: false }
               - { label: "Примітка", name: note, widget: string, required: false }
+
+  - name: pedprostir
+    label: "Педагогічний простір"
+    files:
+      - name: pedprostir
+        label: "Педагогічний простір"
+        file: "content/pedprostir.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - label: "Підрозділи"
+            name: items
+            widget: list
+            label_singular: "Підрозділ"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Емодзі", name: icon, widget: string, required: false }
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Опис", name: text, widget: text }
