@@ -32,6 +32,15 @@
   function setToken(t){ try{ if(t) localStorage.setItem(TOKEN_KEY,t); else localStorage.removeItem(TOKEN_KEY); }catch(e){} }
 
   // ───────── схеми вмісту ─────────
+  // поля «людини» (педагог / працівник)
+  var PERSON = [
+    {n:'role',l:'Посада',t:'text',hint:'Напр.: Вихователь'},
+    {n:'name',l:'Прізвище, імʼя, по батькові',t:'text'},
+    {n:'info',l:'Категорія, стаж, освіта',t:'text',opt:true,hint:'Напр.: Вища категорія, стаж 23 роки'},
+    {n:'credo',l:'Педагогічне кредо',t:'textarea',opt:true,hint:'Без лапок — вони додадуться самі'},
+    {n:'photo',l:'Фото',t:'image',opt:true}
+  ];
+
   var S = {
     news:   {label:'Новини', file:'content/news.json', shape:'list', listKey:'items', itemName:'Новина',
              title:function(x){return (x.date?x.date+' — ':'')+(x.title||'(без назви)');},
@@ -68,7 +77,20 @@
                {n:'intro',l:'Вступ (абзаци)',t:'strlist'},
                {n:'history',l:'Історія (абзаци)',t:'strlist'},
                {n:'admin',l:'Адміністрація',t:'objlist',itemName:'Людина',title:function(x){return (x.role||'')+' — '+(x.name||'');},
-                 fields:[ {n:'role',l:'Посада',t:'text'}, {n:'name',l:'ПІБ',t:'text'}, {n:'photo',l:'Фото',t:'image',opt:true} ]}
+                 fields:PERSON},
+               {n:'specialists',l:'Наші фахівці (психолог, музкерівник, логопед…)',t:'objlist',itemName:'Фахівець',title:function(x){return (x.role||'')+' — '+(x.name||'');},
+                 fields:PERSON}
+             ]},
+    group:  {label:'Цю групу (вихователі, опис)', file:'content/groups.json', shape:'object',
+             sub:function(){ return document.body.getAttribute('data-group'); },
+             fields:[
+               {n:'groups',l:'Групи та вихователі',t:'objlist',itemName:'Група',title:function(x){return (x.num?'№'+x.num+' ':'')+(x.name?'«'+x.name+'»':'');},
+                 fields:[ {n:'num',l:'Номер групи',t:'text',opt:true,hint:'Напр.: 10'}, {n:'name',l:'Назва групи',t:'text',hint:'Напр.: Пазлики'},
+                          {n:'teachers',l:'Педагоги групи',t:'objlist',itemName:'Педагог',title:function(x){return (x.role||'')+' — '+(x.name||'');}, fields:PERSON} ]},
+               {n:'about',l:'Опис «Про групу» (абзаци)',t:'strlist'},
+               {n:'develop',l:'Що розвиваємо (пункти)',t:'strlist'},
+               {n:'activities',l:'Заняття',t:'objlist',itemName:'Заняття',title:function(x){return x.title||'';},
+                 fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]}
              ]},
     menu:   {label:'Меню харчування', file:'content/menu.json', shape:'object',
              fields:[
@@ -129,6 +151,7 @@
 
   var page = document.body.getAttribute('data-page') || '';
   var schema = S[PAGE_MAP[page]] || null;
+  if(page==='grupy' && document.body.getAttribute('data-group')) schema = S.group;
 
   // ───────── стилі ─────────
   var css = document.createElement('style');
@@ -286,7 +309,9 @@
     toast('Завантажую…',false,60000);
     loadData().then(function(res){
       clearToasts();
-      var working=res.data||{}; var sha=res.sha;
+      var full=res.data||{}; var sha=res.sha;
+      var subk=schema.sub?schema.sub():null;
+      var working=subk?(full[subk]||{}):full;
       var body=el('div',{class:'e-body'}); var getters=[];
       if(schema.shape==='list'){
         body.appendChild(el('div',{class:'e-sub',text:'Додавайте, змінюйте або видаляйте записи. Порядок міняйте стрілками ↑↓.'}));
@@ -303,7 +328,9 @@
       function close(){bg.remove();}
       cancel.addEventListener('click',close);
       save.addEventListener('click',function(){
-        var out=clone(working)||{}; getters.forEach(function(g){g.apply(out);});
+        var edited=clone(working)||{}; getters.forEach(function(g){g.apply(edited);});
+        var out=edited;
+        if(subk){ out=clone(full)||{}; out[subk]=edited; }
         var json=JSON.stringify(out,null,2)+'\n';
         if(TEST){ console.log('[TEST save] '+schema.file+'\n'+json); toast('ТЕСТ: збережено в консоль'); close(); return; }
         save.disabled=true; save.textContent='Зберігаю…';

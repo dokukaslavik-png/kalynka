@@ -123,6 +123,18 @@
   </div>
 </section>
 
+<!-- ФАХІВЦІ -->
+<section id="fahivtsi">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Поруч із дітьми</span>
+      <h2>Наші фахівці</h2>
+      <p>Психолог, музичний керівник, логопед та інші спеціалісти, які допомагають кожній дитині розкритися.</p>
+    </div>
+    <div class="grid-3" id="specGrid"></div>
+  </div>
+</section>
+
 <!-- СТРУКТУРА / ЦИФРИ -->
 <section>
   <div class="wrap">
@@ -192,13 +204,15 @@
     if(intro&&d.intro&&d.intro.length) intro.innerHTML=d.intro.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
     var hist=document.getElementById('aboutHistory');
     if(hist&&d.history&&d.history.length) hist.innerHTML=d.history.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
+    var P=window.kalynkaPersonCard;
     var adm=document.getElementById('adminGrid');
-    if(adm&&d.admin&&d.admin.length){
-      adm.innerHTML=d.admin.map(function(m,i){
-        var pe=m.photo?'<div class="pe" style="width:74px;height:74px;margin:0 auto 8px;border-radius:50%;overflow:hidden"><img src="'+esc(m.photo)+'" alt="" style="width:100%;height:100%;object-fit:cover"></div>':'<div class="pe">👩‍🏫</div>';
-        return '<div class="pcard '+roleColors[i%5]+' center">'+pe+'<h3>'+esc(m.role)+'</h3><p>'+esc(m.name)+'</p></div>';
-      }).join('');
+    if(adm&&P&&d.admin&&d.admin.length){
+      adm.innerHTML=d.admin.map(function(m,i){ return P(m, roleColors[i%5]); }).join('');
     }
+    var sp=document.getElementById('specGrid');
+    if(sp&&P&&d.specialists&&d.specialists.length){
+      sp.innerHTML=d.specialists.map(function(m,i){ return P(m, roleColors[(i+1)%5]); }).join('');
+    } else if(sp){ var sec=document.getElementById('fahivtsi'); if(sec) sec.style.display='none'; }
   }).catch(function(){});
 })();
 </script>

@@ -78,6 +78,36 @@
 
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+  // спільна картка педагога / працівника (групи, «Про заклад»)
+  function roleEmoji(r){
+    r=String(r||'').toLowerCase();
+    if(r.indexOf('помічник')>=0) return '🧑‍🍼';
+    if(r.indexOf('психолог')>=0) return '🧠';
+    if(r.indexOf('музич')>=0) return '🎵';
+    if(r.indexOf('логопед')>=0) return '🗣️';
+    if(r.indexOf('сестра')>=0||r.indexOf('медич')>=0) return '🩺';
+    if(r.indexOf('директор')>=0||r.indexOf('завідувач')===0) return '👩‍💼';
+    if(r.indexOf('діловод')>=0) return '📋';
+    if(r.indexOf('господар')>=0) return '🏠';
+    if(r.indexOf('методист')>=0) return '📚';
+    if(r.indexOf('фізкульт')>=0) return '🏃';
+    if(r.indexOf('англій')>=0) return '🇬🇧';
+    return '👩‍🏫';
+  }
+  window.kalynkaPersonCard = function(m, cls){
+    m=m||{};
+    var pe = m.photo
+      ? '<div class="pphoto"><img src="'+esc(m.photo)+'" alt="'+esc(m.name)+'" loading="lazy"></div>'
+      : '<div class="pe">'+roleEmoji(m.role)+'</div>';
+    var credo = String(m.credo||'').trim().replace(/^[«"„,]+|[»"“]+$/g,'');
+    return '<div class="pcard person center '+(cls||'')+'">'+pe+
+      '<div class="prole">'+esc(m.role)+'</div>'+
+      '<h3>'+esc(m.name)+'</h3>'+
+      (m.info?'<div class="pmeta">'+esc(m.info)+'</div>':'')+
+      (credo?'<div class="pcredo">«'+esc(credo)+'»</div>':'')+
+    '</div>';
+  };
+
   function socials(INFO){
     var out='';
     if(INFO.facebook) out+='<a href="'+esc(INFO.facebook)+'" target="_blank" rel="noopener" aria-label="Facebook">f</a>';
