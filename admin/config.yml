@@ -357,3 +357,24 @@ collections:
             label_singular: "Документ"
             field: { label: "Документ", name: item, widget: string }
           - { label: "Примітка", name: note, widget: text, required: false }
+
+  - name: prozorist
+    label: "Прозорість та відкритість"
+    files:
+      - name: prozorist
+        label: "Прозорість (документи)"
+        file: "content/prozorist.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - label: "Пункти"
+            name: items
+            widget: list
+            label_singular: "Пункт"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Файл PDF", name: file, widget: file, required: false }
+              - { label: "Посилання (замість файлу)", name: link, widget: string, required: false }
+              - { label: "Примітка", name: note, widget: string, required: false }
