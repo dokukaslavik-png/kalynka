@@ -54,10 +54,21 @@
     }).join('');
     var te=document.getElementById('teachers');
     var P=window.kalynkaPersonCard;
-    if(te&&P&&g.groups&&g.groups.length){
+    var AGE={ranniy:'ранній вік',molodshi:'молодший вік',seredni:'середній вік',starshi:'старший вік'};
+    var list=(g.groups||[]).map(function(x){return {gr:x,age:''};});
+    if(key==='inklyuziya'){
+      Object.keys(d).forEach(function(k){ if(k==='inklyuziya')return;
+        (d[k].groups||[]).forEach(function(x){ if(x.inclusive) list.push({gr:x,age:AGE[k]||''}); });
+      });
+    }
+    list.sort(function(a,b){return (parseInt(a.gr.num,10)||999)-(parseInt(b.gr.num,10)||999);});
+    if(te&&P&&list.length){
       te.className='';
-      te.innerHTML=g.groups.map(function(gr){
+      te.innerHTML=list.map(function(it){
+        var gr=it.gr;
         var h=(gr.num?'Група <span class="num">№'+esc(gr.num)+'</span> ':'')+(gr.name?'«'+esc(gr.name)+'»':'');
+        if(it.age) h+=' <span class="tage">· '+esc(it.age)+'</span>';
+        if(gr.inclusive&&key!=='inklyuziya') h+=' <span class="tinc">💛 інклюзивна</span>';
         return '<div class="tgroup">'+(h?'<div class="tgroup-h">'+h+'</div>':'')+
           '<div class="grid-3">'+(gr.teachers||[]).map(function(m,i){return P(m,acc[i%3]);}).join('')+'</div></div>';
       }).join('');

@@ -85,7 +85,8 @@
              sub:function(){ return document.body.getAttribute('data-group'); },
              fields:[
                {n:'groups',l:'Групи та вихователі',t:'objlist',itemName:'Група',title:function(x){return (x.num?'№'+x.num+' ':'')+(x.name?'«'+x.name+'»':'');},
-                 fields:[ {n:'num',l:'Номер групи',t:'text',opt:true,hint:'Напр.: 10'}, {n:'name',l:'Назва групи',t:'text',hint:'Напр.: Пазлики'},
+                 fields:[ {n:'num',l:'Номер групи',t:'text',opt:true,hint:'Напр.: 10'}, {n:'name',l:'Назва групи',t:'text',opt:true,hint:'Напр.: Пазлики'},
+                          {n:'inclusive',l:'Інклюзивна група',t:'bool',box:'Так — показувати й на сторінці «Інклюзивна група»'},
                           {n:'teachers',l:'Педагоги групи',t:'objlist',itemName:'Педагог',title:function(x){return (x.role||'')+' — '+(x.name||'');}, fields:PERSON} ]},
                {n:'about',l:'Опис «Про групу» (абзаци)',t:'strlist'},
                {n:'develop',l:'Що розвиваємо (пункти)',t:'strlist'},
@@ -241,6 +242,11 @@
   function fieldControl(f, value){
     if(f.t==='text'){ var inp=el('input',{type:'text',value:value==null?'':String(value)}); return {el:inp, get:function(){return inp.value;}}; }
     if(f.t==='textarea'){ var ta=el('textarea',{}); ta.value=value==null?'':String(value); return {el:ta, get:function(){return ta.value;}}; }
+    if(f.t==='bool'){
+      var cb=el('input',{type:'checkbox'}); cb.checked=!!value; cb.style.cssText='width:22px;height:22px;accent-color:#3c8c57;vertical-align:middle';
+      var lb=el('label',{style:'display:flex;align-items:center;gap:10px;font-weight:700;color:#33413a;cursor:pointer'},[cb, f.box||'Так']);
+      return {el:lb, get:function(){return cb.checked;}};
+    }
     if(f.t==='image'||f.t==='file'){
       var cur={v:value==null?'':String(value)};
       var wrap=el('div',{class:'e-img'}); var prev=el('div');

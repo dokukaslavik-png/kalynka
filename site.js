@@ -81,7 +81,8 @@
   // спільна картка педагога / працівника (групи, «Про заклад»)
   function roleEmoji(r){
     r=String(r||'').toLowerCase();
-    if(r.indexOf('помічник')>=0) return '🧑‍🍼';
+    if(r.indexOf('помічник')>=0||r.indexOf('няня')>=0) return '🧑‍🍼';
+    if(r.indexOf('асистент')>=0) return '🤝';
     if(r.indexOf('психолог')>=0) return '🧠';
     if(r.indexOf('музич')>=0) return '🎵';
     if(r.indexOf('логопед')>=0) return '🗣️';
