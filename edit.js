@@ -48,7 +48,7 @@
     projects:{label:'Проєкти', file:'content/projects.json', shape:'list', listKey:'items', itemName:'Проєкт',
              title:function(x){return x.title||'';},
              fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]},
-    parents:{label:'Батькам (картки)', file:'content/parents.json', shape:'list', listKey:'items', itemName:'Картка',
+    parents:{label:'Батьківський навігатор', file:'content/parents.json', shape:'list', listKey:'items', itemName:'Картка',
              title:function(x){return x.title||'';},
              fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]},
     gurtky: {label:'Гуртки', file:'content/gurtky.json', shape:'list', listKey:'items', itemName:'Гурток',

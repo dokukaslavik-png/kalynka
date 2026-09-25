@@ -21,8 +21,8 @@
     ['osvitniy-proces.html','osvita','Освітній процес'],
     ['proekty.html','proekty','Проєкти'],
     ['pedprostir.html','pedprostir','Педагогам'],
-    ['batkam.html','batkam','Батькам'],
-    ['dityam.html','dityam','Дітям 🎮'],
+    ['batkam.html','batkam','Батьківський навігатор'],
+    ['dityam.html','dityam','Територія дитинства'],
     ['novyny.html','novyny','Новини'],
     ['dokumenty.html','dokumenty','Документи'],
     ['kontakty.html','kontakty','Контакти']
@@ -51,15 +51,15 @@
       ['proekty.html','Проєкти','🌿'],
       ['pedprostir.html','Педагогічний простір','🧑‍🏫']
     ]],
-    ['Батькам', [
-      ['batkam.html','Батькам','🧠'],
+    ['Батьківський навігатор', [
+      ['batkam.html','Батьківський навігатор','🧠'],
       ['menu.html','Меню харчування','🍎'],
       ['rezhym.html','Розпорядок дня','⏰'],
       ['bezpeka.html','Безпека і укриття','🛡️'],
       ['vstup.html','Як записати дитину','📝']
     ]],
-    ['Дітям і новини', [
-      ['dityam.html','Дітям — ігри','🎮'],
+    ['Для дітей і новини', [
+      ['dityam.html','Територія дитинства','🎮'],
       ['novyny.html','Новини','📰'],
       ['podii.html','Афіша подій','📅'],
       ['kontakty.html','Контакти','📞']
@@ -140,7 +140,7 @@
         '<li><a href="grupy.html">Групи</a></li>'+
         '<li><a href="proekty.html">Проєкти</a></li>'+
         '<li><a href="pedprostir.html">Педагогічний простір</a></li>'+
-        '<li><a href="dityam.html">Дітям</a></li>'+
+        '<li><a href="dityam.html">Територія дитинства</a></li>'+
         '<li><a href="novyny.html">Новини</a></li>'+
         '<li><a href="dokumenty.html">Документи</a></li></ul></div>'+
       '<div><h4>Контакти</h4><ul>'+
