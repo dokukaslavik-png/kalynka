@@ -411,3 +411,46 @@ collections:
               - { label: "Емодзі", name: icon, widget: string, required: false }
               - { label: "Назва", name: title, widget: string }
               - { label: "Опис", name: text, widget: text }
+
+  - name: dosyahnennya
+    label: "Скарбничка досягнень"
+    files:
+      - name: dosyahnennya
+        label: "Скарбничка досягнень"
+        file: "content/dosyahnennya.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - label: "Досягнення"
+            name: items
+            widget: list
+            label_singular: "Досягнення"
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Дата", name: date, widget: string, required: false }
+              - { label: "Опис", name: text, widget: text, required: false }
+              - { label: "Фото (грамота, диплом, подія)", name: image, widget: image, required: false }
+              - { label: "Емодзі (якщо немає фото)", name: icon, widget: string, required: false }
+
+  - name: korysni
+    label: "Корисні посилання"
+    files:
+      - name: korysni
+        label: "Корисні посилання"
+        file: "content/korysni.json"
+        editor:
+          preview: false
+        fields:
+          - { label: "Вступний текст", name: intro, widget: text }
+          - label: "Посилання"
+            name: items
+            widget: list
+            label_singular: "Посилання"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Назва", name: title, widget: string }
+              - { label: "Адреса (посилання)", name: url, widget: string }
+              - { label: "Короткий опис", name: text, widget: string, required: false }
+              - { label: "Емодзі", name: icon, widget: string, required: false }
