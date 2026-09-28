@@ -21,6 +21,7 @@
     ['osvitniy-proces.html','osvita','Освітній процес'],
     ['proekty.html','proekty','Проєкти'],
     ['pedprostir.html','pedprostir','Педагогам'],
+    ['dosyahnennya.html','dosyahnennya','Скарбничка досягнень'],
     ['batkam.html','batkam','Батьківський навігатор'],
     ['dityam.html','dityam','Територія дитинства'],
     ['novyny.html','novyny','Новини'],
@@ -34,8 +35,10 @@
       ['index.html','Головна','🏠'],
       ['pro-zaklad.html','Про заклад','🏛️'],
       ['prozorist.html','Прозорість','🔎'],
+      ['dosyahnennya.html','Скарбничка досягнень','🏆'],
       ['galereya.html','Фотогалерея','📸'],
-      ['dokumenty.html','Документи','📄']
+      ['dokumenty.html','Документи','📄'],
+      ['korysni.html','Корисні посилання','🔗']
     ]],
     ['Наші групи', [
       ['grupy.html','Усі групи','👨‍👩‍👧'],
@@ -109,13 +112,22 @@
     '</div>';
   };
 
-  function socials(INFO){
+  var ICON={
+    facebook:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.9-.8z"/></svg>',
+    youtube:'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></svg>',
+    telegram:'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.6l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6l19.2-7.4c.9-.3 1.7.2 1.4 1.2z"/></svg>'
+  };
+  var SOC=[['facebook','Facebook-група'],['youtube','YouTube-канал'],['telegram','Telegram']];
+  // labeled=true → «пігулки» з підписом; інакше круглі іконки
+  function socials(INFO, labeled){
     var out='';
-    if(INFO.facebook) out+='<a href="'+esc(INFO.facebook)+'" target="_blank" rel="noopener" aria-label="Facebook">f</a>';
-    if(INFO.telegram) out+='<a href="'+esc(INFO.telegram)+'" target="_blank" rel="noopener" aria-label="Telegram">✈</a>';
-    if(INFO.youtube)  out+='<a href="'+esc(INFO.youtube)+'" target="_blank" rel="noopener" aria-label="YouTube">▶</a>';
+    SOC.forEach(function(s){
+      var url=INFO[s[0]]; if(!url) return;
+      out+='<a class="soc-'+s[0]+(labeled?' soc-pill':'')+'" href="'+esc(url)+'" target="_blank" rel="noopener" aria-label="'+s[1]+'">'+ICON[s[0]]+(labeled?'<span>'+s[1]+'</span>':'')+'</a>';
+    });
     return out;
   }
+  window.kalynkaSocials = socials;
 
   function build(INFO){
     var page = document.body.getAttribute('data-page') || '';
@@ -164,16 +176,18 @@
     var footer =
     '<footer class="footer"><div class="wrap"><div class="cols">'+
       '<div><div class="name">'+esc(INFO.name)+'</div><small>'+esc(INFO.full)+'</small>'+
-        '<div class="fsoc">'+socials(INFO)+'</div></div>'+
+        (socials(INFO)?'<div class="fsoc-h">Ми в соціальних мережах</div><div class="fsoc">'+socials(INFO,true)+'</div>':'')+'</div>'+
       '<div><h4>Розділи</h4><ul>'+
         '<li><a href="pro-zaklad.html">Про заклад</a></li>'+
         '<li><a href="prozorist.html">Прозорість</a></li>'+
         '<li><a href="grupy.html">Групи</a></li>'+
         '<li><a href="proekty.html">Проєкти</a></li>'+
         '<li><a href="pedprostir.html">Педагогічний простір</a></li>'+
+        '<li><a href="dosyahnennya.html">Скарбничка досягнень</a></li>'+
         '<li><a href="dityam.html">Територія дитинства</a></li>'+
         '<li><a href="novyny.html">Новини</a></li>'+
-        '<li><a href="dokumenty.html">Документи</a></li></ul></div>'+
+        '<li><a href="dokumenty.html">Документи</a></li>'+
+        '<li><a href="korysni.html">Корисні посилання</a></li></ul></div>'+
       '<div><h4>Контакти</h4><ul>'+
         '<li>📍 '+esc(INFO.addr)+'</li>'+
         '<li><a href="tel:'+esc(INFO.phone).replace(/[^0-9+]/g,'')+'">📞 '+esc(INFO.phone)+'</a></li>'+
@@ -183,6 +197,13 @@
 
     document.body.insertAdjacentHTML('afterbegin', header);
     document.body.insertAdjacentHTML('beforeend', footer);
+
+    // блоки «Ми в соціальних мережах» на сторінках
+    document.querySelectorAll('[data-social-block]').forEach(function(el){
+      var h=socials(INFO,true);
+      if(h) el.innerHTML=h;
+      else { var w=el.closest('[data-social-wrap]'); if(w) w.style.display='none'; }
+    });
 
     // мега-меню
     var megaBtn = document.getElementById('megaBtn');

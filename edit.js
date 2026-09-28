@@ -128,13 +128,26 @@
                {n:'name',l:'Коротка назва',t:'text'}, {n:'full',l:'Повна назва',t:'textarea'},
                {n:'addr',l:'Адреса',t:'text'}, {n:'phone',l:'Телефон',t:'text'}, {n:'email',l:'Email',t:'text'},
                {n:'hours',l:'Графік роботи',t:'text'},
-               {n:'facebook',l:'Facebook (посилання)',t:'text',opt:true}, {n:'telegram',l:'Telegram',t:'text',opt:true}, {n:'youtube',l:'YouTube',t:'text',opt:true}
+               {n:'facebook',l:'Facebook-група (посилання)',t:'text',opt:true}, {n:'youtube',l:'YouTube-канал (посилання)',t:'text',opt:true}, {n:'telegram',l:'Telegram (посилання)',t:'text',opt:true}
              ]},
     pedprostir:{label:'Педагогічний простір', file:'content/pedprostir.json', shape:'object',
              fields:[
                {n:'intro',l:'Вступний текст',t:'textarea'},
                {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){return x.title||'';},
                  fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]}
+             ]},
+    dosyahnennya:{label:'Скарбничка досягнень', file:'content/dosyahnennya.json', shape:'object',
+             fields:[
+               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'items',l:'Досягнення',t:'objlist',itemName:'Досягнення',title:function(x){return (x.date?x.date+' — ':'')+(x.title||'');},
+                 fields:[ {n:'title',l:'Назва',t:'text',hint:'Напр.: I місце у міському конкурсі «…»'}, {n:'date',l:'Дата',t:'text',opt:true,hint:'Напр.: 05 вересня 2025'},
+                          {n:'text',l:'Опис',t:'textarea',opt:true}, {n:'image',l:'Фото (грамота, диплом, подія)',t:'image',opt:true}, {n:'icon',l:'Емодзі (якщо немає фото)',t:'text',opt:true} ]}
+             ]},
+    korysni:{label:'Корисні посилання', file:'content/korysni.json', shape:'object',
+             fields:[
+               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'items',l:'Посилання',t:'objlist',itemName:'Посилання',title:function(x){return x.title||x.url||'';},
+                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'url',l:'Адреса (посилання)',t:'text',hint:'Напр.: https://mon.gov.ua/'}, {n:'text',l:'Короткий опис',t:'text',opt:true}, {n:'icon',l:'Емодзі',t:'text',opt:true} ]}
              ]},
     prozorist:{label:'Прозорість (документи)', file:'content/prozorist.json', shape:'object',
              fields:[
@@ -147,7 +160,7 @@
   var PAGE_MAP = {
     home:'home', novyny:'news', podii:'events', galereya:'gallery', dokumenty:'documents',
     proekty:'projects', batkam:'parents', osvita:'gurtky', pro:'about',
-    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist', pedprostir:'pedprostir'
+    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist', pedprostir:'pedprostir', dosyahnennya:'dosyahnennya', korysni:'korysni'
   };
 
   var page = document.body.getAttribute('data-page') || '';

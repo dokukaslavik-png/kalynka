@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Корисні посилання — ЗДО №45 «Калинка»</title>
+<meta name="description" content="Корисні посилання від ЗДО №45 «Калинка»: Департамент освіти ВМР, МОН, Державна служба якості освіти, застосунок MISTO, наш YouTube-канал.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#3c8c57">
+<link rel="canonical" href="https://kalynka-sadochok.netlify.app/korysni.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="ЗДО №45 «Калинка»">
+<meta property="og:title" content="Корисні посилання — ЗДО №45 «Калинка»">
+<meta property="og:description" content="Корисні посилання від ЗДО №45 «Калинка»: Департамент освіти ВМР, МОН, Державна служба якості освіти, застосунок MISTO, наш YouTube-канал.">
+<meta property="og:url" content="https://kalynka-sadochok.netlify.app/korysni.html">
+<meta property="og:image" content="https://kalynka-sadochok.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ЗДО №45 «Калинка», Вінниця">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Корисні посилання — ЗДО №45 «Калинка»">
+<meta name="twitter:description" content="Корисні посилання від ЗДО №45 «Калинка»: Департамент освіти ВМР, МОН, Державна служба якості освіти, застосунок MISTO, наш YouTube-канал.">
+<meta name="twitter:image" content="https://kalynka-sadochok.netlify.app/og-image.png">
+<style>
+.lk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:980px;margin:0 auto}
+.lk{display:flex;gap:16px;align-items:flex-start;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:var(--shadow-soft);border:1px solid var(--line);color:inherit;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.lk:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.lk .li{flex:none;width:52px;height:52px;border-radius:14px;background:var(--leaf-soft);display:grid;place-items:center;font-size:1.6rem}
+.lk h3{margin:2px 0 4px;color:var(--leaf-deep);font-size:1.05rem;line-height:1.3}
+.lk p{margin:0;color:var(--ink-soft);font-weight:600;font-size:.9rem}
+.lk .go{display:inline-block;margin-top:8px;color:var(--kalyna);font-weight:800;font-size:.85rem}
+.lk .dom{color:var(--ink-soft);opacity:.7;font-weight:700;font-size:.78rem;margin-left:6px}
+@media(max-width:700px){.lk-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-page="korysni">
+<main>
+<section class="page-hero">
+  <svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg>
+  <div class="wrap">
+    <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Корисні посилання</nav>
+    <span class="script eyebrow">Варто знати</span>
+    <h1>Корисні посилання</h1>
+    <p class="lead" id="pgIntro">Офіційні ресурси освіти, міські сервіси та наші канали.</p>
+  </div>
+</section>
+<section><div class="wrap">
+  <div class="lk-grid" id="lkGrid"></div>
+</div></section>
+</main>
+<script src="site.js"></script>
+<script>
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function dom(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}}
+  fetch('content/korysni.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    if(d.intro){var i=document.getElementById('pgIntro'); if(i)i.textContent=d.intro;}
+    var box=document.getElementById('lkGrid');
+    if(box&&d.items&&d.items.length){
+      box.innerHTML=d.items.filter(function(x){return x.url;}).map(function(x){
+        return '<a class="lk reveal" href="'+esc(x.url)+'" target="_blank" rel="noopener"><div class="li">'+esc(x.icon||'🔗')+'</div><div>'+
+          '<h3>'+esc(x.title)+'</h3>'+(x.text?'<p>'+esc(x.text)+'</p>':'')+'<span class="go">Перейти →</span><span class="dom">'+esc(dom(x.url))+'</span></div></a>';
+      }).join('');
+    }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
