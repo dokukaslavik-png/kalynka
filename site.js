@@ -94,7 +94,7 @@
     if(r.indexOf('діловод')>=0) return '📋';
     if(r.indexOf('господар')>=0) return '🏠';
     if(r.indexOf('методист')>=0) return '📚';
-    if(r.indexOf('фізкульт')>=0) return '🏃';
+    if(r.indexOf('фізкульт')>=0||r.indexOf('фізичн')>=0) return '🏃';
     if(r.indexOf('англій')>=0) return '🇬🇧';
     return '👩‍🏫';
   }
