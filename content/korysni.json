@@ -2,34 +2,46 @@
   "intro": "Офіційні ресурси у сфері освіти, міські сервіси та наші канали — усе корисне для батьків і педагогів в одному місці.",
   "items": [
     {
+      "icon": "📝",
+      "title": "Реєстрація до дитячого садочка",
+      "text": "Електронна реєстрація дитини до закладу дошкільної освіти на сайті Вінницької міської ради.",
+      "url": "https://www.vmr.gov.ua/reiestratsiia-do-dytiachoho-sadochku",
+      "home": true
+    },
+    {
       "icon": "🏛️",
       "title": "Департамент освіти Вінницької міської ради",
       "text": "Офіційний сайт: новини, документи та послуги у сфері освіти міста.",
-      "url": "https://osvita.vmr.gov.ua/"
+      "url": "https://osvita.vmr.gov.ua/",
+      "home": true
     },
     {
       "icon": "📱",
-      "title": "Застосунок MISTO",
-      "text": "Міські сервіси, сповіщення про тривоги та звернення — в одному застосунку (Google Play).",
-      "url": "https://play.google.com/store/apps/details?id=tech.misto.android.misto"
+      "title": "Застосунок «MISTO»",
+      "text": "Перегляньте «MISTO»: міські сервіси, сповіщення про тривоги та звернення — в одному застосунку.",
+      "url": "https://play.google.com/store/apps/details?id=tech.misto.android.misto",
+      "home": true
     },
     {
       "icon": "🇺🇦",
       "title": "Міністерство освіти і науки України",
       "text": "Офіційні новини, накази та роз'яснення у сфері освіти.",
-      "url": "https://mon.gov.ua/"
+      "url": "https://mon.gov.ua/",
+      "home": true
     },
     {
       "icon": "✅",
       "title": "Державна служба якості освіти України",
       "text": "Якість освіти, моніторинги, поради для закладів і батьків.",
-      "url": "https://sqe.gov.ua/"
+      "url": "https://sqe.gov.ua/",
+      "home": true
     },
     {
       "icon": "▶️",
       "title": "Наш YouTube-канал «КЗ ДНЗ 45 ВМР»",
       "text": "Відео свят, занять і життя «Калинки».",
-      "url": "https://www.youtube.com/channel/UCLRRDIN8O7YroG7EJ-tFLDA"
+      "url": "https://www.youtube.com/channel/UCLRRDIN8O7YroG7EJ-tFLDA",
+      "home": false
     }
   ]
 }
