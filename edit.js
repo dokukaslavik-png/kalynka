@@ -119,7 +119,7 @@
              fields:[
                {n:'intro',l:'Вступний текст',t:'textarea'},
                {n:'steps',l:'Кроки',t:'objlist',itemName:'Крок',title:function(x){return x.title||'';},
-                 fields:[ {n:'title',l:'Назва кроку',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]},
+                 fields:[ {n:'title',l:'Назва кроку',t:'text'}, {n:'text',l:'Опис',t:'textarea'}, {n:'url',l:'Посилання-кнопка (необовʼязково)',t:'text',opt:true,hint:'Напр.: сайт електронної реєстрації'} ]},
                {n:'documents',l:'Перелік документів',t:'strlist'},
                {n:'note',l:'Примітка',t:'textarea',opt:true}
              ]},
@@ -147,7 +147,7 @@
              fields:[
                {n:'intro',l:'Вступний текст',t:'textarea'},
                {n:'items',l:'Посилання',t:'objlist',itemName:'Посилання',title:function(x){return x.title||x.url||'';},
-                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'url',l:'Адреса (посилання)',t:'text',hint:'Напр.: https://mon.gov.ua/'}, {n:'text',l:'Короткий опис',t:'text',opt:true}, {n:'icon',l:'Емодзі',t:'text',opt:true} ]}
+                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'url',l:'Адреса (посилання)',t:'text',hint:'Напр.: https://mon.gov.ua/'}, {n:'text',l:'Короткий опис',t:'text',opt:true}, {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'home',l:'На головній',t:'bool',box:'Показувати це посилання на головній сторінці'} ]}
              ]},
     prozorist:{label:'Прозорість (документи)', file:'content/prozorist.json', shape:'object',
              fields:[

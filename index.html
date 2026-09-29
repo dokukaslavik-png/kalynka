@@ -84,6 +84,18 @@
   </div>
 </div>
 
+<!-- КОРИСНІ ПОСИЛАННЯ -->
+<section class="quick-links">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:18px">
+      <span class="eyebrow">Швидкий доступ</span>
+      <h2>Корисні посилання</h2>
+    </div>
+    <div class="ql-grid" id="homeLinks"><a class="ql ql-main" href="https://www.vmr.gov.ua/reiestratsiia-do-dytiachoho-sadochku" target="_blank" rel="noopener"><span class="qi">📝</span><span class="qt">Реєстрація до дитячого садочка</span><span class="qa">→</span></a><a class="ql" href="https://osvita.vmr.gov.ua/" target="_blank" rel="noopener"><span class="qi">🏛️</span><span class="qt">Департамент освіти Вінницької міської ради</span><span class="qa">→</span></a><a class="ql" href="https://play.google.com/store/apps/details?id=tech.misto.android.misto" target="_blank" rel="noopener"><span class="qi">📱</span><span class="qt">Застосунок «MISTO»</span><span class="qa">→</span></a><a class="ql" href="https://mon.gov.ua/" target="_blank" rel="noopener"><span class="qi">🇺🇦</span><span class="qt">Міністерство освіти і науки України</span><span class="qa">→</span></a><a class="ql" href="https://sqe.gov.ua/" target="_blank" rel="noopener"><span class="qi">✅</span><span class="qt">Державна служба якості освіти України</span><span class="qa">→</span></a></div>
+    <div class="center" style="margin-top:14px"><a class="btn btn-ghost btn-small" href="korysni.html">Усі посилання →</a></div>
+  </div>
+</section>
+
 <!-- ПРО НАС + СТАТИСТИКА -->
 <section class="band-soft">
   <div class="wrap">
@@ -269,6 +281,22 @@
     if(!hp||!d||!d.items||!d.items.length)return;
     hp.innerHTML=d.items.slice(0,3).map(function(x,i){
       return '<a class="pcard '+acc[i%3]+' reveal" href="proekty.html"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></a>';
+    }).join('');
+  }).catch(function(){});
+})();
+</script>
+<script>
+/* Корисні посилання на головній — з content/korysni.json (позначка «На головній») */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  var box=document.getElementById('homeLinks'); if(!box)return;
+  fetch('content/korysni.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d||!d.items)return;
+    var list=d.items.filter(function(x){return x.home&&x.url;});
+    if(!list.length){ var sec=box.closest('section'); if(sec) sec.style.display='none'; return; }
+    box.innerHTML=list.map(function(x){
+      var main=/reiestratsiia|реєстрац/i.test(x.url+' '+x.title)?' ql-main':'';
+      return '<a class="ql'+main+'" href="'+esc(x.url)+'" target="_blank" rel="noopener"><span class="qi">'+esc(x.icon||'🔗')+'</span><span class="qt">'+esc(x.title)+'</span><span class="qa">→</span></a>';
     }).join('');
   }).catch(function(){});
 })();

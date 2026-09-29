@@ -491,3 +491,15 @@ img{height:auto}
   .nav-links{display:none}
   .nav .wrap{padding-block:8px}
 }
+
+/* ── корисні посилання на головній ── */
+.quick-links{padding-top:10px}
+.ql-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.ql{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow-soft);color:var(--ink);font-weight:800;font-size:.93rem;line-height:1.25;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.ql:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.ql .qi{flex:none;width:42px;height:42px;border-radius:12px;background:var(--leaf-soft);display:grid;place-items:center;font-size:1.35rem}
+.ql .qt{flex:1}
+.ql .qa{flex:none;color:var(--kalyna);font-size:1.1rem}
+.ql.ql-main{background:linear-gradient(135deg,var(--kalyna),var(--kalyna-deep));color:#fff;border-color:transparent}
+.ql.ql-main .qi{background:rgba(255,255,255,.2)}
+.ql.ql-main .qa{color:#fff}
