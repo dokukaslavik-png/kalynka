@@ -364,6 +364,7 @@ collections:
             fields:
               - { label: "Назва кроку", name: title, widget: string }
               - { label: "Опис", name: text, widget: text }
+              - { label: "Посилання-кнопка (необовʼязково)", name: url, widget: string, required: false }
           - label: "Перелік документів"
             name: documents
             widget: list
@@ -454,3 +455,4 @@ collections:
               - { label: "Адреса (посилання)", name: url, widget: string }
               - { label: "Короткий опис", name: text, widget: string, required: false }
               - { label: "Емодзі", name: icon, widget: string, required: false }
+              - { label: "Показувати на головній", name: home, widget: boolean, required: false }
