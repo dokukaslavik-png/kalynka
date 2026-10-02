@@ -25,7 +25,7 @@
     ['batkam.html','batkam','Батьківський навігатор'],
     ['dityam.html','dityam','Територія дитинства'],
     ['novyny.html','novyny','Новини'],
-    ['dokumenty.html','dokumenty','Документи'],
+    ['prozorist.html','prozorist','Прозорість'],
     ['kontakty.html','kontakty','Контакти']
   ];
 
@@ -37,7 +37,6 @@
       ['prozorist.html','Прозорість','🔎'],
       ['dosyahnennya.html','Скарбничка досягнень','🏆'],
       ['galereya.html','Фотогалерея','📸'],
-      ['dokumenty.html','Документи','📄'],
       ['korysni.html','Корисні посилання','🔗']
     ]],
     ['Наші групи', [
@@ -186,7 +185,6 @@
         '<li><a href="dosyahnennya.html">Скарбничка досягнень</a></li>'+
         '<li><a href="dityam.html">Територія дитинства</a></li>'+
         '<li><a href="novyny.html">Новини</a></li>'+
-        '<li><a href="dokumenty.html">Документи</a></li>'+
         '<li><a href="korysni.html">Корисні посилання</a></li></ul></div>'+
       '<div><h4>Контакти</h4><ul>'+
         '<li>📍 '+esc(INFO.addr)+'</li>'+
