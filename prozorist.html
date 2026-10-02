@@ -38,6 +38,13 @@
 .pz .open{display:inline-flex;align-items:center;gap:6px;background:var(--leaf);color:#fff;border-radius:10px;padding:8px 15px;font-weight:800;font-size:.88rem;text-decoration:none;white-space:nowrap}
 .pz .open:hover{background:var(--leaf-deep)}
 .pz .soon{color:var(--ink-soft);font-weight:700;font-size:.82rem;opacity:.7;white-space:nowrap}
+.pz.has-docs{align-items:flex-start}
+.pz .cnt{display:inline-block;background:var(--leaf-soft);color:var(--leaf-deep);border-radius:999px;padding:5px 12px;font-weight:800;font-size:.8rem;white-space:nowrap}
+.pz-docs{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.pz-doc{display:flex;align-items:center;gap:10px;background:var(--leaf-soft);border-radius:12px;padding:10px 14px;color:var(--ink);text-decoration:none;font-weight:700;font-size:.92rem;transition:background .2s}
+.pz-doc:hover{background:#dcefe2}
+.pz-doc .dt{flex:1;min-width:0}
+.pz-doc .dg{flex:none;color:var(--leaf-deep);font-weight:800;font-size:.82rem;white-space:nowrap}
 @media(max-width:560px){.pz{flex-wrap:wrap;gap:10px}.pz .pz-main{flex:1 1 100%;order:2}.pz .n{order:1}.pz .pz-act{order:3;margin-left:auto}}
 </style>
 </head>
@@ -66,13 +73,18 @@
     var box=document.getElementById('pzList');
     if(box&&d.items&&d.items.length){
       box.innerHTML=d.items.map(function(x,idx){
+        var docs=(x.docs||[]).filter(function(dd){return dd&&(dd.file||dd.link);});
         var href = x.file || x.link || '';
-        var act = href
-          ? '<a class="open" href="'+esc(href)+'" target="_blank" rel="noopener">📄 Відкрити</a>'
-          : '<span class="soon">незабаром</span>';
+        var act;
+        if(href) act='<a class="open" href="'+esc(href)+'" target="_blank" rel="noopener">📄 Відкрити</a>';
+        else if(docs.length) act='<span class="cnt">'+docs.length+' '+(docs.length===1?'документ':(docs.length<5?'документи':'документів'))+'</span>';
+        else act='<span class="soon">незабаром</span>';
         var note = x.note ? '<div class="pz-note">'+esc(x.note)+'</div>' : '';
-        return '<div class="pz reveal"><div class="n">'+(idx+1)+'</div>'+
-          '<div class="pz-main"><div class="pz-title">'+esc(x.title)+'</div>'+note+'</div>'+
+        var sub = docs.length ? '<div class="pz-docs">'+docs.map(function(dd){
+            return '<a class="pz-doc" href="'+esc(dd.file||dd.link)+'" target="_blank" rel="noopener"><span class="di">📄</span><span class="dt">'+esc(dd.title||'Документ')+'</span><span class="dg">Відкрити →</span></a>';
+          }).join('')+'</div>' : '';
+        return '<div class="pz reveal'+(docs.length?' has-docs':'')+'"><div class="n">'+(idx+1)+'</div>'+
+          '<div class="pz-main"><div class="pz-title">'+esc(x.title)+'</div>'+note+sub+'</div>'+
           '<div class="pz-act">'+act+'</div></div>';
       }).join('');
     }

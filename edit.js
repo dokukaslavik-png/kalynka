@@ -153,7 +153,9 @@
              fields:[
                {n:'intro',l:'Вступний текст',t:'textarea'},
                {n:'items',l:'Пункти', t:'objlist', itemName:'Пункт', title:function(x){return x.title||'';},
-                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'file',l:'Файл PDF',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true}, {n:'note',l:'Примітка',t:'text',opt:true} ]}
+                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'file',l:'Файл PDF (один документ)',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true}, {n:'note',l:'Примітка',t:'text',opt:true},
+                          {n:'docs',l:'Кілька документів у цьому пункті (напр. кошторис, благодійна допомога)',t:'objlist',itemName:'Документ',title:function(x){return x.title||'';},
+                            fields:[ {n:'title',l:'Назва документа',t:'text'}, {n:'file',l:'Файл PDF',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true} ]} ]}
              ]}
   };
 
