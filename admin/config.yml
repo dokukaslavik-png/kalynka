@@ -392,6 +392,7 @@ collections:
               - { label: "Файл PDF", name: file, widget: file, required: false }
               - { label: "Посилання (замість файлу)", name: link, widget: string, required: false }
               - { label: "Примітка", name: note, widget: string, required: false }
+              - { label: "Кілька документів у цьому пункті", name: docs, widget: list, required: false, label_singular: "Документ", summary: "{{fields.title}}", fields: [ { label: "Назва документа", name: title, widget: string }, { label: "Файл PDF", name: file, widget: file, required: false }, { label: "Посилання (замість файлу)", name: link, widget: string, required: false } ] }
 
   - name: pedprostir
     label: "Педагогічний простір"
