@@ -215,11 +215,19 @@
 
   // ───────── GitHub API ─────────
   function ghHeaders(){ return {'Authorization':'token '+getToken(), 'Accept':'application/vnd.github+json'}; }
+  // GET: 404 = «файлу ще нема» (null). Запис: 403/404 = НЕМАЄ ДОСТУПУ (раніше хибно показувало «Збережено»).
   function handle(r){
     if(r.status===401){ setToken(''); buildBar(false); throw new Error('AUTH'); }
     if(r.status===404) return null;
     if(!r.ok) return r.text().then(function(t){ throw new Error(r.status+' '+t); });
     return r.json();
+  }
+  function handleWrite(r){
+    if(r.status===401){ setToken(''); buildBar(false); throw new Error('AUTH'); }
+    if(r.status===403||r.status===404) throw new Error('NOACCESS');
+    if(r.status===409||r.status===422) throw new Error('CONFLICT');
+    if(!r.ok) return r.text().then(function(t){ throw new Error(r.status+' '+t); });
+    return r.json().then(function(j){ if(!j||!j.content) throw new Error('NOACCESS'); return j; });
   }
   function ghGet(path){
     return fetch(API+'/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+encodeURI(path)+'?ref='+GH_BRANCH, {headers:ghHeaders(), cache:'no-store'}).then(handle);
@@ -228,13 +236,29 @@
     var body={message:message, content:contentB64, branch:GH_BRANCH};
     if(sha) body.sha=sha;
     var h=ghHeaders(); h['Content-Type']='application/json';
-    return fetch(API+'/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+encodeURI(path), {method:'PUT', headers:h, body:JSON.stringify(body)}).then(handle);
+    return fetch(API+'/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+encodeURI(path), {method:'PUT', headers:h, body:JSON.stringify(body)}).then(handleWrite);
+  }
+  // Чи має цей акаунт право запису в репозиторій
+  var ACCESS=null; // null=невідомо, true/false
+  function checkAccess(){
+    return fetch(API+'/repos/'+GH_OWNER+'/'+GH_REPO, {headers:ghHeaders(), cache:'no-store'}).then(function(r){
+      if(r.status===401){ setToken(''); buildBar(false); throw new Error('AUTH'); }
+      if(!r.ok) return false;
+      return r.json().then(function(j){ return !!(j.permissions && j.permissions.push); });
+    }).then(function(ok){ ACCESS=ok; return ok; });
+  }
+  // Після збереження просимо Vercel оновити сайт (обхід блокування комітів не від власника)
+  function triggerDeploy(){
+    try{ fetch('/api/deploy',{method:'POST', headers:{'Authorization':'token '+getToken()}}).catch(function(){}); }catch(e){}
+  }
+  function noAccessMsg(){
+    toast('Немає доступу на редагування. Прийміть запрошення в GitHub (лист на пошту або github.com/'+GH_OWNER+'/'+GH_REPO+'/invitations), потім натисніть «Вийти» і увійдіть знову.', true, 12000);
   }
 
   function loadData(){
     if(TEST){ return fetch(schema.file,{cache:'no-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(j){return {data:j, sha:null};}); }
     return ghGet(schema.file).then(function(res){
-      if(!res) return {data:{}, sha:null};
+      if(!res) throw new Error('NOACCESS'); // файл має існувати; інакше нема доступу — не ризикуємо затерти дані
       return {data: JSON.parse(b64dec(res.content)), sha: res.sha};
     });
   }
@@ -246,7 +270,7 @@
         var safe=fileObj.name.replace(/[^a-zA-Z0-9._-]/g,'_');
         var path=MEDIA_DIR+'/'+Date.now()+'_'+safe;
         if(TEST){ console.log('[TEST upload]', path); resolve('/'+path); return; }
-        ghPut(path, b64, 'upload: '+safe).then(function(){ resolve('/'+path); }).catch(reject);
+        ghPut(path, b64, 'upload: '+safe).then(function(){ resolve('/'+path); }).catch(function(e){ if(String(e.message)==='NOACCESS') noAccessMsg(); reject(e); });
       };
       reader.onerror=reject;
       reader.readAsDataURL(fileObj);
@@ -356,17 +380,22 @@
         if(TEST){ console.log('[TEST save] '+schema.file+'\n'+json); toast('ТЕСТ: збережено в консоль'); close(); return; }
         save.disabled=true; save.textContent='Зберігаю…';
         ghPut(schema.file, b64enc(json), 'edit: '+schema.file+' (сайт)', sha).then(function(){
-          close(); toast('Збережено! Зміни зʼявляться на сайті за 1–2 хвилини ✅', false, 5000);
+          triggerDeploy();
+          close(); toast('Збережено! Зміни зʼявляться на сайті за 1–2 хвилини ✅', false, 6000);
         }).catch(function(e){
           save.disabled=false; save.textContent='💾 Зберегти';
-          if(String(e.message)==='AUTH') toast('Сесія завершилась. Увійдіть знову.', true, 5000);
-          else toast('Помилка збереження. Спробуйте ще раз.', true, 5000);
+          var m=String(e.message);
+          if(m==='AUTH') toast('Сесія завершилась. Увійдіть знову.', true, 5000);
+          else if(m==='NOACCESS') noAccessMsg();
+          else if(m==='CONFLICT') toast('Дані щойно змінились з іншого місця. Закрийте вікно, оновіть сторінку і спробуйте ще раз.', true, 8000);
+          else toast('Помилка збереження: '+m.slice(0,80), true, 8000);
         });
       });
       document.body.appendChild(bg);
     }).catch(function(e){
       clearToasts();
       if(String(e.message)==='AUTH') toast('Потрібно ввійти знову', true);
+      else if(String(e.message)==='NOACCESS') noAccessMsg();
       else toast('Не вдалося завантажити дані для редагування', true);
     });
   }
@@ -378,7 +407,8 @@
   }
   window.addEventListener('message', function(e){
     if(!e.data || e.data.source!=='kalynka-auth') return;
-    if(e.data.token){ setToken(e.data.token); buildBar(true); toast('Вхід виконано ✅', false, 2500); }
+    if(e.data.token){ setToken(e.data.token); buildBar(true);
+      checkAccess().then(function(ok){ if(ok) toast('Вхід виконано ✅', false, 2500); else { buildBar(true); noAccessMsg(); } }).catch(function(){}); }
     else { toast('Не вдалося увійти'+(e.data.error?': '+e.data.error:''), true, 5000); }
   });
 
@@ -392,10 +422,11 @@
       lg.addEventListener('click',login);
       bar.appendChild(lg);
     } else {
-      if(schema){ var edit=el('button',{class:'e-edit',type:'button',text:'✏️ Редагувати: '+schema.label}); edit.addEventListener('click',openEditor); bar.appendChild(edit); }
+      if(ACCESS===false){ var na=el('button',{class:'e-key',type:'button',text:'⛔ Немає доступу на запис'}); na.addEventListener('click',noAccessMsg); bar.appendChild(na); }
+      else if(schema){ var edit=el('button',{class:'e-edit',type:'button',text:'✏️ Редагувати: '+schema.label}); edit.addEventListener('click',openEditor); bar.appendChild(edit); }
       else bar.appendChild(el('button',{class:'e-key',type:'button',text:'ℹ️ Тут нема що редагувати'}));
       var out=el('button',{class:'e-out',type:'button',text:'Вийти'});
-      out.addEventListener('click',function(){ setToken(''); buildBar(false); });
+      out.addEventListener('click',function(){ setToken(''); ACCESS=null; buildBar(false); });
       bar.appendChild(out);
     }
     document.body.appendChild(bar);
@@ -404,4 +435,5 @@
   // ───────── старт ─────────
   if(TEST){ buildBar(true); return; }
   buildBar(!!getToken());
+  if(getToken()) checkAccess().then(function(ok){ if(!ok) buildBar(true); }).catch(function(){});
 })();

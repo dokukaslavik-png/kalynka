@@ -305,7 +305,7 @@
 
   // редактор «на місці» для адміністратора (мами)
   var es = document.createElement('script');
-  es.src = 'edit.js';
+  es.src = 'edit.js?v=20261014';
   es.defer = true;
   document.body.appendChild(es);
 })();
