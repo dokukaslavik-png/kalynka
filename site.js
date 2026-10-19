@@ -112,15 +112,28 @@
     '</div>';
   };
 
-  // ── перегляд фото на весь екран (картки людей) ──
+  // ── перегляд фото на весь екран (картки людей, фото розділів); стрілки — якщо фото кілька (data-set) ──
   document.addEventListener('click', function(e){
     var b=e.target.closest && e.target.closest('.pzoom'); if(!b) return;
+    e.preventDefault();
+    var set=b.getAttribute('data-set');
+    var list=set ? Array.prototype.slice.call(document.querySelectorAll('.pzoom[data-set="'+set+'"]')) : [b];
+    var idx=Math.max(0,list.indexOf(b));
     var bg=document.createElement('div'); bg.className='k-lb';
-    bg.innerHTML='<figure><img src="'+esc(b.getAttribute('data-full'))+'" alt=""><figcaption>'+esc(b.getAttribute('data-cap')||'')+'</figcaption></figure><button type="button" class="k-lb-x" aria-label="Закрити">✕</button>';
+    var multi=list.length>1;
+    bg.innerHTML='<figure><img alt=""><figcaption></figcaption></figure><button type="button" class="k-lb-x" aria-label="Закрити">✕</button>'+
+      (multi?'<button type="button" class="k-lb-nav prev" aria-label="Попереднє">‹</button><button type="button" class="k-lb-nav next" aria-label="Наступне">›</button>':'');
+    var img=bg.querySelector('img'), cap=bg.querySelector('figcaption');
+    function show(i){ idx=(i+list.length)%list.length; var it=list[idx]; img.src=it.getAttribute('data-full'); cap.textContent=(it.getAttribute('data-cap')||'')+(multi?'  ·  '+(idx+1)+' / '+list.length:''); }
     function close(){ bg.remove(); document.removeEventListener('keydown',onKey); }
-    function onKey(ev){ if(ev.key==='Escape') close(); }
-    bg.addEventListener('click', function(ev){ if(ev.target.tagName!=='IMG') close(); });
+    function onKey(ev){ if(ev.key==='Escape') close(); else if(multi&&ev.key==='ArrowRight') show(idx+1); else if(multi&&ev.key==='ArrowLeft') show(idx-1); }
+    bg.addEventListener('click', function(ev){
+      if(ev.target.classList.contains('prev')){ show(idx-1); return; }
+      if(ev.target.classList.contains('next')){ show(idx+1); return; }
+      if(ev.target.tagName!=='IMG') close();
+    });
     document.addEventListener('keydown',onKey);
+    show(idx);
     document.body.appendChild(bg);
   });
 
@@ -408,7 +421,7 @@
 
   // редактор «на місці» для адміністратора (мами)
   var es = document.createElement('script');
-  es.src = 'edit.js?v=20261019b';
+  es.src = 'edit.js?v=20261019c';
   es.defer = true;
   document.body.appendChild(es);
 })();

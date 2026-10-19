@@ -473,6 +473,9 @@ img{height:auto}
 .k-lb figcaption{color:#fff;font-family:'Comfortaa',cursive;font-weight:700;margin-top:14px;font-size:1.05rem}
 .k-lb-x{position:absolute;top:16px;right:18px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:1.1rem;cursor:pointer}
 @keyframes klb{from{opacity:0}to{opacity:1}}
+.k-lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--leaf-deep);font-size:2rem;line-height:1;cursor:pointer;box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
+.k-lb-nav.prev{left:16px}.k-lb-nav.next{right:16px}
+@media(max-width:560px){.k-lb-nav{width:42px;height:42px;font-size:1.6rem;top:auto;bottom:18px;transform:none}}
 
 /* ---------- «ГАРНИЙ ТЕКСТ» (абзаци, списки, жирний) ---------- */
 .rtx p{margin:0 0 .75em}

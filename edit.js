@@ -41,6 +41,7 @@
     {n:'credo',l:'Педагогічне кредо',t:'textarea',opt:true,hint:'Без лапок — вони додадуться самі'}
   ];
 
+  var DOC_ACCEPT='.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.rtf,.txt,.jpg,.jpeg,.png,application/pdf,image/*';
   var S = {
     news:   {label:'Новини', file:'content/news.json', shape:'list', listKey:'items', itemName:'Новина',
              title:function(x){return (x.date?x.date+' — ':'')+(x.title||'(без назви)');},
@@ -134,8 +135,13 @@
     pedprostir:{label:'Педагогічний простір', file:'content/pedprostir.json', shape:'object',
              fields:[
                {n:'intro',l:'Вступний текст',t:'rich'},
-               {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){return x.title||'';},
-                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]}
+               {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){ var ph=(x.photos||[]).length, dc=(x.docs||[]).length; return (x.title||'')+(ph||dc?'  ·  📷 '+ph+' · 📄 '+dc:''); },
+                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'},
+                          {n:'photos',l:'📷 Фото',t:'gallery',opt:true,hint:'Можна вибрати одразу кілька фото. Великі фото зменшуються автоматично.'},
+                          {n:'docs',l:'📄 Документи',t:'objlist',opt:true,itemName:'Документ',title:function(x){return x.title||x.file||x.link||'';},
+                            fields:[ {n:'title',l:'Назва документа',t:'text',hint:'Напр.: Графік атестації на 2026 рік'},
+                                     {n:'file',l:'Файл',t:'file',opt:true,accept:DOC_ACCEPT,hint:'PDF, Word, Excel, PowerPoint або фото'},
+                                     {n:'link',l:'Або посилання (замість файлу)',t:'text',opt:true,hint:'Напр.: Google Диск, сайт МОН'} ]} ]}
              ]},
     dosyahnennya:{label:'Скарбничка досягнень', file:'content/dosyahnennya.json', shape:'object',
              fields:[
@@ -214,6 +220,11 @@
   '.e-th{flex:none;width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:2px solid #fff;box-shadow:0 0 0 2px #cfe3d5}'+
   '.e-th-none{display:grid;place-items:center;background:#f0f2f0;font-size:.95rem;filter:grayscale(1);opacity:.55;box-shadow:0 0 0 2px #e3e8e4}'+
   '.e-note{background:#fff8e1;border:1px solid #f5d77a;color:#6b5400;border-radius:12px;padding:10px 14px;font-weight:700;font-size:.86rem;margin-bottom:14px}'+
+  '.e-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:4px}'+
+  '.e-gal-it{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid #e3e8e4;background:#f5f8f5}'+
+  '.e-gal-it img{width:100%;height:100%;object-fit:cover;display:block}'+
+  '.e-gal-x,.e-gal-mv{position:absolute;top:5px;width:26px;height:26px;border-radius:50%;border:0;cursor:pointer;font-weight:800;font-size:.8rem;box-shadow:0 2px 6px rgba(0,0,0,.25)}'+
+  '.e-gal-x{right:5px;background:#fff;color:#b0344a}.e-gal-mv{left:5px;background:#fff;color:#2f6f45;font-size:1rem;line-height:1}'+
   '.e-rtip{font-size:.76rem;color:#8a978f;font-weight:600;padding:6px 12px;background:#fafbfa;border-top:1px solid #eef1ee}';
   document.head.appendChild(css);
 
@@ -366,7 +377,7 @@
       function refresh(){ prev.innerHTML=''; if(cur.v){ if(f.t==='image') prev.appendChild(el('img',{src:cur.v,alt:''})); else prev.appendChild(el('div',{class:'fn',text:cur.v})); } else prev.appendChild(el('div',{class:'fn',text:'— не додано —'})); }
       refresh();
       var inp=el('input',{type:'file'});
-      if(f.t==='image') inp.setAttribute('accept','image/*'); else inp.setAttribute('accept','.pdf,application/pdf');
+      if(f.t==='image') inp.setAttribute('accept','image/*'); else inp.setAttribute('accept',f.accept||'.pdf,application/pdf');
       inp.addEventListener('change',function(){
         if(!inp.files||!inp.files[0])return;
         toast('Завантажую файл…',false,60000);
@@ -375,6 +386,36 @@
       });
       wrap.appendChild(prev); wrap.appendChild(inp);
       return {el:wrap, get:function(){return cur.v;}};
+    }
+    if(f.t==='gallery'){
+      var pics=Array.isArray(value)?value.slice():[];
+      var grid=el('div',{class:'e-gal'});
+      function draw(){
+        grid.innerHTML='';
+        pics.forEach(function(src,i){
+          var x=el('button',{type:'button',class:'e-gal-x',title:'Прибрати фото',text:'✕'});
+          x.addEventListener('click',function(){ if(confirm('Прибрати це фото?')){ pics.splice(i,1); draw(); } });
+          var l=el('button',{type:'button',class:'e-gal-mv',title:'Перемістити ліворуч',text:'‹'});
+          l.addEventListener('click',function(){ if(i>0){ var t=pics[i-1]; pics[i-1]=pics[i]; pics[i]=t; draw(); } });
+          grid.appendChild(el('div',{class:'e-gal-it'},[el('img',{src:src,alt:''}),x,i>0?l:null]));
+        });
+        if(!pics.length) grid.appendChild(el('div',{class:'fn',text:'— фото ще немає —'}));
+      }
+      draw();
+      var gi=el('input',{type:'file',accept:'image/*',multiple:'multiple'});
+      var pick=el('button',{type:'button',class:'e-add',text:'➕ Додати фото'});
+      pick.addEventListener('click',function(){ gi.click(); });
+      gi.style.display='none';
+      gi.addEventListener('change',function(){
+        var files=Array.prototype.slice.call(gi.files||[]); gi.value=''; if(!files.length) return;
+        var n=0, fail=0;
+        (function next(){
+          if(n>=files.length){ clearToasts(); toast(fail?('Додано '+(files.length-fail)+' з '+files.length+' фото'):'Фото додано 👍', !!fail, 2500); draw(); return; }
+          clearToasts(); toast('Завантажую фото '+(n+1)+' з '+files.length+'…',false,120000);
+          uploadFile(files[n]).then(function(pth){ pics.push(pth); draw(); }).catch(function(){ fail++; }).then(function(){ n++; next(); });
+        })();
+      });
+      return {el:el('div',{},[grid,pick,gi]), get:function(){ return pics.slice(); }};
     }
     if(f.t==='strlist'){
       var arr=Array.isArray(value)?value.slice():[];
