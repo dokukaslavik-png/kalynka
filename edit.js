@@ -34,11 +34,11 @@
   // ───────── схеми вмісту ─────────
   // поля «людини» (педагог / працівник)
   var PERSON = [
+    {n:'photo',l:'📷 Фото',t:'image',opt:true,hint:'Портрет, бажано вертикальний. Великі фото зменшуються автоматично.'},
     {n:'role',l:'Посада',t:'text',hint:'Напр.: Вихователь'},
     {n:'name',l:'Прізвище, імʼя, по батькові',t:'text'},
     {n:'info',l:'Категорія, стаж, освіта',t:'text',opt:true,hint:'Напр.: Вища категорія, стаж 23 роки'},
-    {n:'credo',l:'Педагогічне кредо',t:'textarea',opt:true,hint:'Без лапок — вони додадуться самі'},
-    {n:'photo',l:'Фото',t:'image',opt:true}
+    {n:'credo',l:'Педагогічне кредо',t:'textarea',opt:true,hint:'Без лапок — вони додадуться самі'}
   ];
 
   var S = {
@@ -84,7 +84,8 @@
     group:  {label:'Цю групу (вихователі, опис)', file:'content/groups.json', shape:'object',
              sub:function(){ return document.body.getAttribute('data-group'); },
              fields:[
-               {n:'groups',l:'Групи та вихователі',t:'objlist',itemName:'Група',title:function(x){return (x.num?'№'+x.num+' ':'')+(x.name?'«'+x.name+'»':'');},
+               {n:'groups',l:'Групи та вихователі',t:'objlist',itemName:'Група',title:function(x){ var t=x.teachers||[], ph=t.filter(function(p){return p&&p.photo;}).length; return (x.num?'№'+x.num+' ':'')+(x.name?'«'+x.name+'»':'')+(t.length?'  ·  👩‍🏫 '+t.length+' · 📷 '+ph+'/'+t.length:''); },
+                 hint:'Щоб додати фото педагога: «Змінити» біля групи → «Змінити» біля педагога → 📷 Фото.',
                  fields:[ {n:'num',l:'Номер групи',t:'text',opt:true,hint:'Напр.: 10'}, {n:'name',l:'Назва групи',t:'text',opt:true,hint:'Напр.: Пазлики'},
                           {n:'inclusive',l:'Інклюзивна група',t:'bool',box:'Так — показувати й на сторінці «Інклюзивна група»'},
                           {n:'teachers',l:'Педагоги групи',t:'objlist',itemName:'Педагог',title:function(x){return (x.role||'')+' — '+(x.name||'');}, fields:PERSON} ]},
@@ -210,6 +211,9 @@
   '.e-tb:hover{background:#e7f1ea}.e-tb-soft{color:#8a978f}.e-sep{width:1px;height:22px;background:#dfe5e0;margin:0 3px}'+
   '.e-rta{min-height:140px;max-height:46vh;overflow:auto;padding:12px 14px;font-size:.97rem;line-height:1.6;color:#33413a;outline:0}'+
   '.e-rta p{margin:0 0 .7em}.e-rta h3{font-family:Comfortaa,cursive;color:#2f6f45;font-size:1.05rem;margin:.8em 0 .4em}.e-rta ul,.e-rta ol{margin:0 0 .7em;padding-left:1.4em}.e-rta a{color:#2f6f45;font-weight:800}'+
+  '.e-th{flex:none;width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:2px solid #fff;box-shadow:0 0 0 2px #cfe3d5}'+
+  '.e-th-none{display:grid;place-items:center;background:#f0f2f0;font-size:.95rem;filter:grayscale(1);opacity:.55;box-shadow:0 0 0 2px #e3e8e4}'+
+  '.e-note{background:#fff8e1;border:1px solid #f5d77a;color:#6b5400;border-radius:12px;padding:10px 14px;font-weight:700;font-size:.86rem;margin-bottom:14px}'+
   '.e-rtip{font-size:.76rem;color:#8a978f;font-weight:600;padding:6px 12px;background:#fafbfa;border-top:1px solid #eef1ee}';
   document.head.appendChild(css);
 
@@ -269,20 +273,50 @@
       return {data: JSON.parse(b64dec(res.content)), sha: res.sha};
     });
   }
-  function uploadFile(fileObj){
-    return new Promise(function(resolve,reject){
-      var reader=new FileReader();
-      reader.onload=function(){
-        var b64=reader.result.split(',')[1];
-        var safe=fileObj.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-        var path=MEDIA_DIR+'/'+Date.now()+'_'+safe;
-        if(TEST){ console.log('[TEST upload]', path); resolve('/'+path); return; }
-        ghPut(path, b64, 'upload: '+safe).then(function(){ resolve('/'+path); }).catch(function(e){ if(String(e.message)==='NOACCESS') noAccessMsg(); reject(e); });
+  // транслітерація імені файлу (щоб не було «______.pdf»)
+  var TR={а:'a',б:'b',в:'v',г:'h',ґ:'g',д:'d',е:'e',є:'ie',ж:'zh',з:'z',и:'y',і:'i',ї:'i',й:'i',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ь:'',ю:'iu',я:'ia',ы:'y',э:'e',ё:'io',ъ:''};
+  function safeName(n){
+    n=String(n||'file').toLowerCase().replace(/[ʼ'’`]/g,'');
+    n=n.replace(/[а-яіїєґёыэъ]/g,function(c){return TR[c]!=null?TR[c]:'';});
+    n=n.replace(/[^a-z0-9._-]+/g,'-').replace(/-+/g,'-').replace(/^-|-(?=\.)/g,'');
+    return n||'file';
+  }
+  // великі фото зменшуємо в браузері (до 1600px, JPEG) — сайт вантажиться швидко
+  function shrinkImage(file){
+    return new Promise(function(resolve){
+      if(!/^image\/(jpeg|png|webp|heic|heif)$/i.test(file.type) || !window.createImageBitmap && !window.Image){ resolve(null); return; }
+      var url=URL.createObjectURL(file), img=new Image();
+      img.onload=function(){
+        var MAX=1600, w=img.naturalWidth, h=img.naturalHeight, k=Math.min(1, MAX/Math.max(w,h));
+        if(k===1 && file.size<600*1024){ URL.revokeObjectURL(url); resolve(null); return; }
+        var c=document.createElement('canvas'); c.width=Math.round(w*k); c.height=Math.round(h*k);
+        var ctx=c.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(img,0,0,c.width,c.height);
+        URL.revokeObjectURL(url);
+        var data=c.toDataURL('image/jpeg',0.86);
+        resolve(data.split(',')[1]);
       };
-      reader.onerror=reject;
-      reader.readAsDataURL(fileObj);
+      img.onerror=function(){ URL.revokeObjectURL(url); resolve(null); };
+      img.src=url;
     });
   }
+  function uploadFile(fileObj){
+    return shrinkImage(fileObj).then(function(small){
+      return new Promise(function(resolve,reject){
+        function go(b64, name){
+          var path=MEDIA_DIR+'/'+Date.now()+'_'+name;
+          if(TEST){ console.log('[TEST upload]', path, Math.round(b64.length*0.75/1024)+'KB'); resolve('/'+path); return; }
+          ghPut(path, b64, 'upload: '+name).then(function(){ resolve('/'+path); }).catch(function(e){ if(String(e.message)==='NOACCESS') noAccessMsg(); reject(e); });
+        }
+        var name=safeName(fileObj.name);
+        if(small){ go(small, name.replace(/\.[a-z0-9]+$/,'')+'.jpg'); return; }
+        var reader=new FileReader();
+        reader.onload=function(){ go(reader.result.split(',')[1], name); };
+        reader.onerror=reject;
+        reader.readAsDataURL(fileObj);
+      });
+    });
+  }
+
 
   // ───────── рендер полів (без змін) ─────────
   function fieldControl(f, value){
@@ -357,16 +391,19 @@
         box.innerHTML='';
         list.forEach(function(it,i){
           var t=el('div',{class:'t',text:(f.title?f.title(it):(it.title||('#'+(i+1))))});
+          var imgF=(f.fields||[]).filter(function(x){return x.t==='image';})[0];
+          var th=null;
+          if(imgF){ var src=it&&it[imgF.n]; th = src ? el('img',{class:'e-th',src:src,alt:''}) : el('span',{class:'e-th e-th-none',text:'📷',title:'Без фото'}); }
           var up=el('button',{class:'mv',type:'button',text:'↑'}); up.addEventListener('click',function(){if(i>0){var x=list[i-1];list[i-1]=list[i];list[i]=x;render();}});
           var dn=el('button',{class:'mv',type:'button',text:'↓'}); dn.addEventListener('click',function(){if(i<list.length-1){var x=list[i+1];list[i+1]=list[i];list[i]=x;render();}});
           var ed=el('button',{class:'ed',type:'button',text:'Змінити'}); ed.addEventListener('click',function(){ itemForm(f, list[i], function(res){ list[i]=res; render(); }); });
           var del=el('button',{class:'del',type:'button',text:'Видалити'}); del.addEventListener('click',function(){ if(confirm('Видалити цей пункт?')){list.splice(i,1);render();} });
-          box.appendChild(el('div',{class:'e-row'},[t,up,dn,ed,del]));
+          box.appendChild(el('div',{class:'e-row'}, f.fixed ? [th,t,ed] : [th,t,up,dn,ed,del]));
         });
       }
       render();
       var add=el('button',{class:'e-add',type:'button',text:'➕ Додати '+(f.itemName||'пункт')}); add.addEventListener('click',function(){ itemForm(f, {}, function(res){ list.push(res); render(); }); });
-      return {el:el('div',{},[box,add]), get:function(){return list;}};
+      return {el:el('div',{},f.fixed?[box]:[box,add]), get:function(){return list;}};
     }
     var d=el('input',{type:'text',value:value==null?'':String(value)}); return {el:d, get:function(){return d.value;}};
   }
@@ -398,13 +435,21 @@
       var subk=schema.sub?schema.sub():null;
       var working=subk?(full[subk]||{}):full;
       var body=el('div',{class:'e-body'}); var getters=[];
+      var fields=schema.fields, virt=null;
+      if(subk==='inklyuziya'){
+        // інклюзивні групи живуть у своїх вікових розділах — редагуємо їх звідси напряму
+        virt=[]; var vg=[];
+        Object.keys(full).forEach(function(k){ if(k==='inklyuziya')return; ((full[k]||{}).groups||[]).forEach(function(gr,i){ if(gr&&gr.inclusive){ virt.push([k,i]); vg.push(gr); } }); });
+        working=clone(full.inklyuziya||{}); working.groups=clone(vg);
+        fields=schema.fields.map(function(f){ return f.n==='groups' ? Object.assign({},f,{fixed:true,l:'Інклюзивні групи та їх педагоги',hint:'Тут усі групи з позначкою «Інклюзивна». Зміни (фото, педагоги) збережуться і на сторінці відповідної вікової групи.'}) : f; });
+      }
       if(schema.shape==='list'){
         body.appendChild(el('div',{class:'e-sub',text:'Додавайте, змінюйте або видаляйте записи. Порядок міняйте стрілками ↑↓.'}));
         var ctl=fieldControl({t:'objlist', itemName:schema.itemName, title:schema.title, fields:schema.fields}, working[schema.listKey]||[]);
         body.appendChild(ctl.el);
         getters.push({apply:function(obj){ obj[schema.listKey]=ctl.get(); }});
       } else {
-        schema.fields.forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
+        fields.forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
       }
       var save=el('button',{class:'e-save',type:'button',text:'💾 Зберегти'});
       var cancel=el('button',{class:'e-cancel',type:'button',text:'Скасувати'});
@@ -416,6 +461,11 @@
         var edited=clone(working)||{}; getters.forEach(function(g){g.apply(edited);});
         var out=edited;
         if(subk){ out=clone(full)||{}; out[subk]=edited; }
+        if(virt){
+          var ng=edited.groups||[];
+          virt.forEach(function(ref,j){ if(ng[j] && out[ref[0]] && out[ref[0]].groups) out[ref[0]].groups[ref[1]]=ng[j]; });
+          out.inklyuziya.groups=[];
+        }
         var json=JSON.stringify(out,null,2)+'\n';
         if(TEST){ console.log('[TEST save] '+schema.file+'\n'+json); toast('ТЕСТ: збережено в консоль'); close(); return; }
         save.disabled=true; save.textContent='Зберігаю…';
