@@ -280,7 +280,7 @@
   fetch('content/projects.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!hp||!d||!d.items||!d.items.length)return;
     hp.innerHTML=d.items.slice(0,3).map(function(x,i){
-      return '<a class="pcard '+acc[i%3]+' reveal" href="proekty.html"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></a>';
+      return '<a class="pcard '+acc[i%3]+' reveal" href="proekty.html"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div></a>';
     }).join('');
   }).catch(function(){});
 })();

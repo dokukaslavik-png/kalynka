@@ -36,7 +36,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Педагогічний простір</nav>
     <span class="script eyebrow">Для наших педагогів</span>
     <h1>Педагогічний простір</h1>
-    <p class="lead" id="ppIntro">Методика, ідеї, професійний розвиток і підтримка педагогів «Калинки».</p>
+    <div class="lead" id="ppIntro">Методика, ідеї, професійний розвиток і підтримка педагогів «Калинки».</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -49,11 +49,11 @@
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   fetch('content/pedprostir.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('ppIntro'); if(i)i.textContent=d.intro;}
+    if(d.intro){var i=document.getElementById('ppIntro'); if(i)kalynkaSetRich(i,d.intro);}
     var box=document.getElementById('ppGrid');
     if(box&&d.items&&d.items.length){
       box.innerHTML=d.items.map(function(x){
-        return '<div class="pcard reveal"><div class="pe">'+esc(x.icon||'📌')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></div>';
+        return '<div class="pcard reveal"><div class="pe">'+esc(x.icon||'📌')+'</div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div></div>';
       }).join('');
     }
   }).catch(function(){});

@@ -48,7 +48,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Скарбничка досягнень</nav>
     <span class="script eyebrow">Пишаємося разом</span>
     <h1>Скарбничка досягнень</h1>
-    <p class="lead" id="pgIntro">Перемоги, нагороди та відзнаки «Калинки».</p>
+    <div class="lead" id="pgIntro">Перемоги, нагороди та відзнаки «Калинки».</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -61,13 +61,13 @@
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
   fetch('content/dosyahnennya.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('pgIntro'); if(i)i.textContent=d.intro;}
+    if(d.intro){var i=document.getElementById('pgIntro'); if(i)kalynkaSetRich(i,d.intro);}
     var box=document.getElementById('achGrid');
     if(box&&d.items&&d.items.length){
       box.innerHTML=d.items.map(function(x){
         var img=x.image?'<img src="'+esc(x.image)+'" alt="'+esc(x.title)+'" loading="lazy">':esc(x.icon||'🏆');
         return '<div class="ach reveal"><div class="aimg">'+img+'</div><div class="abody">'+
-          (x.date?'<span class="adate">'+esc(x.date)+'</span>':'')+'<h3>'+esc(x.title)+'</h3>'+(x.text?'<p>'+esc(x.text)+'</p>':'')+'</div></div>';
+          (x.date?'<span class="adate">'+esc(x.date)+'</span>':'')+'<h3>'+esc(x.title)+'</h3>'+(x.text?'<div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div>':'')+'</div></div>';
       }).join('');
     }
   }).catch(function(){});

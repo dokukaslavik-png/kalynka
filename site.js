@@ -99,9 +99,10 @@
   }
   window.kalynkaPersonCard = function(m, cls){
     m=m||{};
+    var emo=roleEmoji(m.role);
     var pe = m.photo
-      ? '<div class="pphoto"><img src="'+esc(m.photo)+'" alt="'+esc(m.name)+'" loading="lazy"></div>'
-      : '<div class="pe">'+roleEmoji(m.role)+'</div>';
+      ? '<div class="pphoto"><button type="button" class="pzoom" data-full="'+esc(m.photo)+'" data-cap="'+esc((m.role?m.role+' — ':'')+(m.name||''))+'" aria-label="Збільшити фото"><img src="'+esc(m.photo)+'" alt="'+esc(m.name)+'" loading="lazy"></button><span class="pbadge" aria-hidden="true">'+emo+'</span></div>'
+      : '<div class="pphoto noimg"><span class="pbig" aria-hidden="true">'+emo+'</span></div>';
     var credo = String(m.credo||'').trim().replace(/^[«"„,]+|[»"“]+$/g,'');
     return '<div class="pcard person center '+(cls||'')+'">'+pe+
       '<div class="prole">'+esc(m.role)+'</div>'+
@@ -109,6 +110,108 @@
       (m.info?'<div class="pmeta">'+esc(m.info)+'</div>':'')+
       (credo?'<div class="pcredo">«'+esc(credo)+'»</div>':'')+
     '</div>';
+  };
+
+  // ── перегляд фото на весь екран (картки людей) ──
+  document.addEventListener('click', function(e){
+    var b=e.target.closest && e.target.closest('.pzoom'); if(!b) return;
+    var bg=document.createElement('div'); bg.className='k-lb';
+    bg.innerHTML='<figure><img src="'+esc(b.getAttribute('data-full'))+'" alt=""><figcaption>'+esc(b.getAttribute('data-cap')||'')+'</figcaption></figure><button type="button" class="k-lb-x" aria-label="Закрити">✕</button>';
+    function close(){ bg.remove(); document.removeEventListener('keydown',onKey); }
+    function onKey(ev){ if(ev.key==='Escape') close(); }
+    bg.addEventListener('click', function(ev){ if(ev.target.tagName!=='IMG') close(); });
+    document.addEventListener('keydown',onKey);
+    document.body.appendChild(bg);
+  });
+
+  // ── «гарний текст»: абзаци, жирний, курсив, списки, посилання ──
+  // Приймає або звичайний текст (абзаци з нових рядків), або HTML з редактора (очищується).
+  var RICH_OK={P:'p',BR:'br',STRONG:'strong',B:'strong',EM:'em',I:'em',U:'u',UL:'ul',OL:'ol',LI:'li',A:'a',H3:'h3',H4:'h3',DIV:'p',H1:'h3',H2:'h3',BLOCKQUOTE:'p'};
+  var RICH_DROP={SCRIPT:1,STYLE:1,IFRAME:1,OBJECT:1,EMBED:1,TITLE:1,META:1,LINK:1,HEAD:1,SVG:1,MATH:1,TEMPLATE:1,XML:1,'O:P':1};
+  var BLOCK={p:1,ul:1,ol:1,h3:1};
+  function safeHref(h){ h=String(h||'').trim(); return /^(https?:|mailto:|tel:|\/|#|[a-z0-9_\-]+\.html)/i.test(h)?h:''; }
+  function cleanNode(src, dst){
+    for(var c=src.firstChild;c;c=c.nextSibling){
+      if(c.nodeType===3){ dst.appendChild(document.createTextNode(c.nodeValue.replace(/ /g,' '))); continue; }
+      if(c.nodeType!==1) continue;
+      var tn=c.tagName.toUpperCase(); if(RICH_DROP[tn]) continue;
+      var map=RICH_OK[tn];
+      if(!map){ cleanNode(c, dst); continue; }            // невідомий тег — лишаємо лише вміст
+      var n=document.createElement(map);
+      if(map==='a'){ var h=safeHref(c.getAttribute('href')); if(!h){ cleanNode(c,dst); continue; } n.setAttribute('href',h); if(/^https?:/i.test(h)){ n.setAttribute('target','_blank'); n.setAttribute('rel','noopener'); } }
+      if(map!=='br') cleanNode(c, n);
+      dst.appendChild(n);
+    }
+  }
+  function tidy(root){
+    // прибрати вкладені блоки в <p>, порожні абзаци; обгорнути «голий» текст у <p>
+    var out=document.createElement('div'), cur=null;
+    function flat(node, into){
+      for(var c=node.firstChild;c;){ var nx=c.nextSibling;
+        var t=c.nodeType===1?c.tagName.toLowerCase():'';
+        if(t==='p'||t==='h3'){
+          var hasBlock=false; for(var k=c.firstChild;k;k=k.nextSibling) if(k.nodeType===1&&BLOCK[k.tagName.toLowerCase()]) hasBlock=true;
+          if(hasBlock){ flat(c, into); }
+          else { cur=null; into.appendChild(c); }
+        } else if(t==='ul'||t==='ol'){
+          cur=null;
+          var lst=document.createElement(t);
+          for(var li=c.firstChild;li;){ var nl=li.nextSibling;
+            if(li.nodeType===1&&li.tagName.toLowerCase()==='li') lst.appendChild(li);
+            else if(li.nodeType===3&&!li.nodeValue.trim()){} else { var w=document.createElement('li'); w.appendChild(li); lst.appendChild(w); }
+            li=nl; }
+          into.appendChild(lst);
+        } else if(t==='li'){ cur=null; var u=document.createElement('ul'); u.appendChild(c); into.appendChild(u); }
+        else {
+          if(t==='br' && !cur){ c=nx; continue; }
+          if(!cur){ if(c.nodeType===3&&!c.nodeValue.trim()){ c=nx; continue; } cur=document.createElement('p'); into.appendChild(cur); }
+          cur.appendChild(c);
+        }
+        c=nx; }
+    }
+    flat(root, out);
+    // прибрати порожні абзаци та <br> на кінцях
+    Array.prototype.slice.call(out.querySelectorAll('p,h3,li')).forEach(function(p){
+      while(p.lastChild&&p.lastChild.nodeName==='BR') p.removeChild(p.lastChild);
+      while(p.firstChild&&p.firstChild.nodeName==='BR') p.removeChild(p.firstChild);
+      if(!p.textContent.replace(/\s+/g,'')&&!p.querySelector('img')) p.remove();
+    });
+    Array.prototype.slice.call(out.querySelectorAll('ul,ol')).forEach(function(l){ if(!l.children.length) l.remove(); });
+    return out.innerHTML;
+  }
+  function richFromHtml(html){
+    var doc=new DOMParser().parseFromString('<body>'+String(html)+'</body>','text/html');
+    var tmp=document.createElement('div'); cleanNode(doc.body, tmp);
+    return tidy(tmp);
+  }
+  function richFromText(t){
+    var lines=String(t).replace(/\r\n?/g,'\n').split('\n'), html='', list=null;
+    lines.forEach(function(l){
+      var s=l.trim(); if(!s){ if(list){ html+='</'+list+'>'; list=null; } return; }
+      var mb=s.match(/^[-•*–—]\s+(.*)$/), mn=s.match(/^\d+[.)]\s+(.*)$/);
+      var want=mb?'ul':(mn?'ol':null);
+      if(want){ if(list!==want){ if(list) html+='</'+list+'>'; html+='<'+want+'>'; list=want; } html+='<li>'+esc((mb||mn)[1])+'</li>'; }
+      else { if(list){ html+='</'+list+'>'; list=null; } html+='<p>'+esc(s)+'</p>'; }
+    });
+    if(list) html+='</'+list+'>';
+    return html;
+  }
+  var looksHtml=/<\/?(p|br|strong|b|em|i|u|ul|ol|li|a|h[1-4]|div|span)\b[^>]*>/i;
+  window.kalynkaRich = function(v){
+    if(v==null) return '';
+    if(Array.isArray(v)) v=v.join('\n');
+    v=String(v); if(!v.trim()) return '';
+    return looksHtml.test(v) ? richFromHtml(v) : richFromText(v);
+  };
+  window.kalynkaRichFromHtml = richFromHtml;
+  window.kalynkaRichFromText = richFromText;
+  // вставити «гарний текст» у елемент (заголовок-лід, примітка тощо)
+  window.kalynkaSetRich = function(elm, v, prefix){
+    if(!elm) return;
+    var h=window.kalynkaRich(v); if(!h) return;
+    elm.classList.add('rtx');
+    elm.innerHTML=(prefix?'<span class="rtx-ico" aria-hidden="true">'+prefix+'</span>':'')+'<div class="rtx-body">'+h+'</div>';
+    if(prefix) elm.classList.add('has-ico');
   };
 
   var ICON={
@@ -305,7 +408,7 @@
 
   // редактор «на місці» для адміністратора (мами)
   var es = document.createElement('script');
-  es.src = 'edit.js?v=20261014';
+  es.src = 'edit.js?v=20261019';
   es.defer = true;
   document.body.appendChild(es);
 })();

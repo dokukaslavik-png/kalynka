@@ -47,7 +47,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> Корисні посилання</nav>
     <span class="script eyebrow">Варто знати</span>
     <h1>Корисні посилання</h1>
-    <p class="lead" id="pgIntro">Офіційні ресурси освіти, міські сервіси та наші канали.</p>
+    <div class="lead" id="pgIntro">Офіційні ресурси освіти, міські сервіси та наші канали.</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -61,7 +61,7 @@
   function dom(u){try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}}
   fetch('content/korysni.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('pgIntro'); if(i)i.textContent=d.intro;}
+    if(d.intro){var i=document.getElementById('pgIntro'); if(i)kalynkaSetRich(i,d.intro);}
     var box=document.getElementById('lkGrid');
     if(box&&d.items&&d.items.length){
       box.innerHTML=d.items.filter(function(x){return x.url;}).map(function(x){

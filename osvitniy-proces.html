@@ -60,7 +60,7 @@
   fetch('content/gurtky.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!box||!d||!d.items||!d.items.length)return;
     box.innerHTML=d.items.map(function(x,i){
-      return '<div class="pcard '+acc[i%6]+' reveal"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></div>';
+      return '<div class="pcard '+acc[i%6]+' reveal"><div class="pe">'+esc(x.emoji||'🌟')+'</div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div></div>';
     }).join('');
   }).catch(function(){});
 })();

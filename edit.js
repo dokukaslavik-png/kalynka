@@ -44,7 +44,7 @@
   var S = {
     news:   {label:'Новини', file:'content/news.json', shape:'list', listKey:'items', itemName:'Новина',
              title:function(x){return (x.date?x.date+' — ':'')+(x.title||'(без назви)');},
-             fields:[ {n:'date',l:'Дата',t:'text',hint:'Напр.: 05 вересня 2025'}, {n:'title',l:'Заголовок',t:'text'}, {n:'text',l:'Текст',t:'textarea',opt:true}, {n:'image',l:'Фото',t:'image',opt:true} ]},
+             fields:[ {n:'date',l:'Дата',t:'text',hint:'Напр.: 05 вересня 2025'}, {n:'title',l:'Заголовок',t:'text'}, {n:'text',l:'Текст',t:'rich',opt:true}, {n:'image',l:'Фото',t:'image',opt:true} ]},
     events: {label:'Афіша подій', file:'content/events.json', shape:'list', listKey:'items', itemName:'Подія',
              title:function(x){return (x.date?x.date+' — ':'')+(x.title||'');},
              fields:[ {n:'date',l:'Дата',t:'text'}, {n:'title',l:'Назва події',t:'text'}, {n:'desc',l:'Опис',t:'text',opt:true}, {n:'icon',l:'Емодзі',t:'text',opt:true} ]},
@@ -56,13 +56,13 @@
              fields:[ {n:'title',l:'Назва',t:'text'}, {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'file',l:'Файл (PDF)',t:'file',opt:true} ]},
     projects:{label:'Проєкти', file:'content/projects.json', shape:'list', listKey:'items', itemName:'Проєкт',
              title:function(x){return x.title||'';},
-             fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]},
+             fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]},
     parents:{label:'Батьківський навігатор', file:'content/parents.json', shape:'list', listKey:'items', itemName:'Картка',
              title:function(x){return x.title||'';},
-             fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]},
+             fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]},
     gurtky: {label:'Гуртки', file:'content/gurtky.json', shape:'list', listKey:'items', itemName:'Гурток',
              title:function(x){return x.title||'';},
-             fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]},
+             fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]},
 
     home:   {label:'Головна сторінка', file:'content/home.json', shape:'object',
              fields:[
@@ -91,37 +91,37 @@
                {n:'about',l:'Опис «Про групу» (абзаци)',t:'strlist'},
                {n:'develop',l:'Що розвиваємо (пункти)',t:'strlist'},
                {n:'activities',l:'Заняття',t:'objlist',itemName:'Заняття',title:function(x){return x.title||'';},
-                 fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]}
+                 fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]}
              ]},
     menu:   {label:'Меню харчування', file:'content/menu.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
-               {n:'note',l:'Примітка',t:'textarea',opt:true},
+               {n:'intro',l:'Вступний текст',t:'rich'},
+               {n:'note',l:'Примітка',t:'rich',opt:true},
                {n:'days',l:'Дні тижня',t:'objlist',itemName:'День',title:function(x){return x.day||'';},
                  fields:[ {n:'day',l:'День',t:'text'}, {n:'breakfast',l:'Сніданок',t:'text',opt:true}, {n:'lunch',l:'Обід',t:'text',opt:true}, {n:'snack',l:'Підвечірок',t:'text',opt:true}, {n:'supper',l:'Вечеря',t:'text',opt:true} ]}
              ]},
     rezhym: {label:'Розпорядок дня', file:'content/rezhym.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
-               {n:'note',l:'Примітка',t:'textarea',opt:true},
+               {n:'intro',l:'Вступний текст',t:'rich'},
+               {n:'note',l:'Примітка',t:'rich',opt:true},
                {n:'items',l:'Пункти режиму',t:'objlist',itemName:'Пункт',title:function(x){return (x.time||'')+' — '+(x.title||'');},
                  fields:[ {n:'time',l:'Час',t:'text'}, {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Що відбувається',t:'text'} ]}
              ]},
     bezpeka:{label:'Безпека та укриття', file:'content/bezpeka.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'alarmTitle',l:'Заголовок блоку тривоги',t:'text'},
                {n:'alarmSteps',l:'Дії під час тривоги',t:'strlist'},
                {n:'items',l:'Картки безпеки',t:'objlist',itemName:'Картка',title:function(x){return x.title||'';},
-                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]}
+                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]}
              ]},
     vstup:  {label:'Як записати дитину', file:'content/vstup.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'steps',l:'Кроки',t:'objlist',itemName:'Крок',title:function(x){return x.title||'';},
-                 fields:[ {n:'title',l:'Назва кроку',t:'text'}, {n:'text',l:'Опис',t:'textarea'}, {n:'url',l:'Посилання-кнопка (необовʼязково)',t:'text',opt:true,hint:'Напр.: сайт електронної реєстрації'} ]},
+                 fields:[ {n:'title',l:'Назва кроку',t:'text'}, {n:'text',l:'Опис',t:'rich'}, {n:'url',l:'Посилання-кнопка (необовʼязково)',t:'text',opt:true,hint:'Напр.: сайт електронної реєстрації'} ]},
                {n:'documents',l:'Перелік документів',t:'strlist'},
-               {n:'note',l:'Примітка',t:'textarea',opt:true}
+               {n:'note',l:'Примітка',t:'rich',opt:true}
              ]},
     settings:{label:'Контакти закладу', file:'content/settings.json', shape:'object',
              fields:[
@@ -132,28 +132,28 @@
              ]},
     pedprostir:{label:'Педагогічний простір', file:'content/pedprostir.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){return x.title||'';},
-                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'textarea'} ]}
+                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]}
              ]},
     dosyahnennya:{label:'Скарбничка досягнень', file:'content/dosyahnennya.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'items',l:'Досягнення',t:'objlist',itemName:'Досягнення',title:function(x){return (x.date?x.date+' — ':'')+(x.title||'');},
                  fields:[ {n:'title',l:'Назва',t:'text',hint:'Напр.: I місце у міському конкурсі «…»'}, {n:'date',l:'Дата',t:'text',opt:true,hint:'Напр.: 05 вересня 2025'},
-                          {n:'text',l:'Опис',t:'textarea',opt:true}, {n:'image',l:'Фото (грамота, диплом, подія)',t:'image',opt:true}, {n:'icon',l:'Емодзі (якщо немає фото)',t:'text',opt:true} ]}
+                          {n:'text',l:'Опис',t:'rich',opt:true}, {n:'image',l:'Фото (грамота, диплом, подія)',t:'image',opt:true}, {n:'icon',l:'Емодзі (якщо немає фото)',t:'text',opt:true} ]}
              ]},
     korysni:{label:'Корисні посилання', file:'content/korysni.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'items',l:'Посилання',t:'objlist',itemName:'Посилання',title:function(x){return x.title||x.url||'';},
                  fields:[ {n:'title',l:'Назва',t:'text'}, {n:'url',l:'Адреса (посилання)',t:'text',hint:'Напр.: https://mon.gov.ua/'}, {n:'text',l:'Короткий опис',t:'text',opt:true}, {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'home',l:'На головній',t:'bool',box:'Показувати це посилання на головній сторінці'} ]}
              ]},
     prozorist:{label:'Прозорість (документи)', file:'content/prozorist.json', shape:'object',
              fields:[
-               {n:'intro',l:'Вступний текст',t:'textarea'},
+               {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'items',l:'Пункти', t:'objlist', itemName:'Пункт', title:function(x){return x.title||'';},
-                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'file',l:'Файл PDF (один документ)',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true}, {n:'note',l:'Примітка',t:'text',opt:true},
+                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'file',l:'Файл PDF (один документ)',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true}, {n:'note',l:'Текст / пояснення',t:'rich',opt:true,hint:'Можна вставити текст з Word — абзаци збережуться'},
                           {n:'docs',l:'Кілька документів у цьому пункті (напр. кошторис, благодійна допомога)',t:'objlist',itemName:'Документ',title:function(x){return x.title||'';},
                             fields:[ {n:'title',l:'Назва документа',t:'text'}, {n:'file',l:'Файл PDF',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true} ]} ]}
              ]}
@@ -178,7 +178,7 @@
   '.eadmin .e-edit{background:#3c8c57;color:#fff}.eadmin .e-edit:hover{background:#2f6f45}'+
   '.eadmin .e-out{background:#fff;color:#b0344a}'+
   '.e-modal-bg{position:fixed;inset:0;z-index:9999;background:rgba(24,32,28,.55);display:flex;align-items:flex-start;justify-content:center;padding:26px 14px;overflow:auto}'+
-  '.e-modal{background:#fff;border-radius:22px;width:min(680px,100%);box-shadow:0 30px 70px -20px rgba(0,0,0,.5);overflow:hidden;animation:epop .18s ease}'+
+  '.e-modal{background:#fff;border-radius:22px;width:min(760px,100%);box-shadow:0 30px 70px -20px rgba(0,0,0,.5);overflow:hidden;animation:epop .18s ease}'+
   '@keyframes epop{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}'+
   '.e-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px;background:linear-gradient(135deg,#3c8c57,#2f6f45);color:#fff}'+
   '.e-head h3{margin:0;font-family:Comfortaa,cursive;font-size:1.15rem}'+
@@ -203,7 +203,14 @@
   '.e-img .fn{font-size:.82rem;color:#5c6b62;font-weight:700;word-break:break-all}'+
   '.e-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:10000;background:#2f6f45;color:#fff;padding:13px 20px;border-radius:14px;font-weight:800;box-shadow:0 16px 40px -12px rgba(0,0,0,.5);font-family:Nunito,sans-serif;max-width:92%;text-align:center}'+
   '.e-toast.err{background:#b0344a}'+
-  '.e-sub{font-size:.82rem;color:#8a978f;font-weight:600;margin:-6px 0 14px}';
+  '.e-sub{font-size:.82rem;color:#8a978f;font-weight:600;margin:-6px 0 14px}'+
+  '.e-rich{border:2px solid #e3e8e4;border-radius:14px;overflow:hidden;background:#fff}.e-rich:focus-within{border-color:#3c8c57}'+
+  '.e-rtb{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px;background:#f5f8f5;border-bottom:1px solid #e3e8e4;position:sticky;top:0}'+
+  '.e-tb{border:0;background:#fff;border-radius:9px;padding:7px 11px;font:inherit;font-size:.86rem;font-weight:700;color:#2f6f45;cursor:pointer;box-shadow:0 1px 0 #e3e8e4;min-width:34px}'+
+  '.e-tb:hover{background:#e7f1ea}.e-tb-soft{color:#8a978f}.e-sep{width:1px;height:22px;background:#dfe5e0;margin:0 3px}'+
+  '.e-rta{min-height:140px;max-height:46vh;overflow:auto;padding:12px 14px;font-size:.97rem;line-height:1.6;color:#33413a;outline:0}'+
+  '.e-rta p{margin:0 0 .7em}.e-rta h3{font-family:Comfortaa,cursive;color:#2f6f45;font-size:1.05rem;margin:.8em 0 .4em}.e-rta ul,.e-rta ol{margin:0 0 .7em;padding-left:1.4em}.e-rta a{color:#2f6f45;font-weight:800}'+
+  '.e-rtip{font-size:.76rem;color:#8a978f;font-weight:600;padding:6px 12px;background:#fafbfa;border-top:1px solid #eef1ee}';
   document.head.appendChild(css);
 
   function toast(msg, isErr, ms){
@@ -281,6 +288,39 @@
   function fieldControl(f, value){
     if(f.t==='text'){ var inp=el('input',{type:'text',value:value==null?'':String(value)}); return {el:inp, get:function(){return inp.value;}}; }
     if(f.t==='textarea'){ var ta=el('textarea',{}); ta.value=value==null?'':String(value); return {el:ta, get:function(){return ta.value;}}; }
+    if(f.t==='rich'){
+      var R=window.kalynkaRich||function(x){return esc(x);};
+      var ed=el('div',{class:'e-rta',contenteditable:'true',spellcheck:'true'});
+      ed.innerHTML=R(value)||'<p><br></p>';
+      function cmd(c,arg){ ed.focus(); try{document.execCommand('defaultParagraphSeparator',false,'p');}catch(e){} document.execCommand(c,false,arg); }
+      function tb(label,title,fn,cls){ var b=el('button',{type:'button',class:'e-tb'+(cls?' '+cls:''),title:title,html:label}); b.addEventListener('mousedown',function(e){e.preventDefault();}); b.addEventListener('click',fn); return b; }
+      var bar=el('div',{class:'e-rtb'},[
+        tb('<b>Ж</b>','Жирний (Ctrl+B)',function(){cmd('bold');}),
+        tb('<i>К</i>','Курсив (Ctrl+I)',function(){cmd('italic');}),
+        tb('<u>П</u>','Підкреслений (Ctrl+U)',function(){cmd('underline');}),
+        el('span',{class:'e-sep'}),
+        tb('Підзаголовок','Зробити рядок підзаголовком',function(){ var cur=document.queryCommandValue('formatBlock'); cmd('formatBlock', /h3/i.test(cur)?'<p>':'<h3>'); }),
+        tb('• Список','Маркований список',function(){cmd('insertUnorderedList');}),
+        tb('1. Список','Нумерований список',function(){cmd('insertOrderedList');}),
+        tb('🔗','Посилання: виділіть слова і натисніть',function(){ var u=prompt('Вставте адресу посилання (https://…)'); if(u){ if(!/^(https?:|mailto:|tel:|\/)/i.test(u)) u='https://'+u; cmd('createLink',u); } }),
+        el('span',{class:'e-sep'}),
+        tb('🧹','Прибрати оформлення з виділеного',function(){cmd('removeFormat'); cmd('unlink');},'e-tb-soft')
+      ]);
+      ed.addEventListener('focus',function(){ try{document.execCommand('defaultParagraphSeparator',false,'p');}catch(e){} });
+      ed.addEventListener('paste',function(e){
+        var cd=e.clipboardData||window.clipboardData; if(!cd) return;
+        e.preventDefault();
+        var h=cd.getData('text/html'), t=cd.getData('text/plain');
+        var clean = h && window.kalynkaRichFromHtml ? window.kalynkaRichFromHtml(h) : (window.kalynkaRichFromText ? window.kalynkaRichFromText(t||'') : esc(t||''));
+        if(!clean) return;
+        document.execCommand('insertHTML',false,clean);
+      });
+      var tip=el('div',{class:'e-rtip',text:'Enter — новий абзац · Shift+Enter — новий рядок · текст з Word можна просто вставити (Ctrl+V)'});
+      return {el:el('div',{class:'e-rich'},[bar,ed,tip]), get:function(){
+        var out=window.kalynkaRichFromHtml?window.kalynkaRichFromHtml(ed.innerHTML):ed.innerText;
+        return (out && out.replace(/<[^>]+>/g,'').trim()) ? out : '';
+      }};
+    }
     if(f.t==='bool'){
       var cb=el('input',{type:'checkbox'}); cb.checked=!!value; cb.style.cssText='width:22px;height:22px;accent-color:#3c8c57;vertical-align:middle';
       var lb=el('label',{style:'display:flex;align-items:center;gap:10px;font-weight:700;color:#33413a;cursor:pointer'},[cb, f.box||'Так']);

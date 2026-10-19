@@ -45,7 +45,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> <a href="batkam.html">Батьківський навігатор</a> <span>/</span> Безпека та укриття</nav>
     <span class="script eyebrow">Ваш спокій</span>
     <h1>Безпека та укриття</h1>
-    <p class="lead" id="bezIntro">Безпека дітей — наш головний пріоритет.</p>
+    <div class="lead" id="bezIntro">Безпека дітей — наш головний пріоритет.</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -62,7 +62,7 @@
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   fetch('content/bezpeka.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('bezIntro'); if(i)i.textContent=d.intro;}
+    if(d.intro){var i=document.getElementById('bezIntro'); if(i)kalynkaSetRich(i,d.intro);}
     if(d.alarmSteps&&d.alarmSteps.length){
       document.getElementById('alarmBox').style.display='';
       if(d.alarmTitle)document.getElementById('alarmTitle').textContent=d.alarmTitle;
@@ -71,7 +71,7 @@
     var box=document.getElementById('safeGrid');
     if(box&&d.items&&d.items.length){
       box.innerHTML=d.items.map(function(x){
-        return '<div class="pcard reveal"><div class="pe">'+esc(x.icon||'🛡️')+'</div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p></div>';
+        return '<div class="pcard reveal"><div class="pe">'+esc(x.icon||'🛡️')+'</div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div></div>';
       }).join('');
     }
   }).catch(function(){});

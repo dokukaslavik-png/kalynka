@@ -53,7 +53,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> <a href="batkam.html">Батьківський навігатор</a> <span>/</span> Як записати дитину</nav>
     <span class="script eyebrow">Ласкаво просимо</span>
     <h1>Як записати дитину</h1>
-    <p class="lead" id="vstIntro">Кілька простих кроків — і ваш малюк у нашій родині.</p>
+    <div class="lead" id="vstIntro">Кілька простих кроків — і ваш малюк у нашій родині.</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -74,13 +74,13 @@
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   fetch('content/vstup.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('vstIntro'); if(i)i.textContent=d.intro;}
-    if(d.note){var n=document.getElementById('vstNote'); if(n)n.textContent='ℹ️ '+d.note;}
+    if(d.intro){var i=document.getElementById('vstIntro'); if(i)kalynkaSetRich(i,d.intro);}
+    if(d.note){var n=document.getElementById('vstNote'); if(n)kalynkaSetRich(n,d.note,'ℹ️');}
     var sb=document.getElementById('stepsBox');
     if(sb&&d.steps&&d.steps.length){
       sb.innerHTML=d.steps.map(function(x,idx){
         var link=x.url?'<a class="step-link" href="'+esc(x.url).replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">Перейти до реєстрації →</a>':'';
-        return '<div class="step reveal"><div class="num">'+(idx+1)+'</div><div><h3>'+esc(x.title)+'</h3><p>'+esc(x.text)+'</p>'+link+'</div></div>';
+        return '<div class="step reveal"><div class="num">'+(idx+1)+'</div><div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div>'+link+'</div></div>';
       }).join('');
     }
     var db=document.getElementById('docsBox');

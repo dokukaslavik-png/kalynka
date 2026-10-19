@@ -51,7 +51,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> <a href="batkam.html">Батьківський навігатор</a> <span>/</span> Розпорядок дня</nav>
     <span class="script eyebrow">День у садочку</span>
     <h1>Розпорядок дня</h1>
-    <p class="lead" id="rezIntro">Чіткий і затишний ритм дня для наших малюків.</p>
+    <div class="lead" id="rezIntro">Чіткий і затишний ритм дня для наших малюків.</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -65,8 +65,8 @@
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   fetch('content/rezhym.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('rezIntro'); if(i)i.textContent=d.intro;}
-    if(d.note){var n=document.getElementById('rezNote'); if(n)n.textContent='ℹ️ '+d.note;}
+    if(d.intro){var i=document.getElementById('rezIntro'); if(i)kalynkaSetRich(i,d.intro);}
+    if(d.note){var n=document.getElementById('rezNote'); if(n)kalynkaSetRich(n,d.note,'ℹ️');}
     var box=document.getElementById('rezTimeline');
     if(box&&d.items&&d.items.length){
       box.innerHTML=d.items.map(function(x){

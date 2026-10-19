@@ -48,7 +48,7 @@
     <nav class="breadcrumbs"><a href="index.html">Головна</a> <span>/</span> <a href="batkam.html">Батьківський навігатор</a> <span>/</span> Меню харчування</nav>
     <span class="script eyebrow">Смачно і корисно</span>
     <h1>Меню харчування</h1>
-    <p class="lead" id="menuIntro">Збалансоване чотириразове харчування щодня.</p>
+    <div class="lead" id="menuIntro">Збалансоване чотириразове харчування щодня.</div>
   </div>
 </section>
 <section><div class="wrap">
@@ -62,8 +62,8 @@
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   fetch('content/menu.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
-    if(d.intro){var i=document.getElementById('menuIntro'); if(i)i.textContent=d.intro;}
-    if(d.note){var n=document.getElementById('menuNote'); if(n)n.textContent='ℹ️ '+d.note;}
+    if(d.intro){var i=document.getElementById('menuIntro'); if(i)kalynkaSetRich(i,d.intro);}
+    if(d.note){var n=document.getElementById('menuNote'); if(n)kalynkaSetRich(n,d.note,'ℹ️');}
     var box=document.getElementById('menuGrid');
     if(box&&d.days&&d.days.length){
       box.innerHTML=d.days.map(function(day){

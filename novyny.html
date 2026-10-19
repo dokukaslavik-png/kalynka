@@ -45,7 +45,7 @@
     box.innerHTML=d.items.map(function(n){
       var thumb=n.image?'<div class="thumb" style="padding:0;overflow:hidden"><img src="'+esc(n.image)+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px"></div>':'<div class="thumb">📰</div>';
       var body='<div class="date">'+esc(n.date)+'</div><h3>'+esc(n.title)+'</h3>'+
-        (n.text?'<div style="color:var(--ink-soft);font-weight:600;font-size:.93rem;margin-top:4px">'+esc(n.text)+'</div>':'');
+        (n.text?'<div class="rtx" style="color:var(--ink-soft);font-weight:600;font-size:.93rem;margin-top:4px">'+(window.kalynkaRich||function(x){return esc(x)})(n.text)+'</div>':'');
       return '<div class="nitem">'+thumb+'<div>'+body+'</div></div>';
     }).join('');
   }).catch(function(){});

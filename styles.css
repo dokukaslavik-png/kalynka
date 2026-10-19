@@ -447,14 +447,51 @@ img{height:auto}
 :focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:6px}
 
 /* ── картка педагога / працівника ── */
-.pcard.person{display:flex;flex-direction:column;align-items:center}
-.pcard.person .pphoto{width:92px;height:92px;border-radius:50%;overflow:hidden;margin:0 auto 10px;border:3px solid var(--leaf-soft)}
-.pcard.person .pphoto img{width:100%;height:100%;object-fit:cover}
+/* ---------- КАРТКА ЛЮДИНИ (великі фото-«арки») ---------- */
+.pcard.person{--acc:var(--kalyna);--acc-soft:#fde7ea;display:flex;flex-direction:column;align-items:center;padding:22px 22px 26px}
+.pcard.person.pt-leaf{--acc:var(--leaf);--acc-soft:var(--leaf-soft)}
+.pcard.person.pt-sky{--acc:var(--sky);--acc-soft:#e3f2f8}
+.pcard.person.pt-lilac{--acc:var(--lilac);--acc-soft:#f1eafa}
+.pcard.person.pt-sun{--acc:var(--sun);--acc-soft:#fff5d9}
+.pcard.person .pphoto{position:relative;width:min(100%,270px);aspect-ratio:4/5;margin:6px auto 18px;border-radius:999px 999px 26px 26px;background:var(--acc-soft);box-shadow:0 0 0 6px #fff,0 0 0 9px var(--acc),0 18px 30px -14px rgba(43,107,65,.45)}
+.pcard.person .pzoom{display:block;width:100%;height:100%;padding:0;border:0;background:none;border-radius:inherit;overflow:hidden;cursor:zoom-in}
+.pcard.person .pphoto img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%;transition:transform .5s ease}
+.pcard.person:hover .pphoto img{transform:scale(1.045)}
+.pcard.person .pbadge{position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);width:42px;height:42px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.3rem;box-shadow:0 0 0 3px var(--acc),0 6px 14px -6px rgba(0,0,0,.35)}
+.pcard.person .pphoto.noimg{width:150px;aspect-ratio:1/1.08;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#fff 0,var(--acc-soft) 70%)}
+.pcard.person .pphoto.noimg .pbig{font-size:3.6rem;filter:drop-shadow(0 6px 8px rgba(0,0,0,.12))}
 .pcard.person .pe{font-size:2.3rem}
-.pcard.person .prole{font-family:'Comfortaa',cursive;font-weight:700;color:var(--kalyna);font-size:.85rem;margin-top:6px;text-transform:uppercase;letter-spacing:.3px}
-.pcard.person h3{margin:4px 0 4px;font-size:1.12rem}
+.pcard.person .prole{font-family:'Comfortaa',cursive;font-weight:700;color:var(--kalyna);font-size:.85rem;margin-top:8px;text-transform:uppercase;letter-spacing:.3px}
+.pcard.person h3{margin:4px 0 4px;font-size:1.18rem}
 .pcard.person .pmeta{color:var(--ink-soft);font-weight:700;font-size:.86rem;line-height:1.35}
 .pcard.person .pcredo{margin-top:12px;padding-top:12px;border-top:2px dashed var(--line);font-family:'Caveat',cursive;font-size:1.28rem;line-height:1.25;color:var(--leaf-deep);white-space:pre-line;width:100%}
+@media(max-width:560px){.pcard.person .pphoto{width:min(100%,240px)}}
+/* перегляд фото */
+.k-lb{position:fixed;inset:0;z-index:9999;background:rgba(20,35,26,.86);display:grid;place-items:center;padding:24px;animation:klb .2s ease;cursor:zoom-out}
+.k-lb figure{margin:0;max-width:min(92vw,720px);text-align:center}
+.k-lb img{max-width:100%;max-height:80vh;border-radius:22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);cursor:default}
+.k-lb figcaption{color:#fff;font-family:'Comfortaa',cursive;font-weight:700;margin-top:14px;font-size:1.05rem}
+.k-lb-x{position:absolute;top:16px;right:18px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:1.1rem;cursor:pointer}
+@keyframes klb{from{opacity:0}to{opacity:1}}
+
+/* ---------- «ГАРНИЙ ТЕКСТ» (абзаци, списки, жирний) ---------- */
+.rtx p{margin:0 0 .75em}
+.rtx>*:last-child,.rtx .rtx-body>*:last-child{margin-bottom:0}
+.rtx h3{font-family:'Comfortaa',cursive;color:var(--leaf-deep);font-size:1.05rem;margin:1em 0 .45em}
+.rtx>h3:first-child,.rtx-body>h3:first-child{margin-top:0}
+.rtx ul,.rtx ol{margin:0 0 .8em;padding-left:1.35em}
+.rtx li{margin:.3em 0}
+.rtx ul li::marker{color:var(--kalyna)}
+.rtx ol li::marker{color:var(--leaf-deep);font-weight:800}
+.rtx strong{color:var(--ink);font-weight:800}
+.rtx a{color:var(--leaf-deep);font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.pcard .rtx{color:var(--ink-soft);font-weight:600;font-size:.95rem;line-height:1.55}
+.pcard .rtx p{margin:0 0 .6em}
+.page-hero .lead.rtx p{margin:0 0 .6em}
+.page-hero .lead.rtx p:last-child{margin:0}
+.ph-note.has-ico{display:flex;gap:10px;align-items:flex-start;text-align:left}
+.ph-note .rtx-ico{flex:none}
+.ph-note .rtx-body{flex:1;min-width:0}
 .tgroup{margin-bottom:34px}
 .tgroup:last-child{margin-bottom:0}
 .tgroup-h{text-align:center;font-family:'Comfortaa',cursive;font-weight:700;color:var(--leaf-deep);font-size:1.35rem;margin:0 0 18px}
