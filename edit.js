@@ -75,13 +75,52 @@
              title:function(x){return x.title||'';},
              fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]},
 
-    home:   {label:'Головна сторінка', file:'content/home.json', shape:'object',
+    home:   {label:'Головна сторінка', file:'content/home.json', shape:'object', domDefaults:true,
              fields:[
-               {n:'aboutEyebrow',l:'Підзаголовок «Про нас»',t:'text'},
-               {n:'aboutTitle',l:'Заголовок «Про нас»',t:'text'},
-               {n:'about',l:'Текст «Про нас» (абзаци)',t:'strlist'},
+               {t:'section',l:'🌟 Головний банер (верх сторінки)'},
+               {n:'heroKicker',l:'Маленький заголовок над банером',t:'text'},
+               {n:'heroTitle',l:'Великий заголовок',t:'textarea',hint:'Кожен рядок — з нового рядка. Слово в *зірочках* буде виділене кольором.'},
+               {n:'heroText',l:'Текст під заголовком',t:'textarea'},
+               {n:'heroBtn1',l:'Кнопка 1 — напис',t:'text'}, {n:'heroBtn1Link',l:'Кнопка 1 — куди веде',t:'text',hint:'Напр.: grupy.html або https://…'},
+               {n:'heroBtn2',l:'Кнопка 2 — напис',t:'text'}, {n:'heroBtn2Link',l:'Кнопка 2 — куди веде',t:'text'},
+               {n:'heroPhoto',l:'Фото в банері',t:'image'},
+               {n:'heroTag',l:'Наліпка на фото',t:'text',hint:'Слово в *зірочках* буде жирним'},
+               {t:'section',l:'🧩 Картки-розділи під банером'},
+               {n:'tiles',l:'Картки',t:'objlist',itemName:'Картка',title:function(x){return x.title||'';},
+                 fields:[ {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Підпис',t:'text',opt:true}, {n:'link',l:'Куди веде',t:'text',hint:'Напр.: pro-zaklad.html'}, {n:'icon',l:'Емодзі замість іконки',t:'text',opt:true} ]},
+               {t:'section',l:'🔗 Корисні посилання'},
+               {n:'qlEyebrow',l:'Підзаголовок',t:'text'}, {n:'qlTitle',l:'Заголовок',t:'text',hint:'Самі посилання редагуються на сторінці «Корисні посилання» (галочка «На головній»).'},
+               {t:'section',l:'💛 Блок «Про нас»'},
+               {n:'aboutPhoto',l:'Фото',t:'image'},
+               {n:'aboutEyebrow',l:'Підзаголовок',t:'text'},
+               {n:'aboutTitle',l:'Заголовок',t:'text'},
+               {n:'about',l:'Текст (абзаци)',t:'strlist'},
+               {n:'chips',l:'Кольорові мітки',t:'strlist',hint:'Напр.: 11 груп, інклюзія'},
+               {n:'aboutBtn',l:'Кнопка — напис',t:'text'}, {n:'aboutBtnLink',l:'Кнопка — куди веде',t:'text'},
+               {n:'stats',l:'Цифри під блоком',t:'objlist',itemName:'Цифра',title:function(x){return (x.num||'')+' — '+(x.label||'');},
+                 fields:[ {n:'num',l:'Число',t:'text',hint:'Напр.: 11, 20+, 2–6 або ∞'}, {n:'label',l:'Підпис',t:'text'} ]},
+               {t:'section',l:'🎨 Блок «Наші групи»'},
+               {n:'groupsEyebrow',l:'Підзаголовок',t:'text'}, {n:'groupsTitle',l:'Заголовок',t:'text'}, {n:'groupsText',l:'Текст',t:'textarea'},
+               {n:'gcards',l:'Кольорові картки',t:'objlist',itemName:'Картка',title:function(x){return (x.emoji||'')+' '+(x.title||'');},
+                 fields:[ {n:'emoji',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Підпис',t:'text',opt:true}, {n:'link',l:'Куди веде',t:'text'} ]},
+               {t:'section',l:'🌿 Блок «Проєкти»'},
+               {n:'projEyebrow',l:'Підзаголовок',t:'text'}, {n:'projTitle',l:'Заголовок',t:'text'}, {n:'projText',l:'Текст',t:'textarea',hint:'Самі проєкти (перші 3) редагуються на сторінці «Проєкти».'},
+               {t:'section',l:'📰 Новини та Батьківський навігатор'},
+               {n:'newsEyebrow',l:'Підзаголовок новин',t:'text'}, {n:'newsTitle',l:'Заголовок новин',t:'text',hint:'Самі новини (останні 3) — на сторінці «Новини».'},
+               {n:'navTitle',l:'Заголовок бокового блоку',t:'text'},
+               {n:'navLinks',l:'Посилання бокового блоку',t:'objlist',itemName:'Посилання',title:function(x){return (x.icon||'')+' '+(x.title||'');},
+                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'link',l:'Куди веде',t:'text'} ]},
+               {t:'section',l:'🏆 «Калинка» у цифрах'},
+               {n:'achEyebrow',l:'Підзаголовок',t:'text'}, {n:'achTitle',l:'Заголовок',t:'text'},
+               {n:'achStats',l:'Цифри',t:'objlist',itemName:'Цифра',title:function(x){return (x.num||'')+' — '+(x.label||'');},
+                 fields:[ {n:'num',l:'Число',t:'text',hint:'Напр.: 30+'}, {n:'label',l:'Підпис',t:'text'} ]},
+               {t:'section',l:'🧒 Що кажуть малюки'},
+               {n:'voicesEyebrow',l:'Підзаголовок',t:'text'}, {n:'voicesTitle',l:'Заголовок',t:'text'},
                {n:'voices',l:'Цитати дітей',t:'objlist',itemName:'Цитата',title:function(x){return x.kid||x.text||'';},
-                 fields:[ {n:'text',l:'Цитата',t:'textarea'}, {n:'kid',l:'Хто сказав',t:'text'}, {n:'avatar',l:'Емодзі',t:'text',opt:true} ]}
+                 fields:[ {n:'text',l:'Цитата',t:'textarea'}, {n:'kid',l:'Хто сказав',t:'text'}, {n:'avatar',l:'Емодзі',t:'text',opt:true} ]},
+               {t:'section',l:'📱 Соцмережі та низ сторінки'},
+               {n:'socEyebrow',l:'Підзаголовок',t:'text'}, {n:'socTitle',l:'Заголовок',t:'text'}, {n:'socText',l:'Текст',t:'textarea',hint:'Посилання на Facebook/YouTube — на сторінці «Контакти».'},
+               {n:'ctaText',l:'Напис над контактами внизу',t:'text',hint:'Слово в *зірочках* буде жирним'}
              ]},
     about:  {label:'Про заклад', file:'content/about.json', shape:'object',
              fields:[
@@ -237,6 +276,8 @@
   '.e-gal-it img{width:100%;height:100%;object-fit:cover;display:block}'+
   '.e-gal-x,.e-gal-mv{position:absolute;top:5px;width:26px;height:26px;border-radius:50%;border:0;cursor:pointer;font-weight:800;font-size:.8rem;box-shadow:0 2px 6px rgba(0,0,0,.25)}'+
   '.e-gal-x{right:5px;background:#fff;color:#b0344a}.e-gal-mv{left:5px;background:#fff;color:#2f6f45;font-size:1rem;line-height:1}'+
+  '.e-sec{margin:22px -20px 14px;padding:10px 20px;background:#f2f8f3;border-top:1px solid #e3e8e4;border-bottom:1px solid #e3e8e4;font-family:Comfortaa,cursive;font-weight:700;color:#2f6f45;font-size:1rem}'+
+  '.e-body>.e-sec:first-child{margin-top:-18px}'+
   '.e-rtip{font-size:.76rem;color:#8a978f;font-weight:600;padding:6px 12px;background:#fafbfa;border-top:1px solid #eef1ee}';
   document.head.appendChild(css);
 
@@ -509,7 +550,11 @@
           mediaFields(true).forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
         }
       } else {
-        fields.forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
+        if(schema.domDefaults && window.kalynkaPageDefaults){
+          var DEFS=window.kalynkaPageDefaults;
+          fields.forEach(function(f){ if(!f.n||!(f.n in DEFS)) return; var v=working[f.n]; if(v==null||v===''||(Array.isArray(v)&&!v.length)) working[f.n]=clone(DEFS[f.n]); });
+        }
+        fields.forEach(function(f){ if(f.t==='section'){ body.appendChild(el('div',{class:'e-sec',text:f.l})); return; } var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
       }
       var save=el('button',{class:'e-save',type:'button',text:'💾 Зберегти'});
       var cancel=el('button',{class:'e-cancel',type:'button',text:'Скасувати'});

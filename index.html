@@ -38,17 +38,17 @@
   <svg class="kalyna-deco" viewBox="0 0 120 120" aria-hidden="true"><g fill="#3c8c57"><path d="M60 8c-10 14-8 26 2 34 8-10 8-24-2-34z"/><path d="M28 26c2 16 12 24 24 24-2-14-12-22-24-24z"/><path d="M92 26c-12 2-22 10-24 24 12 0 22-8 24-24z"/></g><g fill="#e0364b"><circle cx="52" cy="70" r="11"/><circle cx="70" cy="76" r="11"/><circle cx="58" cy="90" r="11"/><circle cx="44" cy="86" r="9"/><circle cx="76" cy="94" r="9"/></g></svg>
   <div class="wrap">
     <div class="hero-copy reveal">
-      <h1>Сучасний заклад дошкільної освіти у Вінниці</h1>
-      <div class="hero-title">Калинка — <span class="hl">територія</span><br>любові, турботи<br>та розвитку!</div>
-      <p>Місце, де кожна дитина відчуває себе захищеною, потрібною і щасливою, а батьки — спокійними.</p>
+      <h1 id="hKicker">Сучасний заклад дошкільної освіти у Вінниці</h1>
+      <div class="hero-title" id="hTitle">Калинка — <span class="hl">територія</span><br>любові, турботи<br>та розвитку!</div>
+      <p id="hText">Місце, де кожна дитина відчуває себе захищеною, потрібною і щасливою, а батьки — спокійними.</p>
       <div class="hero-btns">
-        <a class="btn btn-primary" href="grupy.html">Наші групи</a>
-        <a class="btn btn-ghost" href="pro-zaklad.html">Про заклад →</a>
+        <a class="btn btn-primary" id="hBtn1" href="grupy.html">Наші групи</a>
+        <a class="btn btn-ghost" id="hBtn2" href="pro-zaklad.html">Про заклад →</a>
       </div>
     </div>
     <div class="hero-photo reveal">
-      <div class="frame"><img src="images/sadochok.jpg" alt="Територія дитячого садка «Калинка» у Вінниці"></div>
-      <div class="tag">Дітлахам у <b>«Калинці»</b> — затишно 💛</div>
+      <div class="frame"><img id="hPhoto" src="images/sadochok.jpg" alt="Територія дитячого садка «Калинка» у Вінниці"></div>
+      <div class="tag" id="hTag">Дітлахам у <b>«Калинці»</b> — затишно 💛</div>
     </div>
   </div>
 </section>
@@ -56,7 +56,7 @@
 <!-- КАРТКИ-РОЗДІЛИ -->
 <div class="tiles">
   <div class="wrap">
-    <div class="grid">
+    <div class="grid" id="hTiles">
       <a class="tile reveal" href="pro-zaklad.html">
         <div class="ic c-pink"><svg width="30" height="30" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="15" cy="10" r="5"/><path d="M6 26c0-6 4-9 9-9s9 3 9 9"/></svg></div>
         <h3>Про заклад</h3><p>Діяльність, структура, документи</p>
@@ -89,8 +89,8 @@
 <section class="quick-links">
   <div class="wrap">
     <div class="sec-head reveal" style="margin-bottom:18px">
-      <span class="eyebrow">Швидкий доступ</span>
-      <h2>Корисні посилання</h2>
+      <span class="eyebrow" id="qlEyebrow">Швидкий доступ</span>
+      <h2 id="qlTitle">Корисні посилання</h2>
     </div>
     <div class="ql-grid" id="homeLinks"><a class="ql ql-main" href="https://www.vmr.gov.ua/reiestratsiia-do-dytiachoho-sadochku" target="_blank" rel="noopener"><span class="qi">📝</span><span class="qt">Реєстрація до дитячого садочка</span><span class="qa">→</span></a><a class="ql" href="https://osvita.vmr.gov.ua/" target="_blank" rel="noopener"><span class="qi">🏛️</span><span class="qt">Департамент освіти Вінницької міської ради</span><span class="qa">→</span></a><a class="ql" href="https://play.google.com/store/apps/details?id=tech.misto.android.misto" target="_blank" rel="noopener"><span class="qi">📱</span><span class="qt">Застосунок «MISTO»</span><span class="qa">→</span></a><a class="ql" href="https://mon.gov.ua/" target="_blank" rel="noopener"><span class="qi">🇺🇦</span><span class="qt">Міністерство освіти і науки України</span><span class="qa">→</span></a><a class="ql" href="https://sqe.gov.ua/" target="_blank" rel="noopener"><span class="qi">✅</span><span class="qt">Державна служба якості освіти України</span><span class="qa">→</span></a></div>
     <div class="center" style="margin-top:14px"><a class="btn btn-ghost btn-small" href="korysni.html">Усі посилання →</a></div>
@@ -101,7 +101,7 @@
 <section class="band-soft">
   <div class="wrap">
     <div class="two-cols">
-      <div class="frame-photo reveal"><img src="images/sadochok.jpg" alt="Заклад «Калинка»"></div>
+      <div class="frame-photo reveal"><img id="aPhoto" src="images/sadochok.jpg" alt="Заклад «Калинка»"></div>
       <div class="reveal">
         <span class="script" id="haEyebrow" style="font-size:1.6rem;color:var(--kalyna)">Калинка — це ми</span>
         <h2 id="haTitle" style="color:var(--leaf-deep);font-size:2rem;margin-bottom:14px">Простір, де дитинство розквітає</h2>
@@ -109,16 +109,16 @@
         <p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">ЗДО №45 «Калинка» — сучасний заклад дошкільної освіти, де створено безпечне середовище, турботливу атмосферу та всі умови для гармонійного розвитку кожної дитини.</p>
         <p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">Ми підтримуємо ініціативність, творчість та індивідуальність малюків — і робимо так, щоб у садочок хотілося приходити щоранку.</p>
         </div>
-        <div class="chips">
+        <div class="chips" id="aChips">
           <span class="chip"><i style="background:var(--kalyna)"></i>11 груп</span>
           <span class="chip"><i style="background:var(--sun)"></i>турботливі педагоги</span>
           <span class="chip"><i style="background:var(--leaf)"></i>безпечне середовище</span>
           <span class="chip"><i style="background:var(--sky)"></i>інклюзія</span>
         </div>
-        <a class="btn btn-primary" href="pro-zaklad.html">Дізнатися більше</a>
+        <a class="btn btn-primary" id="aBtn" href="pro-zaklad.html">Дізнатися більше</a>
       </div>
     </div>
-    <div class="stats">
+    <div class="stats" id="aStats">
       <div class="stat reveal"><div class="num" data-count="11">0</div><div class="lbl">груп для малечі</div></div>
       <div class="stat reveal"><div class="num" data-count="20" data-suffix="+">0</div><div class="lbl">років досвіду педагогів</div></div>
       <div class="stat reveal"><div class="num" data-count="2" data-suffix="–6">0</div><div class="lbl">роки — вік дітей</div></div>
@@ -131,11 +131,11 @@
 <section>
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Наші групи</span>
-      <h2>Для кожного віку — своє відкриття</h2>
-      <p>11 затишних груп, у кожній — тепла атмосфера, свій характер і турботливі вихователі.</p>
+      <span class="eyebrow" id="gEyebrow">Наші групи</span>
+      <h2 id="gTitle">Для кожного віку — своє відкриття</h2>
+      <p id="gText">11 затишних груп, у кожній — тепла атмосфера, свій характер і турботливі вихователі.</p>
     </div>
-    <div class="grid-3">
+    <div class="grid-3" id="gCards">
       <a class="gcard g1 reveal" href="grupa-ranniy.html"><span class="emoji">🐣</span><h3>Ранній вік</h3><p>«Перші кроки у великий світ»</p></a>
       <a class="gcard g2 reveal" href="grupa-molodshi.html"><span class="emoji">🎨</span><h3>Молодші групи</h3><p>«Пізнаємо, граємо, відкриваємо»</p></a>
       <a class="gcard g3 reveal" href="grupa-seredni.html"><span class="emoji">🔭</span><h3>Середні групи</h3><p>«Досліджуємо світ разом»</p></a>
@@ -150,9 +150,9 @@
 <section class="band-soft">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Наші проєкти</span>
-      <h2>Родзинки «Калинки»</h2>
-      <p>Ідеї, якими ми пишаємось — від чистого повітря до турботи про довкілля та ментальне здоров'я.</p>
+      <span class="eyebrow" id="pEyebrow">Наші проєкти</span>
+      <h2 id="pTitle">Родзинки «Калинки»</h2>
+      <p id="pText">Ідеї, якими ми пишаємось — від чистого повітря до турботи про довкілля та ментальне здоров'я.</p>
     </div>
     <div class="grid-3" id="homeProjects">
       <a class="pcard reveal" href="proekty.html"><div class="pe">🌿</div><h3>O₂ Kids Space</h3><p>Простір чистого повітря для здоров'я та бадьорості малечі.</p></a>
@@ -169,8 +169,8 @@
     <div class="newsgrid">
       <div>
         <div class="sec-head reveal" style="text-align:left;margin-bottom:20px">
-          <span class="eyebrow">Афіша та новини</span>
-          <h2 style="font-size:1.8rem">Останні події «Калинки»</h2>
+          <span class="eyebrow" id="nEyebrow">Афіша та новини</span>
+          <h2 id="nTitle" style="font-size:1.8rem">Останні події «Калинки»</h2>
         </div>
         <div class="news-list" id="homeNews">
           <a class="nitem reveal" href="novyny.html"><div class="thumb">🏆</div><div><div class="date">05 вересня 2025</div><h3>Перемога у XVII Міжнародній виставці «Сучасні заклади освіти»</h3><span class="more">Читати →</span></div></a>
@@ -179,8 +179,8 @@
         </div>
         <div class="mt"><a class="btn btn-ghost btn-small" href="novyny.html">Усі новини →</a></div>
       </div>
-      <aside class="side-card reveal">
-        <h3>Батьківський навігатор</h3>
+      <aside class="side-card reveal" id="navBox">
+        <h3 id="navTitle">Батьківський навігатор</h3>
         <a class="plink" href="batkam.html"><span class="pi">🧸</span> Адаптація дитини <span class="arr">→</span></a>
         <a class="plink" href="menu.html"><span class="pi">🍎</span> Харчування <span class="arr">→</span></a>
         <a class="plink" href="batkam.html"><span class="pi">⏰</span> Режим дня <span class="arr">→</span></a>
@@ -196,9 +196,9 @@
 <section>
   <div class="wrap">
     <div class="achieve reveal">
-      <span class="eyebrow script">Наші досягнення</span>
-      <h2>«Калинка» у цифрах</h2>
-      <div class="acount">
+      <span class="eyebrow script" id="cEyebrow">Наші досягнення</span>
+      <h2 id="cTitle">«Калинка» у цифрах</h2>
+      <div class="acount" id="cStats">
         <div><div class="n" data-count="11">0</div><div class="t">груп</div></div>
         <div><div class="n" data-count="20" data-suffix="+">0</div><div class="t">років досвіду</div></div>
         <div><div class="n" data-count="30" data-suffix="+">0</div><div class="t">перемог і нагород</div></div>
@@ -212,8 +212,8 @@
 <section class="band-soft">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Світ очима дітей</span>
-      <h2>Що кажуть наші малюки</h2>
+      <span class="eyebrow" id="vEyebrow">Світ очима дітей</span>
+      <h2 id="vTitle">Що кажуть наші малюки</h2>
     </div>
     <div class="grid-3" id="voicesGrid">
 <div class="voice reveal"><p>Я хочу, щоб у нашому садочку завжди було літо.</p><div class="kid"><span class="av">🌻</span> Софійка, 5 років</div></div>
@@ -225,9 +225,9 @@
 <section class="social-band" data-social-wrap>
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Долучайтеся</span>
-      <h2>Ми в соціальних мережах</h2>
-      <p>Фото, відео та новини з життя «Калинки» — у нашій Facebook-групі та на YouTube-каналі.</p>
+      <span class="eyebrow" id="sEyebrow">Долучайтеся</span>
+      <h2 id="sTitle">Ми в соціальних мережах</h2>
+      <p id="sText">Фото, відео та новини з життя «Калинки» — у нашій Facebook-групі та на YouTube-каналі.</p>
     </div>
     <div class="soc-row" data-social-block></div>
   </div>
@@ -236,7 +236,7 @@
 <!-- КОНТАКТИ CTA -->
 <section class="cta-contact">
   <div class="wrap">
-    <span class="script">Завітайте до <b>«Калинки»</b> 🌼</span>
+    <span class="script" id="ctaText">Завітайте до <b>«Калинки»</b> 🌼</span>
     <div class="cinfo">
       <a href="kontakty.html">📍 м. Вінниця, вул. 600-річчя, 56</a>
       <a href="tel:0432561075">📞 (0432) 56-10-75</a>
@@ -250,7 +250,7 @@
 <script>
 /* Останні 3 новини на головну з content/news.json */
 (function(){
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
   var box=document.getElementById('homeNews');
   fetch('content/news.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!box||!d||!d.items||!d.items.length)return;
@@ -264,17 +264,76 @@
 <script>
 /* Головна: «Про нас», проєкти-тизер, цитати дітей — з content/home.json та projects.json */
 (function(){
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  // ── Усе на головній редагується: значення за замовчуванням = те, що зараз на сайті ──
+  var DEF={
+    heroKicker:'Сучасний заклад дошкільної освіти у Вінниці',
+    heroTitle:'Калинка — *територія*\nлюбові, турботи\nта розвитку!',
+    heroText:'Місце, де кожна дитина відчуває себе захищеною, потрібною і щасливою, а батьки — спокійними.',
+    heroBtn1:'Наші групи', heroBtn1Link:'grupy.html', heroBtn2:'Про заклад →', heroBtn2Link:'pro-zaklad.html',
+    heroPhoto:'images/sadochok.jpg', heroTag:'Дітлахам у *«Калинці»* — затишно 💛',
+    tiles:[{title:'Про заклад',text:'Діяльність, структура, документи',link:'pro-zaklad.html'},{title:'Наші групи',text:'11 груп для дітей 2–6 років',link:'grupy.html'},{title:'Освітній процес',text:'Програми, методики, інклюзія',link:'osvitniy-proces.html'},{title:'Територія дитинства',text:'Ігри, розмальовки, забавки',link:'dityam.html'},{title:'Фотогалерея',text:'Життя нашого закладу',link:'galereya.html'},{title:'Новини',text:'Події, конкурси, досягнення',link:'novyny.html'}],
+    qlEyebrow:'Швидкий доступ', qlTitle:'Корисні посилання',
+    aboutPhoto:'images/sadochok.jpg', aboutEyebrow:'Калинка — це ми', aboutTitle:'Простір, де дитинство розквітає',
+    about:['ЗДО №45 «Калинка» — сучасний заклад дошкільної освіти, де створено безпечне середовище, турботливу атмосферу та всі умови для гармонійного розвитку кожної дитини.','Ми підтримуємо ініціативність, творчість та індивідуальність малюків — і робимо так, щоб у садочок хотілося приходити щоранку.'],
+    chips:['11 груп','турботливі педагоги','безпечне середовище','інклюзія'], aboutBtn:'Дізнатися більше', aboutBtnLink:'pro-zaklad.html',
+    stats:[{num:'11',label:'груп для малечі'},{num:'20+',label:'років досвіду педагогів'},{num:'2–6',label:'роки — вік дітей'},{num:'∞',label:'дитячих усмішок'}],
+    groupsEyebrow:'Наші групи', groupsTitle:'Для кожного віку — своє відкриття', groupsText:'11 затишних груп, у кожній — тепла атмосфера, свій характер і турботливі вихователі.',
+    gcards:[{emoji:'🐣',title:'Ранній вік',text:'«Перші кроки у великий світ»',link:'grupa-ranniy.html'},{emoji:'🎨',title:'Молодші групи',text:'«Пізнаємо, граємо, відкриваємо»',link:'grupa-molodshi.html'},{emoji:'🔭',title:'Середні групи',text:'«Досліджуємо світ разом»',link:'grupa-seredni.html'},{emoji:'🚀',title:'Старші групи',text:'«Готуємося до нових відкриттів»',link:'grupa-starshi.html'},{emoji:'💛',title:'Інклюзивна група',text:'«Кожна дитина важлива»',link:'grupa-inklyuziya.html'},{emoji:'📝',title:'Запис у садочок',text:'Як стати вихованцем «Калинки»',link:'vstup.html'}],
+    projEyebrow:'Наші проєкти', projTitle:'Родзинки «Калинки»', projText:'Ідеї, якими ми пишаємось — від чистого повітря до турботи про довкілля та ментальне здоров\'я.',
+    newsEyebrow:'Афіша та новини', newsTitle:'Останні події «Калинки»',
+    navTitle:'Батьківський навігатор',
+    navLinks:[{icon:'🧸',title:'Адаптація дитини',link:'batkam.html'},{icon:'🍎',title:'Харчування',link:'menu.html'},{icon:'⏰',title:'Режим дня',link:'rezhym.html'},{icon:'🧠',title:'Психолог',link:'batkam.html'},{icon:'🛡️',title:'Безпека',link:'bezpeka.html'},{icon:'🎓',title:'Підготовка до школи',link:'batkam.html'}],
+    achEyebrow:'Наші досягнення', achTitle:'«Калинка» у цифрах',
+    achStats:[{num:'11',label:'груп'},{num:'20+',label:'років досвіду'},{num:'30+',label:'перемог і нагород'},{num:'∞',label:'дитячих усмішок'}],
+    voicesEyebrow:'Світ очима дітей', voicesTitle:'Що кажуть наші малюки',
+    socEyebrow:'Долучайтеся', socTitle:'Ми в соціальних мережах', socText:'Фото, відео та новини з життя «Калинки» — у нашій Facebook-групі та на YouTube-каналі.',
+    ctaText:'Завітайте до *«Калинки»* 🌼'
+  };
+  window.kalynkaPageDefaults=DEF;
+  function star(t,tag){ return esc(t).replace(/\*([^*]+)\*/g,'<'+tag+'>$1</'+tag+'>'); }
+  function $(id){ return document.getElementById(id); }
+  function txt(id,v){ var e=$(id); if(e&&v!=null&&v!=='') e.textContent=v; }
+  function lnk(id,label,href){ var e=$(id); if(!e)return; if(label) e.textContent=label; if(href) e.setAttribute('href',href); }
+  function img(id,src){ var e=$(id); if(e&&src) e.src=src; }
+  // число «20+» → лічильник 20 і суфікс «+»
+  function numHtml(n){ n=String(n==null?'':n).trim(); var m=n.match(/^(\d+)(.*)$/); return m?'data-count="'+m[1]+'"'+(m[2]?' data-suffix="'+esc(m[2])+'"':'')+'>0':'>'+esc(n); }
+  var TILE_IC=[].slice.call(document.querySelectorAll('#hTiles .ic')).map(function(x){return x.outerHTML;});
+  var TONES=['c-pink','c-sun','c-leaf','c-sky','c-lilac','c-red'], CH=['var(--kalyna)','var(--sun)','var(--leaf)','var(--sky)','var(--lilac)','#ef5d6e'];
+  function L(d,k){ return (d[k]&&(!Array.isArray(d[k])||d[k].length))?d[k]:DEF[k]; }
   fetch('content/home.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
-    if(!d)return;
-    var eb=document.getElementById('haEyebrow'); if(eb&&d.aboutEyebrow) eb.textContent=d.aboutEyebrow;
-    var tt=document.getElementById('haTitle'); if(tt&&d.aboutTitle) tt.textContent=d.aboutTitle;
-    var tx=document.getElementById('haText');
-    if(tx&&d.about&&d.about.length) tx.innerHTML=d.about.map(function(p){return '<p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">'+esc(p)+'</p>';}).join('');
-    var vg=document.getElementById('voicesGrid');
+    d=d||{};
+    txt('hKicker',L(d,'heroKicker'));
+    var ht=$('hTitle'); if(ht) ht.innerHTML=String(L(d,'heroTitle')).split('\n').map(function(l){return star(l,'span class="hl"').replace(/<\/span class="hl">/g,'</span>');}).join('<br>');
+    txt('hText',L(d,'heroText'));
+    lnk('hBtn1',L(d,'heroBtn1'),L(d,'heroBtn1Link')); lnk('hBtn2',L(d,'heroBtn2'),L(d,'heroBtn2Link'));
+    img('hPhoto',L(d,'heroPhoto'));
+    var tg=$('hTag'); if(tg) tg.innerHTML=star(L(d,'heroTag'),'b');
+    var tl=$('hTiles'); if(tl) tl.innerHTML=L(d,'tiles').map(function(x,i){
+      var ic=x.icon?'<div class="ic '+TONES[i%6]+'" style="font-size:1.6rem">'+esc(x.icon)+'</div>':(TILE_IC[i%TILE_IC.length]||'');
+      return '<a class="tile reveal" href="'+esc(x.link||'#')+'">'+ic+'<h3>'+esc(x.title)+'</h3><p>'+esc(x.text||'')+'</p></a>';
+    }).join('');
+    txt('qlEyebrow',L(d,'qlEyebrow')); txt('qlTitle',L(d,'qlTitle'));
+    img('aPhoto',L(d,'aboutPhoto'));
+    txt('haEyebrow',L(d,'aboutEyebrow')); txt('haTitle',L(d,'aboutTitle'));
+    var tx=$('haText'); if(tx) tx.innerHTML=L(d,'about').map(function(p){return '<p style="color:var(--ink-soft);font-weight:600;margin:0 0 14px">'+esc(p)+'</p>';}).join('');
+    var ch=$('aChips'); if(ch) ch.innerHTML=L(d,'chips').map(function(c,i){return '<span class="chip"><i style="background:'+CH[i%6]+'"></i>'+esc(c)+'</span>';}).join('');
+    lnk('aBtn',L(d,'aboutBtn'),L(d,'aboutBtnLink'));
+    var st=$('aStats'); if(st) st.innerHTML=L(d,'stats').map(function(x){return '<div class="stat reveal"><div class="num" '+numHtml(x.num)+'</div><div class="lbl">'+esc(x.label)+'</div></div>';}).join('');
+    txt('gEyebrow',L(d,'groupsEyebrow')); txt('gTitle',L(d,'groupsTitle')); txt('gText',L(d,'groupsText'));
+    var gc=$('gCards'); if(gc) gc.innerHTML=L(d,'gcards').map(function(x,i){return '<a class="gcard g'+(i%6+1)+' reveal" href="'+esc(x.link||'#')+'"><span class="emoji">'+esc(x.emoji||'🌟')+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.text||'')+'</p></a>';}).join('');
+    txt('pEyebrow',L(d,'projEyebrow')); txt('pTitle',L(d,'projTitle')); txt('pText',L(d,'projText'));
+    txt('nEyebrow',L(d,'newsEyebrow')); txt('nTitle',L(d,'newsTitle'));
+    var nb=$('navBox'); if(nb) nb.innerHTML='<h3 id="navTitle">'+esc(L(d,'navTitle'))+'</h3>'+L(d,'navLinks').map(function(x){return '<a class="plink" href="'+esc(x.link||'#')+'"><span class="pi">'+esc(x.icon||'•')+'</span> '+esc(x.title)+' <span class="arr">→</span></a>';}).join('');
+    txt('cEyebrow',L(d,'achEyebrow')); txt('cTitle',L(d,'achTitle'));
+    var cs=$('cStats'); if(cs) cs.innerHTML=L(d,'achStats').map(function(x){return '<div><div class="n" '+numHtml(x.num)+'</div><div class="t">'+esc(x.label)+'</div></div>';}).join('');
+    txt('vEyebrow',L(d,'voicesEyebrow')); txt('vTitle',L(d,'voicesTitle'));
+    var vg=$('voicesGrid');
     if(vg&&d.voices&&d.voices.length) vg.innerHTML=d.voices.map(function(v){
       return '<div class="voice reveal"><p>'+esc(v.text)+'</p><div class="kid"><span class="av">'+esc(v.avatar||'🙂')+'</span> '+esc(v.kid)+'</div></div>';
     }).join('');
+    txt('sEyebrow',L(d,'socEyebrow')); txt('sTitle',L(d,'socTitle')); txt('sText',L(d,'socText'));
+    var ct=$('ctaText'); if(ct) ct.innerHTML=star(L(d,'ctaText'),'b');
   }).catch(function(){});
   var acc=['','pt-leaf','pt-sky'];
   var hp=document.getElementById('homeProjects');
