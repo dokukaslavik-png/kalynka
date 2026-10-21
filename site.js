@@ -180,7 +180,7 @@
     e.preventDefault(); window.kalynkaOpenDetail(KD[b.getAttribute('data-kd')]);
   });
   // блок «Фото та документи» внизу сторінки (якщо додані до самої сторінки)
-  var PAGE_FILE={pro:'about',menu:'menu',rezhym:'rezhym',bezpeka:'bezpeka',vstup:'vstup',pedprostir:'pedprostir',dosyahnennya:'dosyahnennya',korysni:'korysni',prozorist:'prozorist',batkam:'parents',proekty:'projects',osvita:'gurtky',grupy:'groups',novyny:'news',podii:'events',galereya:'gallery'};
+  var PAGE_FILE={pro:'about',menu:'menu',rezhym:'rezhym',bezpeka:'bezpeka',vstup:'vstup',pedprostir:'pedprostir',dosyahnennya:'dosyahnennya',korysni:'korysni',prozorist:'prozorist',konf:'privacy',batkam:'parents',proekty:'projects',osvita:'gurtky',grupy:'groups',novyny:'news',podii:'events',galereya:'gallery'};
   (function(){
     var pg=document.body.getAttribute('data-page'), f=PAGE_FILE[pg]; if(!f) return;
     fetch('content/'+f+'.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
@@ -364,7 +364,7 @@
         '<li><a href="tel:'+esc(INFO.phone).replace(/[^0-9+]/g,'')+'">📞 '+esc(INFO.phone)+'</a></li>'+
         '<li><a href="mailto:'+esc(INFO.email)+'">✉️ '+esc(INFO.email)+'</a></li>'+
         '<li>🕒 '+esc(INFO.hours)+'</li></ul></div>'+
-    '</div><div class="bottom">© 2025 ЗДО №45 «Калинка», м. Вінниця. Усі права захищені.</div></div></footer>';
+    '</div><div class="bottom">© '+new Date().getFullYear()+' ЗДО №45 «Калинка», м. Вінниця. Усі права захищені. · <a href="konfidentsiynist.html">Політика конфіденційності</a></div></div></footer>';
 
     document.body.insertAdjacentHTML('afterbegin', header);
     document.body.insertAdjacentHTML('beforeend', footer);
@@ -478,7 +478,7 @@
 
   // редактор «на місці» для адміністратора (мами)
   var es = document.createElement('script');
-  es.src = 'edit.js?v=20261021b';
+  es.src = 'edit.js?v=20261022';
   es.defer = true;
   document.body.appendChild(es);
 })();

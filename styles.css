@@ -578,3 +578,4 @@ img{height:auto}
 .k-attach-box{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-soft);padding:24px;max-width:980px;margin:0 auto}
 @media(max-width:560px){.k-photos{grid-template-columns:repeat(2,1fr)}.k-doc .dk{display:none}.k-head{padding:16px 18px}.k-body{padding:18px}.k-attach-box{padding:18px}}
 .k-attach-h{text-align:center;font-family:'Comfortaa',cursive;color:var(--leaf-deep);font-size:1.5rem;margin:0 0 18px}
+.footer .bottom a{color:inherit;text-decoration:underline;text-underline-offset:3px}

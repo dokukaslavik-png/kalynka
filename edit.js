@@ -179,7 +179,8 @@
                {n:'name',l:'Коротка назва',t:'text'}, {n:'full',l:'Повна назва',t:'textarea'},
                {n:'addr',l:'Адреса',t:'text'}, {n:'phone',l:'Телефон',t:'text'}, {n:'email',l:'Email',t:'text'},
                {n:'hours',l:'Графік роботи',t:'text'},
-               {n:'facebook',l:'Facebook-група (посилання)',t:'text',opt:true}, {n:'youtube',l:'YouTube-канал (посилання)',t:'text',opt:true}, {n:'telegram',l:'Telegram (посилання)',t:'text',opt:true}
+               {n:'facebook',l:'Facebook-група (посилання)',t:'text',opt:true}, {n:'youtube',l:'YouTube-канал (посилання)',t:'text',opt:true}, {n:'telegram',l:'Telegram (посилання)',t:'text',opt:true},
+               {n:'formKey',l:'Ключ форми «Напишіть нам» (Web3Forms)',t:'text',opt:true,hint:'Отримати безкоштовно на web3forms.com на пошту закладу. Без ключа форма відкриває поштову програму.'}
              ]},
     pedprostir:{label:'Педагогічний простір', file:'content/pedprostir.json', shape:'object',
              fields:[
@@ -217,10 +218,12 @@
   });
   ['about','group','menu','rezhym','bezpeka','vstup','pedprostir','dosyahnennya','korysni','prozorist'].forEach(function(k){ S[k].fields=S[k].fields.concat(mediaFields(true)); });
 
+  S.privacy={label:'Політика конфіденційності', file:'content/privacy.json', shape:'object', domDefaults:true,
+    fields:[ {n:'text',l:'Текст політики',t:'rich',hint:'Підзаголовки — кнопкою «Підзаголовок». Не забудьте змінити дату редакції внизу.'} ]};
   var PAGE_MAP = {
     home:'home', novyny:'news', podii:'events', galereya:'gallery', dokumenty:'documents',
     proekty:'projects', batkam:'parents', osvita:'gurtky', pro:'about',
-    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist', pedprostir:'pedprostir', dosyahnennya:'dosyahnennya', korysni:'korysni'
+    menu:'menu', rezhym:'rezhym', bezpeka:'bezpeka', vstup:'vstup', kontakty:'settings', prozorist:'prozorist', pedprostir:'pedprostir', dosyahnennya:'dosyahnennya', korysni:'korysni', konf:'privacy'
   };
 
   var page = document.body.getAttribute('data-page') || '';
