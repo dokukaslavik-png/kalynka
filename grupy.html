@@ -50,7 +50,7 @@
     if(dv&&g.develop&&g.develop.length) dv.innerHTML=g.develop.map(function(x){return '<li>'+esc(x)+'</li>';}).join('');
     var ac=document.getElementById('gActs');
     if(ac&&g.activities&&g.activities.length) ac.innerHTML=g.activities.map(function(a,i){
-      return '<div class="pcard '+acc[i%3]+' reveal"><div class="pe">'+esc(a.emoji||'🌟')+'</div><h3>'+esc(a.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(a.text)+'</div></div>';
+      return '<div class="pcard '+acc[i%3]+' reveal">'+(window.kalynkaCover||function(){return ''})(a)+'<div class="pe">'+esc(a.emoji||'🌟')+'</div><h3>'+esc(a.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(a.text)+'</div>'+(window.kalynkaCardMeta||function(){return ''})('act',i,a)+'</div>';
     }).join('');
     var te=document.getElementById('teachers');
     if(te&&g.teachers&&g.teachers.length) te.innerHTML=g.teachers.map(function(m){

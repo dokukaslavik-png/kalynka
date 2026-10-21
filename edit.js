@@ -41,6 +41,16 @@
     {n:'credo',l:'Педагогічне кредо',t:'textarea',opt:true,hint:'Без лапок — вони додадуться самі'}
   ];
 
+  // ── фото та документи, які можна додати будь-куди ──
+  function mediaFields(page){
+    return [
+      {n:'photos',l:page?'📷 Фото для цієї сторінки':'📷 Фото',t:'gallery',opt:true,hint:page?'Покажуться внизу сторінки. Можна вибрати кілька фото одразу.':'Можна вибрати одразу кілька фото. Великі фото зменшуються автоматично.'},
+      {n:'docs',l:page?'📄 Документи для цієї сторінки':'📄 Документи',t:'objlist',opt:true,itemName:'Документ',title:function(x){return x.title||x.file||x.link||'';},
+        fields:[ {n:'title',l:'Назва документа',t:'text',hint:'Напр.: Наказ про зарахування'},
+                 {n:'file',l:'Файл',t:'file',opt:true,accept:DOC_ACCEPT,hint:'PDF, Word, Excel, PowerPoint або фото'},
+                 {n:'link',l:'Або посилання (замість файлу)',t:'text',opt:true,hint:'Напр.: Google Диск, сайт МОН'} ]}
+    ];
+  }
   var DOC_ACCEPT='.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.rtf,.txt,.jpg,.jpeg,.png,application/pdf,image/*';
   var S = {
     news:   {label:'Новини', file:'content/news.json', shape:'list', listKey:'items', itemName:'Новина',
@@ -135,13 +145,8 @@
     pedprostir:{label:'Педагогічний простір', file:'content/pedprostir.json', shape:'object',
              fields:[
                {n:'intro',l:'Вступний текст',t:'rich'},
-               {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){ var ph=(x.photos||[]).length, dc=(x.docs||[]).length; return (x.title||'')+(ph||dc?'  ·  📷 '+ph+' · 📄 '+dc:''); },
-                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'},
-                          {n:'photos',l:'📷 Фото',t:'gallery',opt:true,hint:'Можна вибрати одразу кілька фото. Великі фото зменшуються автоматично.'},
-                          {n:'docs',l:'📄 Документи',t:'objlist',opt:true,itemName:'Документ',title:function(x){return x.title||x.file||x.link||'';},
-                            fields:[ {n:'title',l:'Назва документа',t:'text',hint:'Напр.: Графік атестації на 2026 рік'},
-                                     {n:'file',l:'Файл',t:'file',opt:true,accept:DOC_ACCEPT,hint:'PDF, Word, Excel, PowerPoint або фото'},
-                                     {n:'link',l:'Або посилання (замість файлу)',t:'text',opt:true,hint:'Напр.: Google Диск, сайт МОН'} ]} ]}
+               {n:'items',l:'Підрозділи', t:'objlist', itemName:'Підрозділ', title:function(x){return x.title||'';},
+                 fields:[ {n:'icon',l:'Емодзі',t:'text',opt:true}, {n:'title',l:'Назва',t:'text'}, {n:'text',l:'Опис',t:'rich'} ]}
              ]},
     dosyahnennya:{label:'Скарбничка досягнень', file:'content/dosyahnennya.json', shape:'object',
              fields:[
@@ -165,6 +170,13 @@
                             fields:[ {n:'title',l:'Назва документа',t:'text'}, {n:'file',l:'Файл PDF',t:'file',opt:true}, {n:'link',l:'Посилання (замість файлу)',t:'text',opt:true} ]} ]}
              ]}
   };
+
+  // додаємо фото/документи до карток і до самих сторінок
+  ['news','events','projects','parents','gurtky'].forEach(function(k){ S[k].fields=S[k].fields.concat(mediaFields(false)); S[k].pageMedia=true; });
+  [['group','activities'],['bezpeka','items'],['vstup','steps'],['dosyahnennya','items'],['pedprostir','items']].forEach(function(p){
+    S[p[0]].fields.forEach(function(f){ if(f.n===p[1]) f.fields=f.fields.concat(mediaFields(false)); });
+  });
+  ['about','group','menu','rezhym','bezpeka','vstup','pedprostir','dosyahnennya','korysni','prozorist'].forEach(function(k){ S[k].fields=S[k].fields.concat(mediaFields(true)); });
 
   var PAGE_MAP = {
     home:'home', novyny:'news', podii:'events', galereya:'gallery', dokumenty:'documents',
@@ -431,7 +443,10 @@
       function render(){
         box.innerHTML='';
         list.forEach(function(it,i){
-          var t=el('div',{class:'t',text:(f.title?f.title(it):(it.title||('#'+(i+1))))});
+          var tt=(f.title?f.title(it):(it.title||('#'+(i+1))));
+          var nph=(it&&it.photos||[]).length, ndc=(it&&it.docs||[]).length;
+          if(nph||ndc) tt+='  ·  📷 '+nph+' · 📄 '+ndc;
+          var t=el('div',{class:'t',text:tt});
           var imgF=(f.fields||[]).filter(function(x){return x.t==='image';})[0];
           var th=null;
           if(imgF){ var src=it&&it[imgF.n]; th = src ? el('img',{class:'e-th',src:src,alt:''}) : el('span',{class:'e-th e-th-none',text:'📷',title:'Без фото'}); }
@@ -489,6 +504,10 @@
         var ctl=fieldControl({t:'objlist', itemName:schema.itemName, title:schema.title, fields:schema.fields}, working[schema.listKey]||[]);
         body.appendChild(ctl.el);
         getters.push({apply:function(obj){ obj[schema.listKey]=ctl.get(); }});
+        if(schema.pageMedia){
+          body.appendChild(el('div',{class:'e-sub',style:'margin-top:22px',text:'Нижче — фото та документи для всієї сторінки (необовʼязково).'}));
+          mediaFields(true).forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
+        }
       } else {
         fields.forEach(function(f){ var b=fieldBlock(f, working[f.n]); getters.push({apply:function(obj){ obj[f.n]=b.get(); }}); body.appendChild(b.el); });
       }

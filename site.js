@@ -137,6 +137,63 @@
     document.body.appendChild(bg);
   });
 
+  // ── ФОТО ТА ДОКУМЕНТИ: картки, вікно перегляду, блок на сторінці ──
+  function kExt(u){ var m=String(u||'').toLowerCase().split(/[?#]/)[0].match(/\.([a-z0-9]+)$/); return m?m[1]:''; }
+  function kDocIcon(u){ var e=kExt(u); if(e==='pdf')return '📕'; if(/^(doc|docx|odt|rtf|txt)$/.test(e))return '📘'; if(/^(xls|xlsx|ods)$/.test(e))return '📗'; if(/^(ppt|pptx|odp)$/.test(e))return '📙'; if(/^(jpg|jpeg|png|webp|gif)$/.test(e))return '🖼️'; return '🔗'; }
+  function kMedia(x){ x=x||{}; return { ph:(x.photos||[]).filter(Boolean), dc:(x.docs||[]).filter(function(d){return d&&(d.file||d.link);}) }; }
+  function kPlural(n,a,b,c){ var m10=n%10,m100=n%100; return (m10===1&&m100!==11)?a:((m10>=2&&m10<=4&&(m100<10||m100>=20))?b:c); }
+  var KD={}, kSet=0;
+  window.kalynkaMediaHtml = function(x, title){
+    var m=kMedia(x), set='ks'+(++kSet), cap=esc(title||x&&x.title||'');
+    return (m.ph.length?'<h3 class="k-sub">📷 Фото <span>'+m.ph.length+'</span></h3><div class="k-photos">'+m.ph.map(function(src){
+        return '<button type="button" class="pzoom" data-set="'+set+'" data-full="'+esc(src)+'" data-cap="'+cap+'"><img src="'+esc(src)+'" alt="" loading="lazy"></button>';
+      }).join('')+'</div>':'')+
+      (m.dc.length?'<h3 class="k-sub">📄 Документи <span>'+m.dc.length+'</span></h3><div class="k-docs">'+m.dc.map(function(d){
+        var u=d.file||d.link, e=kExt(u);
+        return '<a class="k-doc" href="'+esc(u)+'" target="_blank" rel="noopener"><span class="di">'+kDocIcon(u)+'</span><span class="dt">'+esc(d.title||'Документ')+'</span><span class="dk">'+(e&&d.file?e.toUpperCase():'Посилання')+'</span><span class="dg">Відкрити →</span></a>';
+      }).join('')+'</div>':'');
+  };
+  // мітки «📷 5 фото · 📄 2 документи» + кнопка «Переглянути» (у картці)
+  window.kalynkaCardMeta = function(key, i, x){
+    var m=kMedia(x); if(!m.ph.length&&!m.dc.length) return '';
+    KD[key+':'+i]=x;
+    return '<div class="k-meta">'+(m.ph.length?'<span>📷 '+m.ph.length+' фото</span>':'')+(m.dc.length?'<span>📄 '+m.dc.length+' '+kPlural(m.dc.length,'документ','документи','документів')+'</span>':'')+'</div>'+
+      '<button type="button" class="k-more" data-kd="'+esc(key+':'+i)+'">Переглянути →</button>';
+  };
+  // обкладинка картки з першого фото
+  window.kalynkaCover = function(x){ var m=kMedia(x); return m.ph.length?'<div class="k-cover"><img src="'+esc(m.ph[0])+'" alt="" loading="lazy"></div>':''; };
+  window.kalynkaOpenDetail = function(x){
+    if(!x) return;
+    var R=window.kalynkaRich||esc;
+    var title=x.title||x.day||'';
+    var bg=document.createElement('div'); bg.className='k-dbg';
+    bg.innerHTML='<div class="k-sheet" role="dialog" aria-modal="true"><div class="k-head"><span class="k-ico">'+esc(x.icon||x.emoji||'📌')+'</span><h2>'+esc(title)+'</h2><button type="button" class="k-x" aria-label="Закрити">✕</button></div>'+
+      '<div class="k-body">'+(x.date?'<div class="k-date">'+esc(x.date)+'</div>':'')+((x.text||x.desc)?'<div class="rtx k-text">'+R(x.text||x.desc)+'</div>':'')+window.kalynkaMediaHtml(x,title)+'</div></div>';
+    function close(){ bg.remove(); document.body.style.overflow=''; document.removeEventListener('keydown',onKey); }
+    function onKey(e){ if(e.key==='Escape' && !document.querySelector('.k-lb')) close(); }
+    bg.addEventListener('click',function(e){ if(e.target===bg||e.target.classList.contains('k-x')) close(); });
+    document.addEventListener('keydown',onKey);
+    document.body.appendChild(bg); document.body.style.overflow='hidden';
+  };
+  document.addEventListener('click', function(e){
+    var b=e.target.closest && e.target.closest('.k-more'); if(!b) return;
+    e.preventDefault(); window.kalynkaOpenDetail(KD[b.getAttribute('data-kd')]);
+  });
+  // блок «Фото та документи» внизу сторінки (якщо додані до самої сторінки)
+  var PAGE_FILE={pro:'about',menu:'menu',rezhym:'rezhym',bezpeka:'bezpeka',vstup:'vstup',pedprostir:'pedprostir',dosyahnennya:'dosyahnennya',korysni:'korysni',prozorist:'prozorist',batkam:'parents',proekty:'projects',osvita:'gurtky',grupy:'groups',novyny:'news',podii:'events',galereya:'gallery'};
+  (function(){
+    var pg=document.body.getAttribute('data-page'), f=PAGE_FILE[pg]; if(!f) return;
+    fetch('content/'+f+'.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+      if(!d) return;
+      if(pg==='grupy'){ var g=document.body.getAttribute('data-group'); d=g?d[g]:null; if(!d) return; }
+      var m=kMedia(d); if(!m.ph.length&&!m.dc.length) return;
+      var main=document.querySelector('main'); if(!main) return;
+      var sec=document.createElement('section'); sec.className='k-attach';
+      sec.innerHTML='<div class="wrap"><h2 class="k-attach-h">📎 Фото та документи</h2><div class="k-attach-box">'+window.kalynkaMediaHtml(d, document.title.split(' — ')[0])+'</div></div>';
+      main.appendChild(sec);
+    }).catch(function(){});
+  })();
+
   // ── «гарний текст»: абзаци, жирний, курсив, списки, посилання ──
   // Приймає або звичайний текст (абзаци з нових рядків), або HTML з редактора (очищується).
   var RICH_OK={P:'p',BR:'br',STRONG:'strong',B:'strong',EM:'em',I:'em',U:'u',UL:'ul',OL:'ol',LI:'li',A:'a',H3:'h3',H4:'h3',DIV:'p',H1:'h3',H2:'h3',BLOCKQUOTE:'p'};
@@ -421,7 +478,7 @@
 
   // редактор «на місці» для адміністратора (мами)
   var es = document.createElement('script');
-  es.src = 'edit.js?v=20261019c';
+  es.src = 'edit.js?v=20261021';
   es.defer = true;
   document.body.appendChild(es);
 })();

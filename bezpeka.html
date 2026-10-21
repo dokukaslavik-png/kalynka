@@ -70,8 +70,8 @@
     }
     var box=document.getElementById('safeGrid');
     if(box&&d.items&&d.items.length){
-      box.innerHTML=d.items.map(function(x){
-        return '<div class="pcard reveal"><div class="pe">'+esc(x.icon||'🛡️')+'</div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div></div>';
+      box.innerHTML=d.items.map(function(x,i){
+        return '<div class="pcard reveal">'+(window.kalynkaCover||function(){return ''})(x)+'<div class="pe">'+esc(x.icon||'🛡️')+'</div><h3>'+esc(x.title)+'</h3><div class="rtx">'+(window.kalynkaRich||function(x){return esc(x)})(x.text)+'</div>'+(window.kalynkaCardMeta||function(){return ''})('bezpeka',i,x)+'</div>';
       }).join('');
     }
   }).catch(function(){});
