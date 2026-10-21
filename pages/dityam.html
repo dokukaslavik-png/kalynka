@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Територія дитинства — ігрова кімната «Калинки» | ЗДО №45</title>
+  <meta name="description" content="Ігрова кімната садочка «Калинка»: гра на пам'ять, хрестики-нулики, розмальовка та пазл. Весело і безпечно для малечі.">
+  <link rel="canonical" href="https://dnz45.vn.ua/dityam.html">
+
+  <!-- Прев'ю в месенджерах і соцмережах -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="ЗДО №45 «Калинка»">
+  <meta property="og:title" content="Територія дитинства — ігрова кімната «Калинки» | ЗДО №45">
+  <meta property="og:description" content="Ігрова кімната садочка «Калинка»: гра на пам&#x27;ять, хрестики-нулики, розмальовка та пазл. Весело і безпечно для малечі.">
+  <meta property="og:url" content="https://dnz45.vn.ua/dityam.html">
+  <meta property="og:image" content="https://dnz45.vn.ua/assets/img/og-kalynka.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ЗДО №45 «Калинка», Вінниця">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Територія дитинства — ігрова кімната «Калинки» | ЗДО №45">
+  <meta name="twitter:description" content="Ігрова кімната садочка «Калинка»: гра на пам&#x27;ять, хрестики-нулики, розмальовка та пазл. Весело і безпечно для малечі.">
+  <meta name="twitter:image" content="https://dnz45.vn.ua/assets/img/og-kalynka.jpg">
+
+  <!-- Іконки -->
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#3c8c57">
+
+  <!-- Шрифти та стилі -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Comfortaa:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="dityam">
+
+<main>
+<section class="page-hero">
+
+  <div class="wrap">
+    <nav class="breadcrumbs"><a href="/">Головна</a> <span>/</span> Територія дитинства</nav>
+    <span class="script eyebrow">Ігрова кімната</span>
+    <h1>Граймося разом! 🎈</h1>
+    <p class="lead">Вісім веселих ігор для малечі — розвивають пам'ять, увагу та кмітливість. Можна грати з планшета, телефона чи комп'ютера.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap wrap-narrow">
+
+    <!-- ГРА 1: ПАМ'ЯТЬ -->
+    <div class="game reveal">
+      <h2>🧠 Знайди пару</h2>
+      <p class="desc">Перевертай картки по дві й шукай однакові. Знайди всі пари якнайменшою кількістю ходів!</p>
+      <div class="mem-grid" id="memGrid"></div>
+      <div class="status" id="memStatus">Ходів: 0</div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="memReset">Грати знову</button></div>
+    </div>
+
+    <!-- ГРА 2: ХРЕСТИКИ-НУЛИКИ -->
+    <div class="game reveal">
+      <h2>❌ Хрестики-нулики</h2>
+      <p class="desc">Ти граєш квіточкою 🌼, а комп'ютер — калинкою 🍓. Збери три свої в ряд!</p>
+      <div class="xo-grid" id="xoGrid"></div>
+      <div class="status" id="xoStatus">Твій хід 🌼</div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="xoReset">Нова гра</button></div>
+    </div>
+
+    <!-- ГРА 3: РОЗМАЛЮЙ -->
+    <div class="game reveal">
+      <h2>🎨 Розмалюй калинку</h2>
+      <p class="desc">Обери колір і тисни на частинки малюнка. Створи свою картинку!</p>
+      <div class="color-wrap">
+        <svg class="color-svg" id="colorSvg" viewBox="0 0 200 200">
+          <rect data-fill x="0" y="0" width="200" height="200" fill="#eaf3ea" rx="16"/>
+          <rect x="96" y="110" width="8" height="70" fill="#7a5230"/>
+          <path data-fill d="M100 60c-16 20-13 40 3 52 13-15 12-38-3-52z" fill="#a9d3b0"/>
+          <path data-fill d="M60 92c4 22 18 33 36 33-3-20-18-31-36-33z" fill="#a9d3b0"/>
+          <path data-fill d="M140 92c-18 2-33 13-36 33 18 0 32-11 36-33z" fill="#a9d3b0"/>
+          <circle data-fill cx="86" cy="128" r="12" fill="#f4b6c2"/>
+          <circle data-fill cx="112" cy="132" r="12" fill="#f4b6c2"/>
+          <circle data-fill cx="98" cy="150" r="12" fill="#f4b6c2"/>
+          <circle data-fill cx="74" cy="148" r="9" fill="#f4b6c2"/>
+          <circle data-fill cx="124" cy="152" r="9" fill="#f4b6c2"/>
+          <circle data-fill cx="150" cy="44" r="16" fill="#fdf0c0"/>
+        </svg>
+        <div class="swatches" id="swatches"></div>
+      </div>
+      <div class="controls"><button class="btn btn-ghost btn-small" id="colorReset">Очистити</button></div>
+    </div>
+
+    <!-- ГРА 4: ПАЗЛ -->
+    <div class="game reveal">
+      <h2>🧩 Склади пазл</h2>
+      <p class="desc">Пересувай шматочки, щоб зібрати фото нашого садочка. Тисни на плитку поряд із порожнім місцем.</p>
+      <div class="row-center">
+        <div class="puz-board" id="puzBoard"></div>
+        <div class="center"><img class="puz-ref" src="/images/sadochok.jpg" alt="Зразок"><div class="puz-cap">зразок</div></div>
+      </div>
+      <div class="status" id="puzStatus"></div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="puzShuffle">Перемішати</button></div>
+    </div>
+
+    <!-- ГРА 5: ВГАДАЙ ТВАРИНКУ -->
+    <div class="game reveal">
+      <h2>🐾 Вгадай тваринку</h2>
+      <p class="desc">Хто це? Подивись на малюнок і обери правильну назву.</p>
+      <div class="big-emoji" id="animEmoji">🐶</div>
+      <div class="answers" id="animAns"></div>
+      <div class="status" id="animStatus">Рахунок: 0</div>
+    </div>
+
+    <!-- ГРА 6: ПОРАХУЙ -->
+    <div class="game reveal">
+      <h2>🔢 Порахуй, скільки?</h2>
+      <p class="desc">Полічи предмети й натисни правильне число.</p>
+      <div class="count-row" id="countRow">🍎🍎🍎</div>
+      <div class="answers" id="countAns"></div>
+      <div class="status" id="countStatus">Рахунок: 0</div>
+    </div>
+
+    <!-- ГРА 7: ЛАБІРИНТ -->
+    <div class="game reveal">
+      <h2>🌀 Лабіринт</h2>
+      <p class="desc">Допоможи зайчику 🐰 дійти до морквинки 🥕. Керуй стрілочками.</p>
+      <div class="maze" id="maze"></div>
+      <div class="dpad">
+        <span class="sp"></span><button data-dir="up" aria-label="вгору">▲</button><span class="sp"></span>
+        <button data-dir="left" aria-label="вліво">◀</button><span class="sp"></span><button data-dir="right" aria-label="вправо">▶</button>
+        <span class="sp"></span><button data-dir="down" aria-label="вниз">▼</button><span class="sp"></span>
+      </div>
+      <div class="status" id="mazeStatus"></div>
+      <div class="controls"><button class="btn btn-ghost btn-small" id="mazeReset">Спочатку</button></div>
+    </div>
+
+    <!-- ГРА 8: СПІЙМАЙ МЕТЕЛИКА -->
+    <div class="game reveal">
+      <h2>🦋 Спіймай метелика</h2>
+      <p class="desc">Лови метеликів, поки цокає час! Тисни на них якнайшвидше.</p>
+      <div class="catch-hud"><span>⭐ Спіймано: <b id="catchScore">0</b></span><span>⏱️ <b id="catchTime">20</b> с</span></div>
+      <div class="catch-area" id="catchArea"></div>
+      <div class="controls"><button class="btn btn-primary btn-small" id="catchStart">Почати гру</button></div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<script src="/assets/js/site.js"></script>
+<script src="/assets/js/pages/dityam.js"></script>
+</body>
+</html>
