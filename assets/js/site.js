@@ -9,7 +9,7 @@
     addr:'21027, м. Вінниця, вул. 600-річчя, 56',
     phone:'(0432) 56-10-75',
     email:'dnz45.edu.vn.ua@gmail.com',
-    hours:'Пн–Пт, 7:30–18:30',
+    hours:'Пн–Пт, 7:00–18:00',
     facebook:'', telegram:'', youtube:''
   };
 
@@ -372,6 +372,10 @@
         '<li>🕒 '+esc(INFO.hours)+'</li></ul></div>'+
     '</div><div class="bottom">© '+new Date().getFullYear()+' ЗДО №45 «Калинка», м. Вінниця. Усі права захищені. · <a href="konfidentsiynist.html">Політика конфіденційності</a></div></div></footer>';
 
+    // години роботи на сторінках беруться з налаштувань (редагуються в «Контакти»)
+    var hrs=String(INFO.hours||''), hTime=hrs.replace(/^[^,]*,\s*/,'').replace(/\s*[–-]\s*/,' – ');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-info="hours-time"]'), function(e){ if(hTime) e.textContent=hTime; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-info="hours"]'), function(e){ if(hrs) e.innerHTML=esc(hrs).replace(/,\s*/,'<br>'); });
     document.body.insertAdjacentHTML('afterbegin', header);
     document.body.insertAdjacentHTML('beforeend', footer);
 
