@@ -21,6 +21,7 @@
 ├── content/*.json           ВЕСЬ вміст сайту (тексти, люди, документи) — його змінює редактор
 ├── images/                  фото: sadochok.jpg + uploads/ (усе, що завантажено через редактор)
 ├── api/                     серверні функції Vercel: вхід у редактор (auth, callback), передеплой (deploy)
+├── favicon.ico, site.webmanifest  іконка сайту (Google шукає її саме в корені)
 ├── vercel.json              маршрути, переадресації, заголовки безпеки
 ├── sitemap.xml, robots.txt  для пошукових систем
 └── README.md
