@@ -149,7 +149,7 @@
                {n:'intro',l:'Вступний текст',t:'rich'},
                {n:'note',l:'Примітка',t:'rich',opt:true},
                {n:'days',l:'Дні тижня',t:'objlist',itemName:'День',title:function(x){return x.day||'';},
-                 fields:[ {n:'day',l:'День',t:'text'}, {n:'breakfast',l:'Сніданок',t:'text',opt:true}, {n:'lunch',l:'Обід',t:'text',opt:true}, {n:'snack',l:'Підвечірок',t:'text',opt:true}, {n:'supper',l:'Вечеря',t:'text',opt:true} ]}
+                 fields:[ {n:'day',l:'День',t:'text'}, {n:'breakfast',l:'Сніданок',t:'text',opt:true}, {n:'lunch',l:'Обід',t:'text',opt:true}, {n:'snack',l:'Підвечірок',t:'text',opt:true} ]}
              ]},
     rezhym: {label:'Розпорядок дня', file:'content/rezhym.json', shape:'object',
              fields:[

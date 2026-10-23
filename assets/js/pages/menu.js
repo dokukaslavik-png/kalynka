@@ -13,7 +13,7 @@
           meal('🥣','Сніданок',day.breakfast)+
           meal('🍲','Обід',day.lunch)+
           meal('🍎','Підвечірок',day.snack)+
-          meal('🌙','Вечеря',day.supper)+
+          (day.breakfast||day.lunch||day.snack ? '' : '<p class="meal-empty">Меню незабаром зʼявиться 🍽️</p>')+
         '</div></div>';
       }).join('');
     }

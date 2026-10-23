@@ -901,3 +901,4 @@ img{height:auto}
 .sg-demo{margin-bottom:16px}
 .sg-demo .btn{margin:0 8px 8px 0}
 .sg-code{background:#1f2a24;color:#e6efe8;border-radius:14px;padding:16px 18px;overflow:auto;font-size:.82rem;line-height:1.5}
+.mcard .meal-empty{color:var(--ink-soft);font-weight:700;text-align:center;margin:6px 0}
