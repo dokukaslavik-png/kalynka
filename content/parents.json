@@ -37,7 +37,20 @@
     {
       "icon": "🧠",
       "title": "«Психологічна хвилинка»",
-      "text": "Поради та підтримка від практичного психолога."
+      "text": "<p>Поради та підтримка від практичного психолога.</p>",
+      "photos": [],
+      "docs": [
+        {
+          "title": "Порди практичного психолога",
+          "file": "/images/uploads/1793082489800_materialy-na-sait-psykholoh.docx",
+          "link": ""
+        },
+        {
+          "title": "Ресурна кімната в ЗДО",
+          "file": "/images/uploads/1793082587912_resursna_kimnata_v_dnz_rozshyrenyi_opys-psykholoh.docx",
+          "link": ""
+        }
+      ]
     },
     {
       "icon": "🗣️",
