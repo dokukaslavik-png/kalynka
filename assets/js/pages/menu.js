@@ -4,7 +4,9 @@
   fetch('/content/menu.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(!d)return;
     if(d.intro){var i=document.getElementById('menuIntro'); if(i)kalynkaSetRich(i,d.intro);}
-    if(d.note){var n=document.getElementById('menuNote'); if(n)kalynkaSetRich(n,d.note,'ℹ️');}
+    var n=document.getElementById('menuNote');
+    if(d.note&&String(d.note).replace(/<[^>]+>/g,'').trim()){ if(n)kalynkaSetRich(n,d.note,'ℹ️'); }
+    else if(n&&n.parentNode){ n.parentNode.hidden=true; }   // немає примітки — блок не показуємо
     var box=document.getElementById('menuGrid');
     if(box&&d.days&&d.days.length){
       box.innerHTML=d.days.map(function(day){
